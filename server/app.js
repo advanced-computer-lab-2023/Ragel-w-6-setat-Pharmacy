@@ -29,6 +29,7 @@ app.use((req, res, next) => {
 app.use(express.json()); //to allow us to access the body
 
 
+
 //routes
 const testRoutes = require("./routes/test");
 app.use("/",testRoutes);
