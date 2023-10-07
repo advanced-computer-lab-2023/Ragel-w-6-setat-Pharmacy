@@ -12,6 +12,9 @@ const MongoURI = process.env.MONGO_URI ;
 const app = express();
 //const user = require('./Models/User');
 
+
+
+
  // db
  mongoose.connect(MongoURI).then(()=>
    console.log("MongoDB is now connected!")).catch(err => console.log("DB CONNECTION ERROR",err));
@@ -19,17 +22,27 @@ const app = express();
  // middleware
 app.use(morgan("dev"));
 app.use(cors({origin: true, credentials: true}));
+app.use((req, res, next) => {
+  console.log(req.path, req.method)
+  next();
+});
+app.use(express.json()); //to allow us to access the body
+
 
 //routes
 const testRoutes = require("./routes/test");
 app.use("/",testRoutes);
+
+app.get('/', (req, res) => {    //test test
+  res.json({mssg:'Welcome to the app'})
+})
 
 
 //port
 const port = process.env.PORT || "8000";
 
 //listeners
-const server = app.listen(port, () => {
+ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 })
 

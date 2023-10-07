@@ -3,3 +3,4 @@ exports.getTest = (req, res) => {
         message: "Test API is working!"
     });
 };
+
