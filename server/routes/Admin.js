@@ -1,6 +1,8 @@
 const express = require('express')
 const Pharmacist = require('../models/Pharmacist')
 const Medicine = require('../models/Medicine')
+const Patient = require('../models/Patient')
+
 const {
     deletePatient,
     getMed,
@@ -19,13 +21,13 @@ router.delete('/:id', deletePatient)
 
 // TODO: view all info uploaded by pharnacist 
 
-// TO UPDATE: get all medicines (needs working on not complete )---> fadel search wa filter 
-router.get("/", getMed)
+// FIXME: get all medicines (needs working on not complete )---> fadel search wa filter 
+router.get("/getMed", getMed)
 
 // view pharmacist info 
-router.get('/', getPharmacist)
+router.get('/getPharmacists', getPharmacist)
 
 // view patient info 
-router.get('/', getPatients)
+router.get('/getPatients', getPatients)
 
 module.exports = router

@@ -1,5 +1,8 @@
 const express = require('express')
 const Patient = require('../models/Patient')
+const Medicine = require('../models/Medicine')
+
+
 const {
     createPatient,
     getMed
@@ -11,6 +14,6 @@ const router = express.Router();
 router.post('/', createPatient)
 
 // TO UPDATE: get all medicines (needs working on not complete )---> fadel search wa filter 
-router.get("/", getMed)
+router.get("/getMed", getMed)
 
 module.exports = router

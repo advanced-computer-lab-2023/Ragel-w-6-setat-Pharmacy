@@ -13,10 +13,10 @@ const {
 router.post("/", createPharmacist)
 
 // get all medicines (needs working on not complete )---> fadel search wa filter wa userstory 13 
-router.get("/", getMed)
+router.get("/getMed", getMed)
 
 // add a medicine 
-router.post("/", addMed)
+router.post("/addMed", addMed)
 
 // TODO: edit medicine details and price 
 
