@@ -24,6 +24,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json()); // to allow us to access the body
+app.use(bodyParser.json());
 
 // routes
 const patientRoutes = require('./routes/Patient')
