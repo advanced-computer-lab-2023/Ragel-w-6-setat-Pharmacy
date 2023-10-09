@@ -31,6 +31,7 @@ router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
 // Add a medicine 
 router.post("/addMedicine", addMedicine)
 
+
 // TODO: edit medicine details and price 
 
 module.exports = router

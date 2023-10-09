@@ -13,6 +13,7 @@ const {
     getMedicinesByMedicinalUse,
     getPharmacistsInfo,
     getPatientsInfo
+
 } = require('../controllers/AdminController')
 
 const router = express.Router();
@@ -42,3 +43,4 @@ router.get('/getPharmacistsInfo', getPharmacistsInfo)
 router.get('/getPatientsInfo', getPatientsInfo)
 
 module.exports = router
+

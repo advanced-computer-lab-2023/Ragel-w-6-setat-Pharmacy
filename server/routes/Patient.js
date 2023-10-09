@@ -2,6 +2,7 @@ const express = require('express')
 const Patient = require('../models/Patient')
 const Medicine = require('../models/Medicine')
 
+
 const {
     createPatient,
     getAllMedicines,
@@ -22,5 +23,6 @@ router.get("/getMedicineByName", getMedicineByName)
 
 // Filter medicines based on medicinal use
 router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
+
 
 module.exports = router

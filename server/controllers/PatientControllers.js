@@ -3,7 +3,9 @@ const Medicine = require('../models/Medicine')
 
 const mongoose = require('mongoose');
 
+
 // Register as a patient 
+
 const createPatient = async (req, res) => {
     const {
         name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact
@@ -20,9 +22,11 @@ const createPatient = async (req, res) => {
 
 // FIXME: View a list of all medicines (needs working on not complete)
 const getAllMedicines = async (req, res) => {
+
     const medicine = await Medicine.find({}).sort({ createdAt: -1 })
     res.status(200).json(medicine)
 }
+
 
 // Search for medicine based on name
 const getMedicineByName = async (req, res) => {
@@ -65,6 +69,7 @@ module.exports = {
     getMedicinesByMedicinalUse
 }
 
+
 // get a single patient***
 /*
 const getSinglePatient=async(req,res)=>{
@@ -96,5 +101,6 @@ const updatePatient= async (req,res)=>{
         return res.status(404).json({error:"no patient"})
     }
     res.status(200).json(patient)
-}
-*/
+} */ 
+
+

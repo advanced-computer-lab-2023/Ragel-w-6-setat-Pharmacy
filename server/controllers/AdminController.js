@@ -22,6 +22,7 @@ const deletePatient = async (req, res) => {
         return res.status(404).json({ error: "no patient" })
     }
     res.status(200).json(patient)
+
 }
 
 // TODO: View all information uploaded by pharmacist to apply to join the platform
@@ -31,6 +32,7 @@ const getAllMedicines = async (req, res) => {
     const medicine = await Medicine.find({}).sort({ createdAt: -1 })
     res.status(200).json(medicine)
 }
+
 
 // Search for medicine based on name
 const getMedicineByName = async (req, res) => {
@@ -72,8 +74,10 @@ const getPharmacistsInfo = async (req, res) => {
     res.status(200).json(pharm)
 }
 
+
 // View Patient Information 
 const getPatientsInfo = async (req, res) => {
+
     const patients = await Patient.find({}).sort({ createdAt: -1 })
     res.status(200).json(patients)
 }
@@ -88,4 +92,5 @@ module.exports = {
     getMedicinesByMedicinalUse,
     getPharmacistsInfo,
     getPatientsInfo
+
 }

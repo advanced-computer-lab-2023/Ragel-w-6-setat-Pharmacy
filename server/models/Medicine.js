@@ -38,4 +38,5 @@ const medSchema = new Schema({
     },
 }, { timestamp: true })
 
+
 module.exports = mongoose.model('Medicine', medSchema)

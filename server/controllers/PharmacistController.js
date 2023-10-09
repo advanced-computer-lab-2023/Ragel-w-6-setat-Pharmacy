@@ -21,6 +21,7 @@ const createPharmacist = async (req, res) => {
 
 // FIXME: View a list of all medicines (needs working on not complete) 
 const getAllMedicines = async (req, res) => {
+
     const medicine = await Medicine.find({}).sort({ createdAt: -1 })
     res.status(200).json(medicine)
 }
@@ -87,6 +88,7 @@ const addMedicine = async (req, res) => {
     try {
         const medicine = await Medicine.create({
             name, image, price, description, activeIngredient, quantity, medicinalUse, totalSales
+
         })
         res.status(200).json(medicine)
     } catch (error) {
@@ -104,4 +106,5 @@ module.exports = {
     getMedicineByName,
     getMedicinesByMedicinalUse
     // TODO: edit medicine details and price
+
 }
