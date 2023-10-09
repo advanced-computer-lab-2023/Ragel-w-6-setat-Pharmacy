@@ -4,30 +4,43 @@ const Medicine = require('../models/Medicine')
 const Patient = require('../models/Patient')
 
 const {
+    // TODO: Add administrator
+    // TODO: Delete a pharmacist
     deletePatient,
-    getMed,
-    getPharmacist,
-    getPatients
+    // TODO: View all information uploaded by pharmacist to apply to join the platform
+    getAllMedicines,
+    getMedicineByName,
+    getMedicinesByMedicinalUse,
+    getPharmacistsInfo,
+    getPatientsInfo
+
 } = require('../controllers/AdminController')
 
 const router = express.Router();
 
-// TODO: add another admin 
+// TODO: Add another administrator
 
-// TODO: remove pharmacist
+// TODO: Delete a pharmacist
 
-// delete a single patient 
+// Delete a patient 
 router.delete('/:id', deletePatient)
 
-// TODO: view all info uploaded by pharnacist 
+// TODO: View all information uploaded by pharmacist to apply to join the platform
 
-// FIXME: get all medicines (needs working on not complete )---> fadel search wa filter 
-router.get("/getMed", getMed)
+// View a list of all medicines
+router.get("/getAllMedicines", getAllMedicines)
 
-// view pharmacist info 
-router.get('/getPharmacists', getPharmacist)
+// Search for medicine based on name
+router.get("/getMedicineByName", getMedicineByName)
 
-// view patient info 
-router.get('/getPatients', getPatients)
+// Filter medicines based on medicinal use
+router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
+
+// View Pharmacist Information 
+router.get('/getPharmacistsInfo', getPharmacistsInfo)
+
+// View Patient Information 
+router.get('/getPatientsInfo', getPatientsInfo)
 
 module.exports = router
+
