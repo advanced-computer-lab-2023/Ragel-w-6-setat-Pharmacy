@@ -20,10 +20,11 @@ const createPatient = async (req, res) => {
     }
 }
 
-// FIXME: View a list of all medicines (needs working on not complete)
+// view a list of a medicine (showing only the price,image,description)
 const getAllMedicines = async (req, res) => {
 
-    const medicine = await Medicine.find({}).sort({ createdAt: -1 })
+    const medicine = await Medicine.find({}, 'image price description').sort({ createdAt: -1 });
+
     res.status(200).json(medicine)
 }
 
@@ -70,21 +71,7 @@ module.exports = {
 }
 
 
-// get a single patient***
-/*
-const getSinglePatient=async(req,res)=>{
-    const{id}=req.params
-if (!mongoose.Types.ObjectId.isValid(id)){
-    return res.status(404).json({error:"no id"})
-}
-    const patient= await Patient.findById(id)
 
-    if (!patient){
-        return res.status(404).json({error:"no patient"})
-    }
-    res.status(200).json(patient)
-}
-*/
 
 // update a patient ****
 /*

@@ -1,6 +1,21 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const Schema = mongoose.Schema
+const emergencyContactSchema = new Schema({
+    _id: false, // Prevents emergencyContact from having its own _id field
+    name: {
+        type: String,
+        required: true
+    },
+    mobile_number: {
+        type: Number,
+        required: true
+    },
+    relation_to: {
+        type: String,
+        required: true
+    }
+});
 
 const patientSchema = new Schema({
     name: {
@@ -26,7 +41,7 @@ const patientSchema = new Schema({
     },
     gender: {
         type: String,
-        enum: "Male" || "Female",
+        enum: ['Male', 'Female'],
         required: true
     },
     mobileNumber: {
@@ -35,11 +50,9 @@ const patientSchema = new Schema({
         maxlength: 10
     },
     emergencyContact: {
-        name: String,
-        mobile_number: Number,
-        relation_to: String,
+        type: emergencyContactSchema,
         required: true
     }
-}, { timestamp: true })
+}, { timestamps: true });
 
-module.exports = mongoose.model('Patient', patientSchema)
+module.exports = mongoose.model('Patient', patientSchema);

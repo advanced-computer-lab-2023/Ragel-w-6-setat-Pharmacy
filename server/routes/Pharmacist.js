@@ -14,7 +14,7 @@ const {
     // TODO: edit medicine details and price
 } = require('../controllers/PharmacistController')
 
-// Register as a pharmacist
+// Make a pharmacist Request 
 router.post("/", createPharmacistRequest)
 
 // View a list of all medicines
