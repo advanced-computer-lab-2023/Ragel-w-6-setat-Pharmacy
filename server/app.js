@@ -13,8 +13,13 @@ const app = express();
 // const user = require('./Models/User');
 
 // db
-mongoose.connect(MongoURI).then(() =>
-  console.log("MongoDB is now connected!")).catch(err => console.log("DB CONNECTION ERROR", err));
+mongoose.connect(MongoURI)
+.then(() =>
+  console.log("MongoDB is now connected!")).
+  then(() => { app.listen(port, () => {
+    console.log(`Server is running on port ${port}`)
+  })}).
+  catch(err => console.log("DB CONNECTION ERROR", err));
 
 // middleware
 app.use(morgan("dev"));
@@ -30,6 +35,7 @@ const patientRoutes = require('./routes/Patient')
 const pharmacistRoutes = require('./routes/Pharmacist')
 const adminRoutes = require('./routes/Admin')
 
+
 app.use('/api/patient', patientRoutes)
 app.use('/api/pharmacist', pharmacistRoutes)
 app.use('/api/admin', adminRoutes)
@@ -38,6 +44,3 @@ app.use('/api/admin', adminRoutes)
 const port = process.env.PORT || "8000";
 
 // listeners
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-})
