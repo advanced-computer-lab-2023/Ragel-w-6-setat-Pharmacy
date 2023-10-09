@@ -5,15 +5,24 @@ const Medicine = require('../models/Medicine')
 
 const {
     createPatient,
-    getMed
+    getAllMedicines,
+    getMedicineByName,
+    getMedicinesByMedicinalUse
 } = require('../controllers/PatientControllers')
 
 const router = express.Router();
 
-// TODO: register a new patient 
+// Register as a patient
 router.post('/', createPatient)
 
-// TO UPDATE: get all medicines (needs working on not complete )---> fadel search wa filter 
-router.get("/getMed", getMed)
+// View a list of all medicines
+router.get("/getAllMedicines", getAllMedicines)
+
+// Search for medicine based on name
+router.get("/getMedicineByName", getMedicineByName)
+
+// Filter medicines based on medicinal use
+router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
+
 
 module.exports = router

@@ -21,7 +21,7 @@ const patientSchema = new Schema({
         required: true
     },
     dateOfBirth: {
-        type: Number,
+        type: Date,
         required: true
     },
     gender: {
@@ -37,7 +37,8 @@ const patientSchema = new Schema({
     emergencyContact: {
         name: String,
         mobile_number: Number,
-        relation_to: String
+        relation_to: String,
+        required: true
     }
 }, { timestamp: true })
 

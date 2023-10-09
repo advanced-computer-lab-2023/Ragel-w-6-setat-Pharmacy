@@ -6,18 +6,32 @@ const Medicine = require('../models/Medicine')
 const router = express.Router();
 const {
     createPharmacistRequest,
-    addMed,
-    getMed
+    getAllMedicines,
+    getQuantityAndSalesOfMedicine,
+    getMedicineByName,
+    getMedicinesByMedicinalUse,
+    addMedicine
+    // TODO: edit medicine details and price
 } = require('../controllers/PharmacistController')
 
-// add a pharmacist
+// Register as a pharmacist
 router.post("/", createPharmacistRequest)
 
-// get all medicines (needs working on not complete )---> fadel search wa filter wa userstory 13 
-router.get("/getMed", getMed)
+// View a list of all medicines
+router.get("/getAllMedicines", getAllMedicines)
 
-// add a medicine 
-router.post("/addMed", addMed)
+// View the available quantity and sales of each medicine
+router.get("/getQuantityAndSalesOfMedicine", getQuantityAndSalesOfMedicine)
+
+// Search for medicine based on name
+router.get("/getMedicineByName", getMedicineByName)
+
+// Filter medicines based on medicinal use
+router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
+
+// Add a medicine 
+router.post("/addMedicine", addMedicine)
+
 
 // TODO: edit medicine details and price 
 

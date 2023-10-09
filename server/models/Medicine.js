@@ -32,8 +32,11 @@ const medSchema = new Schema({
         type: String,
         required: true
     },
-
-
+    totalSales: {
+        type: Number,
+        required: true
+    },
 }, { timestamp: true })
+
 
 module.exports = mongoose.model('Medicine', medSchema)
