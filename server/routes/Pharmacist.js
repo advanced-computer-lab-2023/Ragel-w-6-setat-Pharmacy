@@ -1,6 +1,5 @@
 const express = require('express')
 
-
 const router = express.Router();
 const {
     createPharmacistRequest,
@@ -8,8 +7,8 @@ const {
     getQuantityAndSalesOfMedicine,
     getMedicineByName,
     getMedicinesByMedicinalUse,
-    addMedicine
-    // TODO: edit medicine details and price
+    addMedicine,
+    editMedicine
 } = require('../controllers/PharmacistController')
 
 // Make a pharmacist Request 
@@ -30,7 +29,7 @@ router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
 // Add a medicine 
 router.post("/addMedicine", addMedicine)
 
-
-// TODO: edit medicine details and price 
+// Edit medicine details and price 
+router.patch("/editMedicine/:id", editMedicine)
 
 module.exports = router

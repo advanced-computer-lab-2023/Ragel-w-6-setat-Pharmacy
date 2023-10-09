@@ -4,7 +4,7 @@ const PharmacistReq = require('../models/PharmacistRequests')
 
 const mongoose = require('mongoose');
 
-// create a pharmacist Request
+// Create a pharmacist Request
 const createPharmacistRequest = async (req, res) => {
     const { status = false,
         name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground
@@ -12,8 +12,7 @@ const createPharmacistRequest = async (req, res) => {
 
     try {
         const pharmReq = await PharmacistReq.create({
-            name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground,status
-
+            name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground, status
         })
         res.status(200).json(pharmReq)
     } catch (error) {
@@ -23,14 +22,13 @@ const createPharmacistRequest = async (req, res) => {
 
 // Register as a pharmacist
 const createPharmacist = async (req, res) => {
-    const { 
+    const {
         name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground
     } = req.body
 
     try {
         const pharm = await PharmacistReq.create({
             name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground
-
         })
         res.status(200).json(pharm)
     } catch (error) {
@@ -38,11 +36,9 @@ const createPharmacist = async (req, res) => {
     }
 }
 
-// view a list of a medicine (showing only the price,image,description)
+// View a list of all medicines (showing only the price, image, description)
 const getAllMedicines = async (req, res) => {
-
     const medicine = await Medicine.find({}, 'image price description').sort({ createdAt: -1 });
-
     res.status(200).json(medicine)
 }
 
@@ -55,7 +51,7 @@ const getQuantityAndSalesOfMedicine = async (req, res) => {
             return {
                 name: medicine.name,
                 quantity: medicine.quantity,
-                sales: medicine.sales
+                sales: medicine.totalSales
             };
         });
 
@@ -115,7 +111,27 @@ const addMedicine = async (req, res) => {
     }
 }
 
-// TODO: edit medicine details and price 
+// Edit medicine details and price 
+const editMedicine = async (req, res) => {
+    const { id } = req.params;
+    const { description, price } = req.body;
+
+    try {
+        const medicine = await Medicine.findByIdAndUpdate(
+            id,
+            { description, price },
+            { new: true }
+        );
+
+        if (medicine.length === 0) {
+            res.status(404).json({ error: 'Medicine not found' });
+        } else {
+            res.status(200).json(medicine);
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 module.exports = {
     createPharmacistRequest,
@@ -123,7 +139,7 @@ module.exports = {
     getQuantityAndSalesOfMedicine,
     addMedicine,
     getMedicineByName,
-    getMedicinesByMedicinalUse
-    // TODO: edit medicine details and price
-
+    getMedicinesByMedicinalUse,
+    getMedicinesByMedicinalUse,
+    editMedicine
 }

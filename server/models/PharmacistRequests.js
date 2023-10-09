@@ -35,9 +35,9 @@ const requestSchema = new Schema({
         type: String,
         required: true
     },
-    status:{
-        type:Boolean,
-        required:true
+    status: {
+        type: Boolean,
+        required: true
     }
 
 }, { timestamp: true })

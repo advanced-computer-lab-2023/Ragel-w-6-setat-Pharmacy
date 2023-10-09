@@ -3,7 +3,6 @@ const Medicine = require('../models/Medicine')
 const Patient = require('../models/Patient')
 const Admin = require('../models/Admin')
 
-
 const mongoose = require('mongoose');
 const PharmacistRequests = require('../models/PharmacistRequests');
 
@@ -14,7 +13,7 @@ const addAdmin = async (req, res) => {
     } = req.body
     try {
         const admin = await Admin.create({
-         username, password
+            username, password
         })
         res.status(200).json(admin)
     } catch (error) {
@@ -22,15 +21,13 @@ const addAdmin = async (req, res) => {
     }
 }
 
-//view admins
-
+// View admins
 const getAdmins = async (req, res) => {
     const admin = await Admin.find({}).sort({ createdAt: -1 })
     res.status(200).json(admin)
 }
 
 // Delete admin
-
 const deleteAdmin = async (req, res) => {
     const { id } = req.params
 
@@ -48,7 +45,6 @@ const deleteAdmin = async (req, res) => {
 }
 
 // Delete a pharmacist
-
 const deletePharmacist = async (req, res) => {
     const { id } = req.params
 
@@ -64,9 +60,6 @@ const deletePharmacist = async (req, res) => {
     res.status(200).json(pharmacist)
 
 }
-
-
-
 
 // Delete a patient 
 const deletePatient = async (req, res) => {
@@ -85,18 +78,15 @@ const deletePatient = async (req, res) => {
 
 }
 
-// TODO: View all information uploaded by pharmacist to apply to join the platform
-
+// View all information uploaded by pharmacist to apply to join the platform
 const getPharmacistsRequestsInfo = async (req, res) => {
     const pharmReq = await PharmacistRequests.find({}).sort({ createdAt: -1 })
     res.status(200).json(pharmReq)
 }
 
-// view a list of a medicine (showing only the price,image,description)
+// View a list of all medicines (showing only the price, image, description)
 const getAllMedicines = async (req, res) => {
-
     const medicine = await Medicine.find({}, 'image price description').sort({ createdAt: -1 });
-
     res.status(200).json(medicine)
 }
 
@@ -141,15 +131,15 @@ const getPharmacistsInfo = async (req, res) => {
 }
 
 // View a single Pharmacist Information
-const getSinglePharmacistInfo=async(req,res)=>{
-    const{id}=req.params
-if (!mongoose.Types.ObjectId.isValid(id)){
-    return res.status(404).json({error:"no id"})
-}
-    const pharm= await Pharmacist.findById(id)
+const getSinglePharmacistInfo = async (req, res) => {
+    const { id } = req.params
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: "no id" })
+    }
+    const pharm = await Pharmacist.findById(id)
 
-    if (!pharm){
-        return res.status(404).json({error:"no pharmacist available "})
+    if (!pharm) {
+        return res.status(404).json({ error: "no pharmacist available " })
     }
     res.status(200).json(pharm)
 }
@@ -162,19 +152,18 @@ const getPatientsInfo = async (req, res) => {
 }
 
 // View a Single Patient's Information 
-const getSinglePatientInfo=async(req,res)=>{
-    const{id}=req.params
-if (!mongoose.Types.ObjectId.isValid(id)){
-    return res.status(404).json({error:"no id"})
-}
-    const patient= await Patient.findById(id)
+const getSinglePatientInfo = async (req, res) => {
+    const { id } = req.params
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: "no id" })
+    }
+    const patient = await Patient.findById(id)
 
-    if (!patient){
-        return res.status(404).json({error:"no patient"})
+    if (!patient) {
+        return res.status(404).json({ error: "no patient" })
     }
     res.status(200).json(patient)
 }
-
 
 module.exports = {
     deletePatient,
@@ -184,7 +173,10 @@ module.exports = {
     getPharmacistsInfo,
     getPatientsInfo,
     getSinglePatientInfo,
-    getSinglePharmacistInfo
-,
-    addAdmin,getAdmins,deletePharmacist , getPharmacistsRequestsInfo, deleteAdmin
+    getSinglePharmacistInfo,
+    addAdmin,
+    getAdmins,
+    deletePharmacist,
+    getPharmacistsRequestsInfo,
+    deleteAdmin
 }
