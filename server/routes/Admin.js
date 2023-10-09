@@ -2,18 +2,19 @@ const express = require('express')
 
 
 const {
-    // TODO: Add administrator
-    // TODO: Delete a pharmacist
     deletePatient,
-    // TODO: View all information uploaded by pharmacist to apply to join the platform
     getAllMedicines,
     getMedicineByName,
     getMedicinesByMedicinalUse,
     getPharmacistsInfo,
     getPatientsInfo,
     getSinglePatientInfo,
-    getSinglePharmacistInfo
-,addAdmin, getAdmins,deletePharmacist ,getPharmacistsRequestsInfo, deleteAdmin
+    getSinglePharmacistInfo,
+    addAdmin,
+    getAdmins,
+    deletePharmacist,
+    getPharmacistsRequestsInfo,
+    deleteAdmin
 } = require('../controllers/AdminController')
 
 const router = express.Router();
@@ -29,7 +30,7 @@ router.get("/getAdmins", getAdmins)
 router.delete("/deleteAdmin/:id", deleteAdmin)
 
 // delete pharmacist
- 
+
 router.delete('/deletePharmacist/:id', deletePharmacist)
 
 // Delete a patient 
@@ -51,13 +52,13 @@ router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
 router.get('/getPharmacistsInfo', getPharmacistsInfo)
 
 //View a single Pharmacist's Info
-router.get('/getSinglePharmacistInfo/:id',getSinglePharmacistInfo)
+router.get('/getSinglePharmacistInfo/:id', getSinglePharmacistInfo)
 
 // View Patient Information 
 router.get('/getPatientsInfo', getPatientsInfo)
 
 //View a single Patient's Info
-router.get('/getSinglePatientInfo/:id',getSinglePatientInfo)
+router.get('/getSinglePatientInfo/:id', getSinglePatientInfo)
 
 module.exports = router
 
