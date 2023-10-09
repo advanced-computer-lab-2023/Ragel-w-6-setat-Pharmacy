@@ -3,7 +3,9 @@ const Medicine = require('../models/Medicine')
 
 const mongoose = require('mongoose');
 
-// register a pateint 
+
+// Register as a patient 
+
 const createPatient = async (req, res) => {
     const {
         name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact
@@ -18,27 +20,58 @@ const createPatient = async (req, res) => {
     }
 }
 
-// TO UPDATE: get all medicines (needs working on not complete )---> fadel search wa filter 
-const getMed = async (req, res) => {
-    const medicine = await Medicine.find({}).sort({ createdAt: -1 })
+// view a list of a medicine (showing only the price,image,description)
+const getAllMedicines = async (req, res) => {
+
+    const medicine = await Medicine.find({}, 'image price description').sort({ createdAt: -1 });
+
     res.status(200).json(medicine)
 }
 
-// get a single patient***
-/*
-const getSinglePatient=async(req,res)=>{
-    const{id}=req.params
-if (!mongoose.Types.ObjectId.isValid(id)){
-    return res.status(404).json({error:"no id"})
-}
-    const patient= await Patient.findById(id)
 
-    if (!patient){
-        return res.status(404).json({error:"no patient"})
+// Search for medicine based on name
+const getMedicineByName = async (req, res) => {
+    const { name } = req.query;
+
+    try {
+        const medicine = await Medicine.find({ name });
+
+        if (medicine.length === 0) {
+            res.status(404).json({ error: 'Medicine not found' });
+        } else {
+            res.status(200).json(medicine);
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-    res.status(200).json(patient)
+};
+
+// Filter medicines based on medicinal use
+const getMedicinesByMedicinalUse = async (req, res) => {
+    const { medicinalUse } = req.query;
+
+    try {
+        const medicines = await Medicine.find({ medicinalUse });
+
+        if (medicines.length === 0) {
+            res.status(404).json({ error: 'No medicines found with the specified medicinal use' });
+        } else {
+            res.status(200).json(medicines);
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+module.exports = {
+    createPatient,
+    getAllMedicines,
+    getMedicineByName,
+    getMedicinesByMedicinalUse
 }
-*/
+
+
+
 
 // update a patient ****
 /*
@@ -55,10 +88,6 @@ const updatePatient= async (req,res)=>{
         return res.status(404).json({error:"no patient"})
     }
     res.status(200).json(patient)
-}
-*/
+} */ 
 
-module.exports = {
-    createPatient,
-    getMed
-}
+

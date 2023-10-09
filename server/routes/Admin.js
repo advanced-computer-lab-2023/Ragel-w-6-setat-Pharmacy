@@ -2,10 +2,18 @@ const express = require('express')
 
 
 const {
+    // TODO: Add administrator
+    // TODO: Delete a pharmacist
     deletePatient,
-    getMed,
-    getPharmacists,
-    getPatients,addAdmin, getAdmins,deletePharmacist
+    // TODO: View all information uploaded by pharmacist to apply to join the platform
+    getAllMedicines,
+    getMedicineByName,
+    getMedicinesByMedicinalUse,
+    getPharmacistsInfos,
+    getPatientsInfo,
+    getSinglePatientInfo,
+    getSinglePharmacistInfo
+,addAdmin, getAdmins,deletePharmacist
 } = require('../controllers/AdminController')
 
 const router = express.Router();
@@ -20,18 +28,31 @@ router.get("/getAdmins", getAdmins)
  
 router.delete('/pharmacist/:id', deletePharmacist)
 
-// delete a single patient 
-router.delete('/patient/:id', deletePatient)
+// Delete a patient 
+router.delete('/:id', deletePatient)
 
-// TODO: view all info uploaded by pharmacist 
+// TODO: View all information uploaded by pharmacist to apply to join the platform
 
-// FIXME: get all medicines (needs working on not complete )---> fadel search wa filter 
-router.get("/getMed", getMed)
+// View a list of all medicines
+router.get("/getAllMedicines", getAllMedicines)
 
-// view pharmacist info 
-router.get('/getPharmacists', getPharmacists)
+// Search for medicine based on name
+router.get("/getMedicineByName", getMedicineByName)
 
-// view patient info 
-router.get('/getPatients', getPatients)
+// Filter medicines based on medicinal use
+router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
+
+// View Pharmacist Information 
+router.get('/getPharmacistsInfo', getPharmacistsInfo)
+
+//View a single Pharmacist's Info
+router.get('/getSinglePharmacistInfo/:id',getSinglePharmacistInfo)
+
+// View Patient Information 
+router.get('/getPatientsInfo', getPatientsInfo)
+
+//View a single Patient's Info
+router.get('/getSinglePatientInfo/:id',getSinglePatientInfo)
 
 module.exports = router
+
