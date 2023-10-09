@@ -12,7 +12,9 @@ const {
     getMedicineByName,
     getMedicinesByMedicinalUse,
     getPharmacistsInfo,
-    getPatientsInfo
+    getPatientsInfo,
+    getSinglePatientInfo,
+    getSinglePharmacistInfo
 
 } = require('../controllers/AdminController')
 
@@ -39,8 +41,14 @@ router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
 // View Pharmacist Information 
 router.get('/getPharmacistsInfo', getPharmacistsInfo)
 
+//View a single Pharmacist's Info
+router.get('/getSinglePharmacistInfo/:id',getSinglePharmacistInfo)
+
 // View Patient Information 
 router.get('/getPatientsInfo', getPatientsInfo)
+
+//View a single Patient's Info
+router.get('/getSinglePatientInfo/:id',getSinglePatientInfo)
 
 module.exports = router
 

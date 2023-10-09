@@ -38,15 +38,15 @@ const createPharmacist = async (req, res) => {
     }
 }
 
-// FIXME: View a list of all medicines (needs working on not complete) 
+// view a list of a medicine (showing only the price,image,description)
 const getAllMedicines = async (req, res) => {
 
-    const medicine = await Medicine.find({}).sort({ createdAt: -1 })
+    const medicine = await Medicine.find({}, 'image price description').sort({ createdAt: -1 });
+
     res.status(200).json(medicine)
 }
 
 // View the available quantity and sales of each medicine
-// FIXME: medicine model doesn't have a sales attribute
 const getQuantityAndSalesOfMedicine = async (req, res) => {
     try {
         const medicines = await Medicine.find({}).sort({ createdAt: -1 });
