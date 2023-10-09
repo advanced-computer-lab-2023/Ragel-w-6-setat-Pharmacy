@@ -26,7 +26,7 @@ router.delete('/:id', deletePatient)
 
 // TODO: View all information uploaded by pharmacist to apply to join the platform
 
-// FIXME: get all medicines (needs working on not complete )---> fadel search wa filter 
+// View a list of all medicines
 router.get("/getAllMedicines", getAllMedicines)
 
 // Search for medicine based on name
