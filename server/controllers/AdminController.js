@@ -5,8 +5,9 @@ const Admin = require('../models/Admin')
 
 
 const mongoose = require('mongoose');
+const PharmacistRequests = require('../models/PharmacistRequests');
 
-//  add another admin 
+// Add another administrator
 const addAdmin = async (req, res) => {
     const {
         username, password
@@ -28,7 +29,25 @@ const getAdmins = async (req, res) => {
     res.status(200).json(admin)
 }
 
-//  remove pharmacist
+// Delete admin
+
+const deleteAdmin = async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: "no id" })
+    }
+
+    const admin = await Admin.findOneAndDelete({ _id: id })
+
+    if (!admin) {
+        return res.status(404).json({ error: "no Admin" })
+    }
+    res.status(200).json(admin)
+
+}
+
+// Delete a pharmacist
 
 const deletePharmacist = async (req, res) => {
     const { id } = req.params
@@ -39,15 +58,15 @@ const deletePharmacist = async (req, res) => {
 
     const pharmacist = await Pharmacist.findOneAndDelete({ _id: id })
 
-    if (!Pharmacist) {
+    if (!pharmacist) {
         return res.status(404).json({ error: "no Pharmacist" })
     }
-    res.status(200).json(Pharmacist)
+    res.status(200).json(pharmacist)
 
 }
-// TODO: Add another administrator
 
-// TODO: Delete a pharmacist
+
+
 
 // Delete a patient 
 const deletePatient = async (req, res) => {
@@ -67,6 +86,11 @@ const deletePatient = async (req, res) => {
 }
 
 // TODO: View all information uploaded by pharmacist to apply to join the platform
+
+const getPharmacistsRequestsInfo = async (req, res) => {
+    const pharmReq = await PharmacistRequests.find({}).sort({ createdAt: -1 })
+    res.status(200).json(pharmReq)
+}
 
 // view a list of a medicine (showing only the price,image,description)
 const getAllMedicines = async (req, res) => {
@@ -153,17 +177,14 @@ if (!mongoose.Types.ObjectId.isValid(id)){
 
 
 module.exports = {
-    // TODO: Add administrator
-    // TODO: Delete a pharmacist
     deletePatient,
-    // TODO: View all information uploaded by pharmacist to apply to join the platform
     getAllMedicines,
     getMedicineByName,
     getMedicinesByMedicinalUse,
-    getPharmacistsInfos,
+    getPharmacistsInfo,
     getPatientsInfo,
     getSinglePatientInfo,
     getSinglePharmacistInfo
 ,
-    addAdmin,getAdmins,deletePharmacist
+    addAdmin,getAdmins,deletePharmacist , getPharmacistsRequestsInfo, deleteAdmin
 }

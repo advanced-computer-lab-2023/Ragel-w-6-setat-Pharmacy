@@ -9,29 +9,34 @@ const {
     getAllMedicines,
     getMedicineByName,
     getMedicinesByMedicinalUse,
-    getPharmacistsInfos,
+    getPharmacistsInfo,
     getPatientsInfo,
     getSinglePatientInfo,
     getSinglePharmacistInfo
-,addAdmin, getAdmins,deletePharmacist
+,addAdmin, getAdmins,deletePharmacist ,getPharmacistsRequestsInfo, deleteAdmin
 } = require('../controllers/AdminController')
 
 const router = express.Router();
 
 //  add another admin 
-router.get("/addAdmin", addAdmin)
+router.post("/addAdmin", addAdmin)
+
 
 // view all admins
 router.get("/getAdmins", getAdmins)
 
+// Delete an Admin
+router.delete("/deleteAdmin/:id", deleteAdmin)
+
 // delete pharmacist
  
-router.delete('/pharmacist/:id', deletePharmacist)
+router.delete('/deletePharmacist/:id', deletePharmacist)
 
 // Delete a patient 
-router.delete('/:id', deletePatient)
+router.delete('/deletePatient/:id', deletePatient)
 
-// TODO: View all information uploaded by pharmacist to apply to join the platform
+//View all information uploaded by pharmacist to apply to join the platform
+router.get("/getPharmacistsRequestsInfo", getPharmacistsRequestsInfo)
 
 // View a list of all medicines
 router.get("/getAllMedicines", getAllMedicines)
