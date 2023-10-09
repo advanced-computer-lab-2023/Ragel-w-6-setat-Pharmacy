@@ -1,38 +1,39 @@
-const mongoose= require('mongoose')
+const mongoose = require('mongoose')
 
-const Schema=mongoose.Schema
+const Schema = mongoose.Schema
 
-const medSchema= new Schema({
-    name:{
-        type:String,
+const medSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    image: {
+        type: Buffer,
+        contentType: String
+    },
+    price: {
+        type: Number,
         required: true
     },
-    image:{
-        type:Buffer,
-        contentType:String
-    },
-    price:{
-        type:Number,
+    description: {
+        type: String,
         required: true
     },
-    description:{
-        type:String,
+    activeIngredient: {
+        type: String,
         required: true
     },
-    active_ingredient:{
-        type:String,
+    quantity: {
+        type: Number,
         required: true
     },
-    quantity:{
-        type:Number,
+    medicinalUse: {
+        type: String,
         required: true
     },
-    medicinal_use:{
-        type:String,
-        required: true
-    },
-    
-   
-},{timestamp: true})
 
-module.exports=mongoose.model('Medicine',medSchema)
+    // TODO: add sales
+}, { timestamp: true })
+
+module.exports = mongoose.model('Medicine', medSchema)

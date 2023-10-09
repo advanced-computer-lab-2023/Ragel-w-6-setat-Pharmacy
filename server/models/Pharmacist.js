@@ -1,41 +1,42 @@
-const mongoose= require('mongoose')
+const mongoose = require('mongoose')
 
-const Schema=mongoose.Schema
+const Schema = mongoose.Schema
 
-const pharmSchema= new Schema({
-    name:{
-        type:String,
+const pharmSchema = new Schema({
+    name: {
+        type: String,
         required: true
     },
-    username:{
-        type:String,
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
         required: true
     },
-    password:{
-        type:String,
+    email: {
+        type: String,
         required: true
     },
-    email:{
-        type:String,
+    dateOfBirth: {
+        type: Date,
         required: true
     },
-    date_of_birth:{
-        type:Date,
+    hourlyRate: {
+        type: Number,
         required: true
     },
-    hourly_rate:{
-        type:Number,
+    affiliation: {
+        type: String,
         required: true
     },
-    affiliation:{
-        type:String,
+    educationalBackground: {
+        type: String,
         required: true
     },
-    educational_background:{
-        type:String,
-        required: true
-    },
-   
-},{timestamp: true})
 
-module.exports=mongoose.model('Pharmacist',pharmSchema)
+}, { timestamp: true })
+
+module.exports = mongoose.model('Pharmacist', pharmSchema)
