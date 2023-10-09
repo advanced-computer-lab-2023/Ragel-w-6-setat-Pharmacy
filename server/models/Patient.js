@@ -21,7 +21,7 @@ const patientSchema = new Schema({
         required: true
     },
     dateOfBirth: {
-        type: Number,
+        type: Date,
         required: true
     },
     gender: {

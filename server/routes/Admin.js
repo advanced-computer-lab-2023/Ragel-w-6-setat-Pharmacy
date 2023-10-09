@@ -1,31 +1,35 @@
 const express = require('express')
-const Pharmacist = require('../models/Pharmacist')
-const Medicine = require('../models/Medicine')
-const Patient = require('../models/Patient')
+
 
 const {
     deletePatient,
     getMed,
-    getPharmacist,
-    getPatients
+    getPharmacists,
+    getPatients,addAdmin, getAdmins,deletePharmacist
 } = require('../controllers/AdminController')
 
 const router = express.Router();
 
-// TODO: add another admin 
+//  add another admin 
+router.get("/addAdmin", addAdmin)
 
-// TODO: remove pharmacist
+// view all admins
+router.get("/getAdmins", getAdmins)
+
+// delete pharmacist
+ 
+router.delete('/pharmacist/:id', deletePharmacist)
 
 // delete a single patient 
-router.delete('/:id', deletePatient)
+router.delete('/patient/:id', deletePatient)
 
-// TODO: view all info uploaded by pharnacist 
+// TODO: view all info uploaded by pharmacist 
 
 // FIXME: get all medicines (needs working on not complete )---> fadel search wa filter 
 router.get("/getMed", getMed)
 
 // view pharmacist info 
-router.get('/getPharmacists', getPharmacist)
+router.get('/getPharmacists', getPharmacists)
 
 // view patient info 
 router.get('/getPatients', getPatients)

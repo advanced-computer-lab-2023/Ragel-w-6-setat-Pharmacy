@@ -1,12 +1,50 @@
 const Pharmacist = require('../models/Pharmacist')
 const Medicine = require('../models/Medicine')
 const Patient = require('../models/Patient')
+const Admin = require('../models/Admin')
+
 
 const mongoose = require('mongoose');
 
-// TODO: add another admin 
+//  add another admin 
+const addAdmin = async (req, res) => {
+    const {
+        username, password
+    } = req.body
+    try {
+        const admin = await Admin.create({
+         username, password
+        })
+        res.status(200).json(admin)
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
 
-// TODO: remove pharmacist
+//view admins
+
+const getAdmins = async (req, res) => {
+    const admin = await Admin.find({}).sort({ createdAt: -1 })
+    res.status(200).json(admin)
+}
+
+//  remove pharmacist
+
+const deletePharmacist = async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: "no id" })
+    }
+
+    const pharmacist = await Pharmacist.findOneAndDelete({ _id: id })
+
+    if (!Pharmacist) {
+        return res.status(404).json({ error: "no Pharmacist" })
+    }
+    res.status(200).json(Pharmacist)
+
+}
 
 // delete a patient 
 const deletePatient = async (req, res) => {
@@ -33,13 +71,13 @@ const getMed = async (req, res) => {
     res.status(200).json(medicine)
 }
 
-// view pharmacist info 
-const getPharmacist = async (req, res) => {
+// view all pharmacists  
+const getPharmacists = async (req, res) => {
     const pharm = await Pharmacist.find({}).sort({ createdAt: -1 })
     res.status(200).json(pharm)
 }
 
-// view patient info 
+// view all patients  
 const getPatients = async (req, res) => {
     const patients = await Patient.find({}).sort({ createdAt: -1 })
     res.status(200).json(patients)
@@ -48,6 +86,7 @@ const getPatients = async (req, res) => {
 module.exports = {
     deletePatient,
     getMed,
-    getPharmacist,
-    getPatients
+    getPharmacists,
+    getPatients,
+    addAdmin,getAdmins,deletePharmacist
 }
