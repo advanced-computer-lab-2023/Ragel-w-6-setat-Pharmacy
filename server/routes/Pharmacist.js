@@ -2,9 +2,10 @@ const express = require('express')
 const Pharmacist = require('../models/Pharmacist')
 const Medicine = require('../models/Medicine')
 
+
 const router = express.Router();
 const {
-    createPharmacist,
+    createPharmacistRequest,
     getAllMedicines,
     getQuantityAndSalesOfMedicine,
     getMedicineByName,
@@ -14,7 +15,7 @@ const {
 } = require('../controllers/PharmacistController')
 
 // Register as a pharmacist
-router.post("/", createPharmacist)
+router.post("/", createPharmacistRequest)
 
 // View a list of all medicines
 router.get("/getAllMedicines", getAllMedicines)
