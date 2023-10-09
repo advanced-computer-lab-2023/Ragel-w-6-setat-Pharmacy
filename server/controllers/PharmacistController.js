@@ -82,11 +82,11 @@ const getMedicinesByMedicinalUse = async (req, res) => {
 // Add a medicine 
 const addMedicine = async (req, res) => {
     const {
-        name, image, price, description, activeIngredient, quantity, medicinalUse
+        name, image, price, description, activeIngredient, quantity, medicinalUse, totalSales
     } = req.body
     try {
         const medicine = await Medicine.create({
-            name, image, price, description, activeIngredient, quantity, medicinalUse
+            name, image, price, description, activeIngredient, quantity, medicinalUse, totalSales
         })
         res.status(200).json(medicine)
     } catch (error) {
