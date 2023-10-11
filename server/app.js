@@ -11,6 +11,7 @@ const MongoURI = process.env.MONGO_URI;
 // app
 const app = express();
 // const user = require('./Models/User');
+console.log("test")
 
 // db
 mongoose.connect(MongoURI)
