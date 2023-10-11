@@ -95,7 +95,8 @@ const getMedicineByName = async (req, res) => {
     const { name } = req.query;
 
     try {
-        const medicine = await Medicine.find({ name });
+        const regex = new RegExp(`.*${name}.*`, 'i'); // 'i' flag for case-insensitive search
+        const medicine = await Medicine.find({ name: regex });
 
         if (medicine.length === 0) {
             res.status(404).json({ error: 'Medicine not found' });
@@ -112,17 +113,20 @@ const getMedicinesByMedicinalUse = async (req, res) => {
     const { medicinalUse } = req.query;
 
     try {
-        const medicines = await Medicine.find({ medicinalUse });
+        const regex = new RegExp(`.*${medicinalUse}.*`, 'i'); // 'i' flag for case-insensitive search
+        const medicine = await Medicine.find({ medicinalUse: regex });
 
-        if (medicines.length === 0) {
+
+        if (medicine.length === 0) {
             res.status(404).json({ error: 'No medicines found with the specified medicinal use' });
         } else {
-            res.status(200).json(medicines);
+            res.status(200).json(medicine);
         }
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 // View all Pharmacists Information
 const getPharmacistsInfo = async (req, res) => {
