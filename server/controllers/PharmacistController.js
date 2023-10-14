@@ -105,14 +105,12 @@ const getMedicinesByMedicinalUse = async (req, res) => {
 
 // Add a medicine 
 const addMedicine = async (req, res) => {
-    const {
-        name, image, price, description, activeIngredient, quantity, medicinalUse, totalSales
+    const {totalSales=0,
+        name, image, price, description, activeIngredient, quantity, medicinalUse, 
     } = req.body;
 
     try {
-        // If image is not provided, load default image
         let imageData;
-        // If image is not provided, load default image and convert it to base64
         if (!image) {
             const path= require('path')
             const fs = require("fs");
@@ -120,7 +118,7 @@ const addMedicine = async (req, res) => {
             const defaultImagePath = path.join(__dirname, "../resources/acl_pharma.png");
             const imageBuffer = fs.readFileSync(defaultImagePath);
             imageData = imageBuffer.toString("base64");
-            req.body.image = imageData;
+           req.body.image = imageData;
         } else {
             // If image is provided, use it as base64 data
             imageData = image;
@@ -128,7 +126,7 @@ const addMedicine = async (req, res) => {
 //res.json(imageData)
         // Create a new Medicine instance and save it to the database
         const medicine = new Medicine({
-            name, image, price, description, activeIngredient, quantity, medicinalUse, totalSales
+            name, image:imageData, price, description, activeIngredient, quantity, medicinalUse, totalSales
         });
 
         await medicine.save(); // Save the medicine to the database
@@ -139,14 +137,15 @@ const addMedicine = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
-// Edit medicine details and price 
+// Edit medicine details and price (we changed it to find by name 
+//however its supposed to be find by id thru url)
 const editMedicine = async (req, res) => {
-    const { id } = req.params;
-    const { description, price } = req.body;
+   // const { id } = req.params;
+    const { description, price,name } = req.body;
 
     try {
-        const medicine = await Medicine.findByIdAndUpdate(
-            id,
+        const medicine = await Medicine.findOneAndUpdate(
+             {name} ,
             { description, price },
             { new: true }
         );
