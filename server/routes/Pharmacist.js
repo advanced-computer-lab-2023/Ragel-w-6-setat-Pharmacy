@@ -13,7 +13,11 @@ const {
 } = require('../controllers/PharmacistController')
 
 // Make a pharmacist Request 
-router.post("/", createPharmacistRequest)
+router.post("/createPharmacistRequest", createPharmacistRequest)
+
+//Create a Pharmacist 
+router.post("/", createPharmacist)
+
 
 //Create a Pharmacist 
 router.post("/", createPharmacist)
@@ -35,6 +39,6 @@ router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
 router.post("/addMedicine", addMedicine)
 
 // Edit medicine details and price 
-router.patch("/editMedicine/:id", editMedicine)
+router.patch("/editMedicine", editMedicine)
 
 module.exports = router

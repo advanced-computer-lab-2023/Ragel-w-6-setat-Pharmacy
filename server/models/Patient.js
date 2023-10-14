@@ -7,11 +7,11 @@ const emergencyContactSchema = new Schema({
         type: String,
         required: true
     },
-    mobile_number: {
+    mobileNumber: {
         type: Number,
         required: true
     },
-    relation_to: {
+    relationTo: {
         type: String,
         required: true
     }

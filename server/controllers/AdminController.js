@@ -2,9 +2,10 @@ const Pharmacist = require('../models/Pharmacist')
 const Medicine = require('../models/Medicine')
 const Patient = require('../models/Patient')
 const Admin = require('../models/Admin')
+const PharmacistRequests = require('../models/PharmacistRequests');
+const EmergencyContact = require('../models/Patient'); //it is stored there
 
 const mongoose = require('mongoose');
-const PharmacistRequests = require('../models/PharmacistRequests');
 
 // Add another administrator
 const addAdmin = async (req, res) => {
@@ -24,7 +25,7 @@ const addAdmin = async (req, res) => {
 // View admins
 const getAdmins = async (req, res) => {
     const admin = await Admin.find({}).sort({ createdAt: -1 })
-    res.status(200).json(admin)
+    res.status(200).json(admin)  // array of documents in the database
 }
 
 // Delete admin
@@ -41,6 +42,29 @@ const deleteAdmin = async (req, res) => {
         return res.status(404).json({ error: "no Admin" })
     }
     res.status(200).json(admin)
+
+}
+
+//Delete admin using username
+const deleteAdminByUsername = async (req, res) => {
+
+
+    const usernameToDelete = req.params.username;
+
+    try {
+        // Find the user by username and delete it
+        const deletedUser = await Admin.findOneAndDelete({ username: usernameToDelete });
+        // console.log("admin to be deleted: "+ deletedUser)
+        if (!deletedUser) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        return res.status(200).json({ message: deletedUser.username + " deleted successfully" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Server error" });
+    }
+
 
 }
 
@@ -61,6 +85,30 @@ const deletePharmacist = async (req, res) => {
 
 }
 
+// Delete Pharmacist by Name
+
+const deletePharmacistByUsername = async (req, res) => {
+
+
+    const usernameToDelete = req.params.username;
+
+    try {
+        // Find the user by username and delete it
+        const deletedUser = await Pharmacist.findOneAndDelete({ username: usernameToDelete });
+        // console.log("Pharmacist to be deleted: "+ deletedUser)
+        if (!deletedUser) {
+            return res.status(404).json({ error: "Pharmacist username not found" });
+        }
+
+        return res.status(200).json({ message: deletedUser.username + " deleted successfully" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Server error" });
+    }
+
+
+}
+
 // Delete a patient 
 const deletePatient = async (req, res) => {
     const { id } = req.params
@@ -78,6 +126,32 @@ const deletePatient = async (req, res) => {
 
 }
 
+// Delete Patient by Name   
+
+const deletePatientByUsername = async (req, res) => {
+
+
+    const usernameToDelete = req.params.username;
+
+    try {
+        // Find the user by username and delete it
+        const deletedUser = await Patient.findOneAndDelete({ username: usernameToDelete });
+        // console.log("Patient to be deleted: "+ deletedUser)
+        if (!deletedUser) {
+            return res.status(404).json({ error: "Patient username not found" });
+        }
+
+        return res.status(200).json({ message: deletedUser.username + " deleted successfully" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Server error" });
+    }
+
+
+}
+
+//TODO Delete an emergency contact?
+
 // View all information uploaded by pharmacist to apply to join the platform
 const getPharmacistsRequestsInfo = async (req, res) => {
     const pharmReq = await PharmacistRequests.find({}).sort({ createdAt: -1 })
@@ -86,7 +160,7 @@ const getPharmacistsRequestsInfo = async (req, res) => {
 
 // View a list of all medicines (showing only the price, image, description)
 const getAllMedicines = async (req, res) => {
-    const medicine = await Medicine.find({}, 'image price description').sort({ createdAt: -1 });
+    const medicine = await Medicine.find({}, 'name image price description medicinalUse').sort({ createdAt: -1 });
     res.status(200).json(medicine)
 }
 
@@ -149,11 +223,14 @@ const getSinglePharmacistInfo = async (req, res) => {
 }
 
 // View all Patients Information 
+
 const getPatientsInfo = async (req, res) => {
 
     const patients = await Patient.find({}).sort({ createdAt: -1 })
     res.status(200).json(patients)
 }
+
+//TODO View all Patients Emergency Contacts Information?
 
 // View a Single Patient's Information 
 const getSinglePatientInfo = async (req, res) => {
@@ -169,6 +246,8 @@ const getSinglePatientInfo = async (req, res) => {
     res.status(200).json(patient)
 }
 
+//TODO View  Patient Emergency Contacts Information?
+
 module.exports = {
     deletePatient,
     getAllMedicines,
@@ -182,5 +261,13 @@ module.exports = {
     getAdmins,
     deletePharmacist,
     getPharmacistsRequestsInfo,
-    deleteAdmin
+    deleteAdmin,
+    deleteAdminByUsername,
+    deletePatientByUsername, //TODO fix it to be by username
+    deletePharmacistByUsername
+
 }
+
+//TODO deleteEmergencyContact
+//TODO viewAllEmergencyContacts
+//TODO viewSingleEmergencyContact

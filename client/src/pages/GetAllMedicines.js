@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MedicineDetails from '../components/MedicineDetails';
+import MedicineDetails from '../components/Medicine/MedicineDetails';
 import '../css/GetAllMedicine.css';
 
 const GetAllMedicines = () => {

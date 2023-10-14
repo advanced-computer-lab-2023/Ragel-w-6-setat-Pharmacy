@@ -39,9 +39,7 @@ const createPharmacist = async (req, res) => {
 
 // View a list of all medicines (showing only the price, image, description)
 const getAllMedicines = async (req, res) => {
-
-    const medicine = await Medicine.find({}, 'image price description').sort({ createdAt: -1 });
-
+    const medicine = await Medicine.find({}, 'name image price description medicinalUse').sort({ createdAt: -1 });
     res.status(200).json(medicine)
 }
 
@@ -83,6 +81,7 @@ const getMedicineByName = async (req, res) => {
 };
 
 
+
 // Filter medicines based on medicinal use
 const getMedicinesByMedicinalUse = async (req, res) => {
     const { medicinalUse } = req.query;
@@ -91,16 +90,23 @@ const getMedicinesByMedicinalUse = async (req, res) => {
         const regex = new RegExp(`.*${medicinalUse}.*`, 'i'); // 'i' flag for case-insensitive search
         const medicine = await Medicine.find({ medicinalUse: regex });
 
-
         if (medicine.length === 0) {
-            res.status(404).json({ error: 'No medicines found with the specified medicinal use' });
-        } else {
-            res.status(200).json(medicine);
+            if (medicine.length === 0) {
+                res.status(404).json({ error: 'No medicines found with the specified medicinal use' });
+            } else {
+                res.status(200).json(medicine);
+                res.status(200).json(medicine);
+            }
+
         }
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
+
+
+}
+
 
 
 // Add a medicine 
@@ -135,16 +141,21 @@ const addMedicine = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
 };
 // Edit medicine details and price 
+
+// Edit medicine details and price (we changed it to find by name 
+//however its supposed to be find by id thru url)
 const editMedicine = async (req, res) => {
-    const { id } = req.params;
-    const { description, price } = req.body;
+    // const { id } = req.params;
+    const { description, price, name } = req.body;
 
     try {
-        const medicine = await Medicine.findByIdAndUpdate(
-            id,
+        const medicine = await Medicine.findOneAndUpdate(
+            { name },
             { description, price },
             { new: true }
         );

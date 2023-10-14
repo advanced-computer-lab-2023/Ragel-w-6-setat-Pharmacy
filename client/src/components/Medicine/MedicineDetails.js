@@ -15,6 +15,10 @@ const MedicineDetails = ({ medicines }) => {
                 <strong>Description: </strong>
                 {medicines.description}
             </p>
+            <p>
+                <strong>Medicinal Use: </strong>
+                {medicines.medicinalUse}
+            </p>
             <div>
                 <strong>Image: </strong>
                 {medicines.image && <img src={`data:image/png;base64,${medicines.image}`} alt={medicines.name} />}
