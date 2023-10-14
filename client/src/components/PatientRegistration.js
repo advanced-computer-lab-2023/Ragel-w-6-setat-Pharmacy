@@ -117,6 +117,7 @@ const PatientRegistrationForm = () => {
             onChange={(e)=>setGender(e.target.value)}
             required
           >
+            <option value=''> Select an option</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
