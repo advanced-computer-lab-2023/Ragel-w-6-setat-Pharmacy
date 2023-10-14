@@ -18,8 +18,10 @@ const AddNewMedicine = () => {
   const handleSubmit=async (e)=>{
     e.preventDefault()
 
-    const Medicine ={name, price, description, activeIngredient, quantity, medicinalUse}
+    const parsedQuantity = parseInt(quantity, 10);
 
+    const Medicine ={name, price, description, activeIngredient, quantity: parsedQuantity, medicinalUse}
+    
     const response= await fetch('/api/pharmacist/AddMedicine',{
         method:'POST',
         body: JSON.stringify(Medicine),

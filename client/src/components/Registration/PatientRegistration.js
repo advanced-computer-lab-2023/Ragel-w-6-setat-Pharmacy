@@ -189,4 +189,3 @@ const PatientRegistrationForm = () => {
 export default PatientRegistrationForm;
 
 
-//TODO fix gender being male by default issue in the frontend

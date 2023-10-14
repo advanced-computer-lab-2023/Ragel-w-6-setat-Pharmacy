@@ -263,7 +263,7 @@ module.exports = {
     getPharmacistsRequestsInfo,
     deleteAdmin,
     deleteAdminByUsername,
-    deletePatientByUsername, //TODO fix it to be by username
+    deletePatientByUsername, 
     deletePharmacistByUsername
 
 }
