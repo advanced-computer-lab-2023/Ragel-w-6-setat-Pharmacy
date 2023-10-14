@@ -14,7 +14,10 @@ const {
     getAdmins,
     deletePharmacist,
     getPharmacistsRequestsInfo,
-    deleteAdmin
+    deleteAdmin,
+    deleteAdminByUsername,
+    deletePatientByUsername,
+    deletePharmacistByUsername
 } = require('../controllers/AdminController')
 
 const router = express.Router();
@@ -29,12 +32,22 @@ router.get("/getAdmins", getAdmins)
 // Delete an Admin
 router.delete("/deleteAdmin/:id", deleteAdmin)
 
+// Delete an Admin by username
+router.delete("/deleteAdminByUsername/:username", deleteAdminByUsername)
+
 // delete pharmacist
 
 router.delete('/deletePharmacist/:id', deletePharmacist)
 
+// Delete pharmacist by name
+router.delete('/deletePharmacistByUsername/:username', deletePharmacistByUsername)
+
 // Delete a patient 
 router.delete('/deletePatient/:id', deletePatient)
+
+// Delete patient by name
+router.delete('/deletePatientByUsername/:username', deletePatientByUsername)
+
 
 //View all information uploaded by pharmacist to apply to join the platform
 router.get("/getPharmacistsRequestsInfo", getPharmacistsRequestsInfo)

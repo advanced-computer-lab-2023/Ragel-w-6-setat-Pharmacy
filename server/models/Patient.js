@@ -7,11 +7,11 @@ const emergencyContactSchema = new Schema({
         type: String,
         required: true
     },
-    mobile_number: {
+    mobileNumber: {
         type: Number,
         required: true
     },
-    relation_to: {
+    relationTo: {
         type: String,
         required: true
     }
@@ -56,3 +56,4 @@ const patientSchema = new Schema({
 }, { timestamps: true });
 
 module.exports = mongoose.model('Patient', patientSchema);
+//module.exports = mongoose.model('EmergencyContact', emergencyContactSchema);

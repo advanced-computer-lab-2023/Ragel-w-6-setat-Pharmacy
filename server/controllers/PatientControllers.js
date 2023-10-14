@@ -1,5 +1,6 @@
 const Patient = require('../models/Patient')
 const Medicine = require('../models/Medicine')
+//const EmergencyContact = require('../models/Patient') //it is stored there
 
 const mongoose = require('mongoose');
 

@@ -139,7 +139,7 @@ const PharmacistRegistrationForm = () => {
         
        {!success?(
          <button type="submit">Register</button>
-       ):<Link to ="/Login">
+       ):<Link to ="/">
        <button type="submit">Go back to home</button></Link>}
        
          {error && <div className="error">

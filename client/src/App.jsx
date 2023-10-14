@@ -1,17 +1,16 @@
-import './App.css';
-import {BrowserRouter,Routes,Route} from "react-router-dom"
-//pages and components
-
+import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Patient from './pages/Patient';
+import Pharmacist from './pages/Pharmacist';
+import Admin from './pages/Admin';  
 import Navbar from './components/Navbar';
 import Medicine from './pages/Pharmacist';
 import RegistrationPage from './pages/Registration';
 import PatientRegistrationForm from './components/PatientRegistration';
 import PharmacistRegistrationForm from './components/PharmacistRegistration';
 import LoginPage from './pages/Login';
-import EditMedicineForm from './Pharmacist_components/EditMedicine';
-import AddNewMedicine from './Pharmacist_components/AddMedicine';
-
-//import LoginComponent from './components/Login';
+import EditMedicineForm from './components/Pharmacist_components/EditMedicine';
+import AddNewMedicine from './components/Pharmacist_components/AddMedicine';
 
 //functions
 
@@ -51,6 +50,10 @@ function App() {
         path='/AddMedicine'
         element={<AddNewMedicine/>}
 />
+<Route path="/api/patient" element={<Patient />} />
+            <Route path="/api/pharmacist" element={<Pharmacist />} /> 
+            <Route path="/api/admin" element={<Admin />} /> 
+
 </Routes>
 
 

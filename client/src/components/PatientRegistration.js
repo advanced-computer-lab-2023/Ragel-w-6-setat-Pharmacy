@@ -11,8 +11,8 @@ const PatientRegistrationForm = () => {
   const [mobileNumber, setMobileNumber] = useState('')
   const [emergencyContact, setEmergencyContact] = useState({
     name: '',
-    mobile_number: '',
-    relation_to: ''
+    mobileNumber: '',
+    relationTo: ''
   })
   const [success, setSuccess] = useState(false);
 
@@ -153,10 +153,10 @@ const PatientRegistrationForm = () => {
             type="number"
             // id="emergencyContactMobile"
             // name="emergencyContact.mobile_number"
-            value={emergencyContact.mobile_number}
+            value={emergencyContact.mobileNumber}
             onChange={(e) => setEmergencyContact(prevState => ({
                 ...prevState,
-                mobile_number: e.target.value
+                mobileNumber: e.target.value
               }))}
             required
           />
@@ -167,10 +167,10 @@ const PatientRegistrationForm = () => {
             type="text"
             // id="emergencyContactRelation"
             // name="emergencyContact.relation_to"
-            value={emergencyContact.relation_to}
+            value={emergencyContact.relationTo}
             onChange={(e) => setEmergencyContact(prevState => ({
                 ...prevState,
-                relation_to: e.target.value
+                relationTo: e.target.value
               }))}
             required
           />
@@ -186,3 +186,6 @@ const PatientRegistrationForm = () => {
   )
 }
 export default PatientRegistrationForm;
+
+
+//TODO fix gender being male by default issue in the frontend

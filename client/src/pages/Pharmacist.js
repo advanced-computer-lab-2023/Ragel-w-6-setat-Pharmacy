@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'; 
 //components 
-import MedDetails from '../Pharmacist_components/MedDetails'
+import MedDetails from '../components/Pharmacist_components/MedDetails'
 
 const Medicine=()=>{
     const [medicines,setMedicine]= useState(null)

@@ -4,12 +4,12 @@ const Navbar=()=>{
     return(
         <header>
             <div className="container">
-
+<Link to ="/">
     <h1>
         Welcome To Pharma Space
     </h1>
    
-
+    </Link>
 
             </div>
         </header>
