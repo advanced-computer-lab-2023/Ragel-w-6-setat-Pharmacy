@@ -6,40 +6,47 @@
   --primary: #009688;
   --error: #e7195a;
 }
+
 body {
   background: #B2DFDB;
   margin: 0;
   font-family: "Poppins";
 }
+
 header {
   background: #fff;
 }
+
 header .container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 10px 20px;
- 
+
 
   align-items: center;
   justify-content: space-between;
 }
-header  {
+
+header {
   color: #009688;
   text-decoration: none;
   text-align: center;
-  
+
 }
-h2{
+
+h2 {
   color: #009688;
   text-decoration: none;
-  
+
 }
-h4{
+
+h4 {
   color: #00796b;
   text-decoration: none;
-  
+
 }
-.pages{
+
+.pages {
   max-width: 1400px;
   padding: 20px;
   margin: 0 auto;
@@ -50,24 +57,28 @@ h4{
   grid-template-columns: 3fr 1fr;
   gap: 100px;
 }
-.Medicine-details{
+
+.Medicine-details {
   background: #01a79633;
   border-radius: 4px;
   margin: 20px auto;
   padding: 20px;
   position: relative;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
 }
+
 .Medicine-details h4 {
   margin: 0 0 10px 0;
   font-size: 1.2em;
   color: var(--primary);
 }
+
 .Medicine-details p {
   margin: 0;
   font-size: 0.9em;
   color: #555;
 }
+
 .Medicine-details span {
   position: absolute;
   top: 20px;
@@ -78,6 +89,7 @@ h4{
   border-radius: 50%;
   color: #333;
 }
+
 .registration-button {
   background-color: #009688;
   color: white;
@@ -88,11 +100,12 @@ h4{
   margin: 10px;
   font-size: 16px;
 }
+
 .registration-button:hover {
   background-color: #45a049;
 }
 
-button{
+button {
   background-color: #009688;
   color: white;
   padding: 12px 24px;
@@ -102,10 +115,13 @@ button{
   margin: 10px;
   font-size: 16px;
 }
+
 .Medicine-details {
-  border-bottom: 1px solid #009688; /* Adds a border between rows */
+  border-bottom: 1px solid #009688;
+  /* Adds a border between rows */
   /* OR */
-   margin-bottom: 10px;  /* Adds margin between rows */
+  margin-bottom: 10px;
+  /* Adds margin between rows */
 }
 
 /* HANA SHIT*/
@@ -117,14 +133,17 @@ button{
   --primary: #1aac83;
   --error: #e7195a;
 }
+
 body {
   background: #f1f1f1;
   margin: 0;
   font-family: "Poppins";
 }
+
 header {
   background: #fff;
 }
+
 header .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -133,11 +152,13 @@ header .container {
   align-items: center;
   justify-content: space-between;
 }
+
 header a {
   color: #333;
   text-decoration: none;
 }
-.pages{
+
+.pages {
   max-width: 1400px;
   padding: 20px;
   margin: 0 auto;
@@ -149,24 +170,28 @@ header a {
   grid-template-columns: 3fr 1fr;
   gap: 100px;
 }
+
 .admins {
   background: #fff;
   border-radius: 4px;
   margin: 20px auto;
   padding: 20px;
   position: relative;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
 }
+
 .admins h4 {
   margin: 0 0 10px 0;
   font-size: 1.2em;
   color: var(--primary);
 }
+
 .admins p {
   margin: 0;
   font-size: 0.9em;
   color: #555;
 }
+
 .admins span {
   position: absolute;
   top: 20px;
@@ -179,9 +204,11 @@ header a {
 }
 
 /* new add admin form */
-label, input {
+label,
+input {
   display: block;
 }
+
 input {
   padding: 10px;
   margin-top: 10px;
@@ -191,6 +218,7 @@ input {
   border-radius: 4px;
   box-sizing: border-box;
 }
+
 form button {
   background: var(--primary);
   border: 0;
@@ -200,6 +228,7 @@ form button {
   border-radius: 4px;
   cursor: pointer;
 }
+
 div.error {
   padding: 10px;
   background: #ffefef;

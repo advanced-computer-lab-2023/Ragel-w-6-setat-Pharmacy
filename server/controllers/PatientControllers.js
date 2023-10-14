@@ -21,7 +21,7 @@ const createPatient = async (req, res) => {
 
 // View a list of a medicine (showing only the price, image, description)
 const getAllMedicines = async (req, res) => {
-    const medicine = await Medicine.find({}, 'image price description').sort({ createdAt: -1 });
+    const medicine = await Medicine.find({}, 'name image price description medicinalUse').sort({ createdAt: -1 });
     res.status(200).json(medicine)
 }
 

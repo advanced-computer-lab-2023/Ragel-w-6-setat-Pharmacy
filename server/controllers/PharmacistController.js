@@ -12,7 +12,7 @@ const createPharmacistRequest = async (req, res) => {
 
     try {
         const pharmReq = await PharmacistReq.create({
-            name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground,status
+            name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground, status
 
         })
         res.status(200).json(pharmReq)
@@ -23,7 +23,7 @@ const createPharmacistRequest = async (req, res) => {
 
 // Register as a pharmacist
 const createPharmacist = async (req, res) => {
-    const { 
+    const {
         name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground
     } = req.body
 
@@ -39,9 +39,7 @@ const createPharmacist = async (req, res) => {
 
 // View a list of all medicines (showing only the price, image, description)
 const getAllMedicines = async (req, res) => {
-
-    const medicine = await Medicine.find({}, 'image price description').sort({ createdAt: -1 });
-
+    const medicine = await Medicine.find({}, 'name image price description medicinalUse').sort({ createdAt: -1 });
     res.status(200).json(medicine)
 }
 
@@ -83,6 +81,7 @@ const getMedicineByName = async (req, res) => {
 };
 
 
+
 // Filter medicines based on medicinal use
 const getMedicinesByMedicinalUse = async (req, res) => {
     const { medicinalUse } = req.query;
@@ -91,42 +90,49 @@ const getMedicinesByMedicinalUse = async (req, res) => {
         const regex = new RegExp(`.*${medicinalUse}.*`, 'i'); // 'i' flag for case-insensitive search
         const medicine = await Medicine.find({ medicinalUse: regex });
 
-
         if (medicine.length === 0) {
-            res.status(404).json({ error: 'No medicines found with the specified medicinal use' });
-        } else {
-            res.status(200).json(medicine);
+            if (medicine.length === 0) {
+                res.status(404).json({ error: 'No medicines found with the specified medicinal use' });
+            } else {
+                res.status(200).json(medicine);
+                res.status(200).json(medicine);
+            }
+
         }
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
+
+
+}
+
 
 
 // Add a medicine 
 const addMedicine = async (req, res) => {
-    const {totalSales=0,
-        name, image, price, description, activeIngredient, quantity, medicinalUse, 
+    const { totalSales = 0,
+        name, image, price, description, activeIngredient, quantity, medicinalUse,
     } = req.body;
 
     try {
         let imageData;
         if (!image) {
-            const path= require('path')
+            const path = require('path')
             const fs = require("fs");
 
             const defaultImagePath = path.join(__dirname, "../resources/acl_pharma.png");
             const imageBuffer = fs.readFileSync(defaultImagePath);
             imageData = imageBuffer.toString("base64");
-           req.body.image = imageData;
+            //req.body.image = imageData;
         } else {
             // If image is provided, use it as base64 data
             imageData = image;
         }
-//res.json(imageData)
+        //res.json(imageData)
         // Create a new Medicine instance and save it to the database
         const medicine = new Medicine({
-            name, image:imageData, price, description, activeIngredient, quantity, medicinalUse, totalSales
+            name, image: imageData, price, description, activeIngredient, quantity, medicinalUse, totalSales
         });
 
         await medicine.save(); // Save the medicine to the database
@@ -135,17 +141,21 @@ const addMedicine = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
 };
+// Edit medicine details and price 
+
 // Edit medicine details and price (we changed it to find by name 
 //however its supposed to be find by id thru url)
 const editMedicine = async (req, res) => {
-   // const { id } = req.params;
-    const { description, price,name } = req.body;
+    // const { id } = req.params;
+    const { description, price, name } = req.body;
 
     try {
         const medicine = await Medicine.findOneAndUpdate(
-             {name} ,
+            { name },
             { description, price },
             { new: true }
         );

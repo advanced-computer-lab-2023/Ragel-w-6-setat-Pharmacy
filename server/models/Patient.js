@@ -56,4 +56,3 @@ const patientSchema = new Schema({
 }, { timestamps: true });
 
 module.exports = mongoose.model('Patient', patientSchema);
-//module.exports = mongoose.model('EmergencyContact', emergencyContactSchema);
