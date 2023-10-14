@@ -1,22 +1,34 @@
-import './App.css';
-import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+ 
+// Import your pages/components here...
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Patient from './pages/Patient';
+import Pharmacist from './pages/Pharmacist';
+import Admin from './pages/Admin';  
 
-//functions
-import { getTest } from "./functions/test";
+
 
 function App() {
-  const [data, setData] = useState("Hello World!");
-
-  useEffect(() => {
-    getTest()
-      .then((res) => {
-        setData(res.message);
-      })
-      .catch((err) => console.log(err));
-  }, []);
   return (
     <div className="App">
-      <h1>{data}</h1>
+      <BrowserRouter>
+        <Navbar />
+        <div className="pages">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/api/login" element={<Login />} />
+            <Route path="/api/register" element={<Register />} />
+            <Route path="/api/patient" element={<Patient />} />
+            <Route path="/api/pharmacist" element={<Pharmacist />} /> 
+            <Route path="/api/admin" element={<Admin />} /> 
+
+          
+          </Routes>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }
