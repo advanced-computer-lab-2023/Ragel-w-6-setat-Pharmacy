@@ -35,7 +35,7 @@ const medSchema = new Schema({
     },
     totalSales: {
         type: Number,
-        required: true
+        //required: true
     },
 }, { timestamp: true })
 
