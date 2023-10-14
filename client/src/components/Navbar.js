@@ -1,23 +1,20 @@
-import React from 'react';
-import { Link, useHistory} from 'react-router-dom';
-const Navbar = () => {
-   // const history = useHistory()
-    //const goBack = () => {
-      //  history.goBack() // Navigate back to the previous page
-  //  };
+import {Link} from 'react-router-dom'
 
-    return (
-        <nav>
+const Navbar=()=>{
+    return(
         <header>
             <div className="container">
-                <Link to ="/">
-                    <h1>Pharmaspace</h1>
-                </Link>
-                </div>
 
+    <h1>
+        Welcome To Pharma Space
+    </h1>
+   
+
+
+            </div>
         </header>
-        </nav>
     )
 }
 
 export default Navbar
+  // <img src="acl_pharma(2).png" alt="Logo" className="logo" width="200" height="100" />

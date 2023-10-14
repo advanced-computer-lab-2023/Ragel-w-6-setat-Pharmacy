@@ -9,8 +9,9 @@ const medSchema = new Schema({
         unique: true
     },
     image: {
-        type: Buffer,
-        contentType: String
+        type: String,
+        required:true
+       
     },
     price: {
         type: Number,
@@ -34,7 +35,7 @@ const medSchema = new Schema({
     },
     totalSales: {
         type: Number,
-        required: true
+        //required: true
     },
 }, { timestamp: true })
 
