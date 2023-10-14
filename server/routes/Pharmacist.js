@@ -19,6 +19,10 @@ router.post("/createPharmacistRequest", createPharmacistRequest)
 router.post("/", createPharmacist)
 
 
+//Create a Pharmacist 
+router.post("/", createPharmacist)
+
+
 // View a list of all medicines
 router.get("/getAllMedicines", getAllMedicines)
 

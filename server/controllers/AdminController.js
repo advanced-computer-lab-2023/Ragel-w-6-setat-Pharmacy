@@ -49,23 +49,23 @@ const deleteAdmin = async (req, res) => {
 const deleteAdminByUsername = async (req, res) => {
 
 
-const usernameToDelete = req.params.username;
+    const usernameToDelete = req.params.username;
 
-  try {
-    // Find the user by username and delete it
-    const deletedUser = await Admin.findOneAndDelete({ username: usernameToDelete });
-    // console.log("admin to be deleted: "+ deletedUser)
-    if (!deletedUser) {
-      return res.status(404).json({ error: "User not found" });
+    try {
+        // Find the user by username and delete it
+        const deletedUser = await Admin.findOneAndDelete({ username: usernameToDelete });
+        // console.log("admin to be deleted: "+ deletedUser)
+        if (!deletedUser) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        return res.status(200).json({ message: deletedUser.username + " deleted successfully" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Server error" });
     }
 
-    return res.status(200).json({ message: deletedUser.username + " deleted successfully" });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Server error" });
-  }
-    
-  
+
 }
 
 // Delete a pharmacist
@@ -91,23 +91,23 @@ const deletePharmacistByUsername = async (req, res) => {
 
 
     const usernameToDelete = req.params.username;
-    
-      try {
+
+    try {
         // Find the user by username and delete it
         const deletedUser = await Pharmacist.findOneAndDelete({ username: usernameToDelete });
         // console.log("Pharmacist to be deleted: "+ deletedUser)
         if (!deletedUser) {
-          return res.status(404).json({ error: "Pharmacist username not found" });
+            return res.status(404).json({ error: "Pharmacist username not found" });
         }
-    
+
         return res.status(200).json({ message: deletedUser.username + " deleted successfully" });
-      } catch (error) {
+    } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Server error" });
-      }
-        
-      
     }
+
+
+}
 
 // Delete a patient 
 const deletePatient = async (req, res) => {
@@ -132,23 +132,23 @@ const deletePatientByUsername = async (req, res) => {
 
 
     const usernameToDelete = req.params.username;
-    
-      try {
+
+    try {
         // Find the user by username and delete it
         const deletedUser = await Patient.findOneAndDelete({ username: usernameToDelete });
         // console.log("Patient to be deleted: "+ deletedUser)
         if (!deletedUser) {
-          return res.status(404).json({ error: "Patient username not found" });
+            return res.status(404).json({ error: "Patient username not found" });
         }
-    
+
         return res.status(200).json({ message: deletedUser.username + " deleted successfully" });
-      } catch (error) {
+    } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Server error" });
-      }
-        
-      
     }
+
+
+}
 
 //TODO Delete an emergency contact?
 
@@ -160,7 +160,7 @@ const getPharmacistsRequestsInfo = async (req, res) => {
 
 // View a list of all medicines (showing only the price, image, description)
 const getAllMedicines = async (req, res) => {
-    const medicine = await Medicine.find({}, 'image price description').sort({ createdAt: -1 });
+    const medicine = await Medicine.find({}, 'name image price description medicinalUse').sort({ createdAt: -1 });
     res.status(200).json(medicine)
 }
 

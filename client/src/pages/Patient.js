@@ -1,7 +1,11 @@
+import { Link } from 'react-router-dom';
 const Patient = () => {
     return (
         <div className="patient">
-        <h2>Patient</h2>
+
+            <Link to="/viewAllMedicines" className="registration-button">
+                Go to view all medicines/Filter/Search
+            </Link>
         </div>
     )
 }

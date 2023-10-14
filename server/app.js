@@ -15,11 +15,13 @@ console.log("test")
 
 // db
 mongoose.connect(MongoURI)
-.then(() =>
-  console.log("MongoDB is now connected!")).
-  then(() => { app.listen(port, () => {
-    console.log(`Server is running on port ${port}`)
-  })}).
+  .then(() =>
+    console.log("MongoDB is now connected!")).
+  then(() => {
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`)
+    })
+  }).
   catch(err => console.log("DB CONNECTION ERROR", err));
 
 // middleware
