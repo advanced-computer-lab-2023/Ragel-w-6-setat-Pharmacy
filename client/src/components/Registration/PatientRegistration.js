@@ -117,6 +117,7 @@ const PatientRegistrationForm = () => {
             onChange={(e)=>setGender(e.target.value)}
             required
           >
+            <option value=''> Select an option</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
@@ -188,4 +189,3 @@ const PatientRegistrationForm = () => {
 export default PatientRegistrationForm;
 
 
-//TODO fix gender being male by default issue in the frontend

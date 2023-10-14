@@ -111,41 +111,61 @@ const getMedicinesByMedicinalUse = async (req, res) => {
 
 // Add a medicine 
 const addMedicine = async (req, res) => {
-    const { totalSales = 0,
-        name, image, price, description, activeIngredient, quantity, medicinalUse,
+    const {
+        totalSales = 0,
+        name,
+        image,
+        price,
+        description,
+        activeIngredient,
+        quantity,
+        medicinalUse,
     } = req.body;
 
     try {
-        let imageData;
-        if (!image) {
-            const path = require('path')
-            const fs = require("fs");
+        let existingMedicine = await Medicine.findOne({ name });
 
-            const defaultImagePath = path.join(__dirname, "../resources/acl_pharma.png");
-            const imageBuffer = fs.readFileSync(defaultImagePath);
-            imageData = imageBuffer.toString("base64");
-            //req.body.image = imageData;
+        if (existingMedicine) {
+            // If medicine with the same name exists, increase the quantity
+            existingMedicine.quantity += quantity;
+            await existingMedicine.save();
+            res.status(200).json(existingMedicine);
         } else {
-            // If image is provided, use it as base64 data
-            imageData = image;
+            // If medicine with the given name doesn't exist, create a new medicine
+            let imageData;
+            if (!image) {
+                const path = require('path');
+                const fs = require('fs');
+
+                const defaultImagePath = path.join(__dirname, '../resources/acl_pharma.png');
+                const imageBuffer = fs.readFileSync(defaultImagePath);
+                imageData = imageBuffer.toString('base64');
+            } else {
+                imageData = image;
+            }
+
+            // Create a new Medicine instance and save it to the database
+            const newMedicine = new Medicine({
+                name,
+                image: imageData,
+                price,
+                description,
+                activeIngredient,
+                quantity,
+                medicinalUse,
+                totalSales,
+            });
+
+            await newMedicine.save();
+            res.status(200).json(newMedicine);
         }
-        //res.json(imageData)
-        // Create a new Medicine instance and save it to the database
-        const medicine = new Medicine({
-            name, image: imageData, price, description, activeIngredient, quantity, medicinalUse, totalSales
-        });
-
-        await medicine.save(); // Save the medicine to the database
-
-        res.status(200).json(medicine); // Respond with the saved medicine object
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Internal Server Error" });
-        console.error(error);
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-// Edit medicine details and price 
+
+ 
 
 // Edit medicine details and price (we changed it to find by name 
 //however its supposed to be find by id thru url)
