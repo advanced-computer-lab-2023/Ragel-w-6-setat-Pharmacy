@@ -42,7 +42,7 @@ const AddNewMedicine = () => {
   }
   return(
     <form className="RegistrationContainer" onSubmit={handleSubmit}>
-         <h2>Pharmacist Registration Form</h2>
+         <h2>Add Medicine</h2>
 
          <div className="form-group">
           <label>Name </label>

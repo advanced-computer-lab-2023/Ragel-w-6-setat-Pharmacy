@@ -17,7 +17,7 @@ const LoginPage = () => {
         <Link to="/Patient" className="registration-button">
         Login as a Patient
         </Link>
-        <Link to="/Admin" className="registration-button">
+        <Link to="/api/admin" className="registration-button">
         Login as an Admin
         </Link>
        
