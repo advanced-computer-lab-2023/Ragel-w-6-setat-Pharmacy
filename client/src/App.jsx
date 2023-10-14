@@ -1,22 +1,26 @@
-import './App.css';
-import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-//functions
-import { getTest } from "./functions/test";
+// pages
+import GetAllMedicines from './pages/GetAllMedicines'
+
+// components
+import Navbar from './components/Navbar'
 
 function App() {
-  const [data, setData] = useState("Hello World!");
-
-  useEffect(() => {
-    getTest()
-      .then((res) => {
-        setData(res.message);
-      })
-      .catch((err) => console.log(err));
-  }, []);
   return (
     <div className="App">
-      <h1>{data}</h1>
+      <BrowserRouter>
+        <Navbar />
+        <div className="pages">
+          <Routes>
+            <Route
+              path="/viewAllMedicines"
+              element={<GetAllMedicines />}
+            />
+
+          </Routes>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }

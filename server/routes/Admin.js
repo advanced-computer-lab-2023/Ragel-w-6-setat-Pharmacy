@@ -61,4 +61,3 @@ router.get('/getPatientsInfo', getPatientsInfo)
 router.get('/getSinglePatientInfo/:id', getSinglePatientInfo)
 
 module.exports = router
-
