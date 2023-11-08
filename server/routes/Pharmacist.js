@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router();
 const {
     createPharmacistRequest,
-    createPharmacist,
+   // createPharmacist,
     getAllMedicines,
     getQuantityAndSalesOfMedicine,
     getMedicineByName,
@@ -15,12 +15,9 @@ const {
 // Make a pharmacist Request 
 router.post("/createPharmacistRequest", createPharmacistRequest)
 
-//Create a Pharmacist 
-router.post("/", createPharmacist)
+/* //Create a Pharmacist 
+router.post("/", createPharmacist) */
 
-
-//Create a Pharmacist 
-router.post("/", createPharmacist)
 
 
 // View a list of all medicines

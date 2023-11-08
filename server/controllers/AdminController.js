@@ -158,6 +158,69 @@ const getPharmacistsRequestsInfo = async (req, res) => {
     res.status(200).json(pharmReq)
 }
 
+// reject a pharmacist request  removing it from the database
+const rejectPharmacistRequest = async (req, res) => {
+   /*  const requestId = req.params.id;
+    try {
+    
+        // Find the request by ID and update its status to "handled"
+        const updatedRequest = await PharmacistRequests.findByIdAndDelete(
+          requestId,
+          { status: true },
+          { new: true }
+        );
+    
+        if (!updatedRequest) {
+          return res.status(404).json({ message: 'Request not found' });
+        }
+    
+        // Remove the request from the database
+      //  await Request.findByIdAndRemove(requestId);
+    
+        res.status(200).json({ message: 'Pharmacist request rejected and removed' });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+    };  */
+
+    
+    try {
+      const requestId = req.params.id;
+  
+      // Find the request by its ID and remove it
+      const deletedRequest = await PharmacistRequests.findByIdAndRemove(requestId);
+  
+      if (!deletedRequest) {
+        return res.status(404).json({ message: 'Request not found' });
+      }
+  
+      res.status(200).json({ message: 'Pharmacist request rejected and removed' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  
+  
+}
+
+
+// Register as a pharmacist || only once admin approves
+const createPharmacist = async (req, res) => {
+    const {
+        name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground
+    } = req.body
+
+    try {
+        const pharm = await Pharmacist.create({
+            name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground
+        })
+        res.status(200).json(pharm)
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
+
 // View a list of all medicines (showing only the price, image, description)
 const getAllMedicines = async (req, res) => {
     const medicine = await Medicine.find({}, 'name image price description medicinalUse').sort({ createdAt: -1 });
@@ -264,7 +327,9 @@ module.exports = {
     deleteAdmin,
     deleteAdminByUsername,
     deletePatientByUsername, 
-    deletePharmacistByUsername
+    deletePharmacistByUsername,
+    rejectPharmacistRequest,
+    createPharmacist
 
 }
 

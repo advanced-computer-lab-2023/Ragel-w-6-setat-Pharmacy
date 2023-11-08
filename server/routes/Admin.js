@@ -17,7 +17,9 @@ const {
     deleteAdmin,
     deleteAdminByUsername,
     deletePatientByUsername,
-    deletePharmacistByUsername
+    deletePharmacistByUsername,
+    rejectPharmacistRequest,
+    createPharmacist
 } = require('../controllers/AdminController')
 
 const router = express.Router();
@@ -51,6 +53,12 @@ router.delete('/deletePatientByUsername/:username', deletePatientByUsername)
 
 //View all information uploaded by pharmacist to apply to join the platform
 router.get("/getPharmacistsRequestsInfo", getPharmacistsRequestsInfo)
+
+//Reject a pharmacist's request to join the platform by setting status to true
+router.delete("/rejectPharmacistRequest/:id", rejectPharmacistRequest)
+
+//Create a Pharmacist 
+router.post("/createPharmacist", createPharmacist)
 
 // View a list of all medicines
 router.get("/getAllMedicines", getAllMedicines)

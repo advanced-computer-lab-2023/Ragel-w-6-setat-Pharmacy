@@ -20,9 +20,9 @@ const createPharmacistRequest = async (req, res) => {
         res.status(400).json({ error: error.message })
     }
 }
-
+//moved this to admin controller
 // Register as a pharmacist
-const createPharmacist = async (req, res) => {
+/* const createPharmacist = async (req, res) => {
     const {
         name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground
     } = req.body
@@ -35,7 +35,7 @@ const createPharmacist = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
-}
+} */
 
 // View a list of all medicines (showing only the price, image, description)
 const getAllMedicines = async (req, res) => {
@@ -192,7 +192,7 @@ const editMedicine = async (req, res) => {
 
 module.exports = {
     createPharmacistRequest,
-    createPharmacist,
+  //  createPharmacist,
     getAllMedicines,
     getQuantityAndSalesOfMedicine,
     addMedicine,

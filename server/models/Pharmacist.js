@@ -35,7 +35,7 @@ const pharmSchema = new Schema({
     educationalBackground: {
         type: String,
         required: true
-    },
+    }
 
 }, { timestamp: true })
 
