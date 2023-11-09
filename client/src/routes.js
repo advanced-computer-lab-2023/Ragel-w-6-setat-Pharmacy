@@ -24,6 +24,8 @@ import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
 import HandlePharmReq from "views/AdminViews/HandlePharmReq";
 
+//TODO fix this with the respective layout
+//TODO add menu levewls
 var routes = [
   {
     path: "/index",
@@ -81,5 +83,6 @@ var routes = [
     component: <HandlePharmReq />,
     layout: "/admin",
   }
+  
 ];
 export default routes;

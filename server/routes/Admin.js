@@ -58,7 +58,7 @@ router.get("/getPharmacistsRequestsInfo", getPharmacistsRequestsInfo)
 router.delete("/rejectPharmacistRequest/:id", rejectPharmacistRequest)
 
 //Create a Pharmacist 
-router.post("/createPharmacist", createPharmacist)
+router.post('/createPharmacist', createPharmacist)
 
 // View a list of all medicines
 router.get("/getAllMedicines", getAllMedicines)

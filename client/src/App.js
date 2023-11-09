@@ -5,6 +5,8 @@ import AdminLayout from "layouts/Admin";
 import AuthLayout from "layouts/Auth";
 import NotFound from "components/NotFound"; // A custom NotFound component
 
+
+//TODO breadcrumbs and pagination
 function App() {
   return (
     <div className="App"> {/* This div is not necessary, but it is a good practice to wrap all the components in a div */}

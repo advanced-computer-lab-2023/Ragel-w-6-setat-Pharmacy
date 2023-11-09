@@ -40,7 +40,7 @@ import {
 import AdminHeader from "components/Headers/AdminHeader.js";
 import { useEffect, useState } from "react";
 
-
+//TODO Model boxes with confirmation and result dialog boxes
 
 const HandlePharmReq = () => {
 
@@ -74,6 +74,8 @@ const HandlePharmReq = () => {
    const[affiliation, setAffiliation] = useState('')
    const[educationalBackground, setEducationalBackground] = useState('')
           
+   //FIXME make it async??
+   //FIXME dialog box for each rejection and approval and remove it from table
              const [acceptFeedback, setAcceptFeedback] = useState('');
           // Function to approve a pharmacist request
              const handleApprove =  (request) => {
@@ -92,11 +94,9 @@ const HandlePharmReq = () => {
              const newPharmacist = {
               name,username,password,email,dateOfBirth,hourlyRate,affiliation,educationalBackground
               }
-
-
            
                 // Call the API to create a new pharmacist
-                fetch(`api/admin/createPharmacist`, {
+                fetch('/api/admin/createPharmacist', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
@@ -104,6 +104,10 @@ const HandlePharmReq = () => {
                   body: JSON.stringify(newPharmacist),
                 }).then((response) => {
                   if (response.ok) {
+                    // Remove the approved request from the UI
+                   setPharmacistRequests((prevRequests) =>
+                    prevRequests.filter((req) => req._id !== request._id)
+                  ); 
                     // Handle success (e.g., update the UI)
                     setAcceptFeedback(`Pharmacist request with ID ${request.name} has been rejected.`);
                   } else {
@@ -114,7 +118,31 @@ const HandlePharmReq = () => {
                 .catch((error) => {
                   console.error('API request error:', error);
                   setAcceptFeedback('API request error');
-                });
+                }).
+                finally(() => {
+                  fetch(`/api/admin/rejectPharmacistRequest/${request._id}`, {
+                    method: 'DELETE',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ status: 'true' }),
+                  })
+                    .then((response) => {
+                      if (response.ok) {
+                        
+                        // Handle success (e.g., update the UI)
+                        setAcceptFeedback(`Pharmacist request with ID ${request._id} has been successfully removed.`);
+                      }
+                      else {
+                        // Handle errors
+                        setAcceptFeedback(`Error removing pharmacist request with ID ${request._id} after accepting it.`);
+                      }
+                    })
+                    .catch((error) => {
+                      console.error('API request error:', error);
+                      setAcceptFeedback('API request error');
+                    });
+                })
             };
 
 
@@ -141,6 +169,9 @@ const HandlePharmReq = () => {
             })
               .then((response) => {
                 if (response.ok) {
+                   // Remove the rejected request from the UI
+                   setPharmacistRequests((prevRequests) =>
+                    prevRequests.filter((req) => req._id !== id));
                   // Handle success (e.g., update the UI)
                   setRejectFeedback(`Pharmacist request with ID ${id} has been rejected.`);
                 } else {
@@ -199,7 +230,7 @@ const HandlePharmReq = () => {
                     <Button
                 color="info"
                 href="#pablo"
-                onClick={() => handleApprove(request)}>Approve</Button> //TODO add accept feedback
+                onClick={() => handleApprove(request)}>Approve</Button> 
                    <Button
                 color="info"
                 href="#pablo"
