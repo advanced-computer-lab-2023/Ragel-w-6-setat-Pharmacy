@@ -150,7 +150,7 @@ const HandlePharmReq = () => {
               
            
       
-        //TODO render page and remove from the UI the element in the table
+        //FIXME remove pagination 1 2 3 4 and check it works when needed
 
            // handleReject(request._id) //deletes pharmacist req from table
           
@@ -187,7 +187,7 @@ const HandlePharmReq = () => {
         
         
            
-        
+        //FIXME need to fix the calls of the function to incorporate user, and updating the status to approved from here, and also deleting user from the database
 
   return (
     <>

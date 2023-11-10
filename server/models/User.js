@@ -1,14 +1,10 @@
-const mongoose = require('mongoose')
+// server/models/User.js
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const Schema = mongoose.Schema
-
-const adminSchema = new Schema({
-
-    username: {
-        type: String,
-        required: true,
-        unique: true
-    },
+const userSchema = new Schema({
+    username: String,
+    email: String,
     password: {
         type: String,
         required: true,
@@ -22,8 +18,17 @@ const adminSchema = new Schema({
           message: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.',
         },
       },
+    role: {
+      type: String,
+      enum: ['admin', 'pharmacist', 'patient'],
+      default: 'patient',
+    },
+    registrationStatus: {
+      type: String,
+      enum: ['pending', 'approved'],
+      default: 'approved', // Set a default status as 'approved'
+    },
+  });
 
-
-}, { timestamp: true })
-
-module.exports = mongoose.model('Admin', adminSchema)
+  module.exports = mongoose.model('User', userSchema);
+  

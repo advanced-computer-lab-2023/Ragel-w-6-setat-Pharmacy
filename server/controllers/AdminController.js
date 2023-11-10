@@ -12,9 +12,24 @@ const addAdmin = async (req, res) => {
     const {
         username, password
     } = req.body
+    //FIXME should we hash password of admin?
+    const hashedPassword = await bcrypt.hash(password, 10);
+        try {
+            // Hash the password before saving it
+    const role='admin';
+    const user = new User({ username, email, password: hashedPassword,role });
+    await user.save();
+
+    const token = jwt.sign({ userId: user.id }, jwtSecret);
+
+    res.json({ token });
+    } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Registration failed: while creating User in Register.js' });
+    }
     try {
         const admin = await Admin.create({
-            username, password
+            username, hashedPassword
         })
         res.status(200).json(admin)
     } catch (error) {

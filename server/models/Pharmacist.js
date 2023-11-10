@@ -14,8 +14,17 @@ const pharmSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
-    },
+        required: true,
+        validate: {
+          validator: function (password) {
+            // Define your custom validation logic here
+            // For example, require at least 8 characters, one uppercase letter, and one digit
+            const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+            return passwordPattern.test(password);
+          },
+          message: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.',
+        },
+      },
     email: {
         type: String,
         required: true
@@ -35,7 +44,16 @@ const pharmSchema = new Schema({
     educationalBackground: {
         type: String,
         required: true
-    }
+    },
+    nationalId: {
+        type: String,
+    },
+    pharmacyDegree: {
+        type: String,
+    },
+    workingLicense: {
+        type: String,
+    },
 
 }, { timestamp: true })
 

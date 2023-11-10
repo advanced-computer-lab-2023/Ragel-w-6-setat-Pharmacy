@@ -190,6 +190,82 @@ const editMedicine = async (req, res) => {
     }
 };
 
+//Upload documents: national ID, pharmacy degree and working license
+const uploadNationalId = async (req, res) => {
+    try {
+      const { file } = req;
+      const { userId } = req.session; // Assuming you have a userId in the session
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+  
+      // Update the user's `nationalId` field in the database
+      await Pharmacist.updateOne(
+        { _id: userId },
+        { $set: { nationalId: file.path } }
+      );
+  
+      res.send({
+        file: file.originalname,
+        path: file.path,
+        size: file.size,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error in adding nationalId in pharmacist" });
+    }
+  };
+
+const uploadPharmacyDegree = async (req, res) => {
+    try {
+      const { file } = req;
+      const { userId } = req.session; // Assuming you have a userId in the session
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+  
+      // Update the user's `nationalId` field in the database
+      await Pharmacist.updateOne(
+        { _id: userId },
+        { $set: { pharmacyDegree: file.path } }
+      );
+  
+      res.send({
+        file: file.originalname,
+        path: file.path,
+        size: file.size,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error in adding pharmacyDegree in pharmacist" });
+    }
+  };
+
+const uploadWorkingLicense= async (req, res) => {
+    try {
+      const { file } = req;
+      const { userId } = req.session; // Assuming you have a userId in the session
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+  
+      // Update the user's `nationalId` field in the database
+      await Pharmacist.updateOne(
+        { _id: userId },
+        { $set: { workingLicense: file.path } }
+      );
+  
+      res.send({
+        file: file.originalname,
+        path: file.path,
+        size: file.size,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error in adding workingLicense in pharmacist" });
+    }
+  };
+
 module.exports = {
     createPharmacistRequest,
   //  createPharmacist,
@@ -199,5 +275,8 @@ module.exports = {
     getMedicineByName,
     getMedicinesByMedicinalUse,
     getMedicinesByMedicinalUse,
-    editMedicine
+    editMedicine,
+    uploadNationalId,
+    uploadPharmacyDegree,
+    uploadWorkingLicense
 }

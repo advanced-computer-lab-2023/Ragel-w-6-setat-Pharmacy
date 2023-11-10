@@ -10,6 +10,7 @@ const createPatient = async (req, res) => {
         name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact
     } = req.body
     try {
+       // const hashedPassword = await bcrypt.hash(password, 10);
         const patient = await Patient.create({
             name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact
         })

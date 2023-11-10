@@ -23,6 +23,7 @@ import Login from "views/examples/Login.js";
 import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
 import HandlePharmReq from "views/AdminViews/HandlePharmReq";
+import UploadDocuments from "views/PharmacistViews/UploadDocuments";
 
 //TODO fix this with the respective layout
 //TODO add menu levewls
@@ -81,6 +82,15 @@ var routes = [
     name: "HandlePharmReq",
     icon: "ni ni-circle-08 text-pink",
     component: <HandlePharmReq />,
+    layout: "/admin",
+  },
+//FIXME change layout to /pharmacist 
+//FIXME how to render profile info of that specific pharmacist
+  { //Handle Pharm Req in the layout Admin (will make a layout for every role)
+    path: "/UploadDocuments",
+    name: "Upload documents",
+    icon: "ni ni-circle-08 text-pink",
+    component: <UploadDocuments />,
     layout: "/admin",
   }
   
