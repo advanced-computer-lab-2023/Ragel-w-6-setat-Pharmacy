@@ -36,6 +36,10 @@ const medSchema = new Schema({
         type: Number,
         //required: true
     },
+    overTheCounter: {
+        type: Boolean,
+        //required: true
+    }
 }, { timestamp: true })
 
 
