@@ -9,8 +9,8 @@ const medSchema = new Schema({
         unique: true
     },
     image: {
-        type: String,
-        required: true
+    type: String,
+    //required: true,
     },
     price: {
         type: Number,
@@ -36,6 +36,10 @@ const medSchema = new Schema({
         type: Number,
         //required: true
     },
+    overTheCounter:{
+        type: Boolean,
+         //required: true
+    }
 }, { timestamp: true })
 
 
