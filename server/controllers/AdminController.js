@@ -8,10 +8,23 @@ const EmergencyContact = require('../models/Patient'); //it is stored there
 const mongoose = require('mongoose');
 
 // Add another administrator
+//FIXME check username unique
 const addAdmin = async (req, res) => {
     const {
         username, password
     } = req.body
+
+     // Check if password is valid
+     const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+     if (!passwordPattern.test(password)) {
+         return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' });
+     }
+
+    // Check if username is already in use
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+        return res.status(400).json({ error: 'Username is already in use.' });
+    }
     //FIXME should we hash password of admin?
     const hashedPassword = await bcrypt.hash(password, 10);
         try {

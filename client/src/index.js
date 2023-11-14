@@ -24,7 +24,11 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "assets/scss/argon-dashboard-react.scss";
 
 import AdminLayout from "layouts/Admin.js";
-import AuthLayout from "layouts/Auth.js";
+/* import PatientAuthLayout from "layouts/PatientAuth.js";
+ */import Auth from "layouts/Auth.js";
+/* import PharmacistAuthLayout from "layouts/PharmacistAuth.js"; */
+import PatientLayout from "layouts/Patient.js";
+import PharmacistLayout from "layouts/Pharmacist.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -32,8 +36,13 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/admin/*" element={<AdminLayout />} />
-      <Route path="/auth/*" element={<AuthLayout />} />
-      <Route path="*" element={<Navigate to="/admin/index" replace />} />
+      <Route path="/auth/*" element={<Auth />} />
+      <Route path="/patient/*" element={<PatientLayout />} />
+      <Route path="/pharmacist/*" element={<PharmacistLayout />} />
+     
     </Routes>
   </BrowserRouter>
 );
+
+
+// <Route path="*" element={<Navigate to="/admin/index" replace />} />

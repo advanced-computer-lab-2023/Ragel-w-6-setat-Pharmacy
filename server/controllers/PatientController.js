@@ -5,20 +5,7 @@ const Medicine = require('../models/Medicine')
 const mongoose = require('mongoose');
 
 // Register as a patient 
-const createPatient = async (req, res) => {
-    const {
-        name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact
-    } = req.body
-    try {
-       // const hashedPassword = await bcrypt.hash(password, 10);
-        const patient = await Patient.create({
-            name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact
-        })
-        res.status(200).json(patient)
-    } catch (error) {
-        res.status(400).json({ error: error.message })
-    }
-}
+
 
 // View a list of a medicine (showing only the price, image, description)
 const getAllMedicines = async (req, res) => {
@@ -65,7 +52,6 @@ const getMedicinesByMedicinalUse = async (req, res) => {
 
 
 module.exports = {
-    createPatient,
     getAllMedicines,
     getMedicineByName,
     getMedicinesByMedicinalUse

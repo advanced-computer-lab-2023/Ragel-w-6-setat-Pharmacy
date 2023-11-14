@@ -25,9 +25,18 @@ const pharmSchema = new Schema({
           message: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.',
         },
       },
-    email: {
+      email: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        validate: {
+            validator: function (email) {
+                // Define your custom email validation logic here
+                const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                return emailPattern.test(email);
+            },
+            message: 'Invalid email format.',
+        },
     },
     dateOfBirth: {
         type: Date,

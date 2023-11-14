@@ -54,7 +54,7 @@ import {
 
 var ps;
 
-const Sidebar = (props) => {
+const PatientSidebar = (props) => {
   const [collapseOpen, setCollapseOpen] = useState();
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
@@ -68,9 +68,11 @@ const Sidebar = (props) => {
   const closeCollapse = () => {
     setCollapseOpen(false);
   };
-  // creates the links that appear in the left menu / Sidebar
+  // creates the links that appear in the left menu / PatientSidebar
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
+      if(prop.layout === "/patient" || prop.layout === "/auth")
+      {
       return (
         <NavItem key={key}>
           <NavLink
@@ -82,7 +84,7 @@ const Sidebar = (props) => {
             {prop.name}
           </NavLink>
         </NavItem>
-      );
+      );}
     });
   };
 
@@ -227,7 +229,7 @@ const Sidebar = (props) => {
               </InputGroupAddon>
             </InputGroup>
           </Form>
-          {/* Navigation */} //TODO sidebar has diff stuff in the routes
+          {/* Navigation */} //TODO PatientSidebar has diff stuff in the routes
           <Nav navbar>{createLinks(routes)}</Nav>
           {/* Divider */}
           <hr className="my-3" />
@@ -268,11 +270,11 @@ const Sidebar = (props) => {
   );
 };
 
-Sidebar.defaultProps = {
+PatientSidebar.defaultProps = {
   routes: [{}],
 };
 
-Sidebar.propTypes = {
+PatientSidebar.propTypes = {
   // links that will be displayed inside the component
   routes: PropTypes.arrayOf(PropTypes.object),
   logo: PropTypes.shape({
@@ -289,4 +291,4 @@ Sidebar.propTypes = {
   }),
 };
 
-export default Sidebar;
+export default PatientSidebar;

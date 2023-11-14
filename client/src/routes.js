@@ -19,6 +19,8 @@ import Index from "views/Index.js";
 import Profile from "views/examples/Profile.js";
 import Maps from "views/examples/Maps.js";
 import Register from "views/examples/Register.js";
+import PatientRegister from "views/Authentication/PatientRegister.js";
+import PharmacistRegister from "views/Authentication/PharmacistRegister.js";
 import Login from "views/examples/Login.js";
 import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
@@ -71,10 +73,17 @@ var routes = [
     layout: "/auth",
   },
   {
-    path: "/register",
-    name: "Register",
+    path: "/patientRegister",
+    name: "PatientRegister",
     icon: "ni ni-circle-08 text-pink",
-    component: <Register />,
+    component: <PatientRegister />,
+    layout: "/auth",
+  },
+  {
+    path: "/pharmacistRegister",
+    name: "PharmacistRegister",
+    icon: "ni ni-circle-08 text-pink",
+    component: <PharmacistRegister />,
     layout: "/auth",
   },
   { //Handle Pharm Req in the layout Admin (will make a layout for every role)
@@ -91,7 +100,7 @@ var routes = [
     name: "Upload documents",
     icon: "ni ni-circle-08 text-pink",
     component: <UploadDocuments />,
-    layout: "/admin",
+    layout: "/pharmacist",
   }
   
 ];

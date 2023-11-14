@@ -1,16 +1,14 @@
 const express = require('express')
 
 const {
-    createPatient,
     getAllMedicines,
     getMedicineByName,
     getMedicinesByMedicinalUse
-} = require('../controllers/PatientControllers')
+} = require('../controllers/PatientController')
 
 const router = express.Router();
 
 // Register as a patient
-router.post('/', createPatient)
 
 // View a list of all medicines
 router.get("/getAllMedicines", getAllMedicines)

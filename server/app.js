@@ -5,14 +5,9 @@ mongoose.set('strictQuery', false);
 const morgan = require("morgan");
 const cors = require("cors");
 const multer = require('multer');
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
 const User = require('./models/User');
-const LocalStrategy = require('passport-local').Strategy;
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
+const {requireAuth}= require('./middlewares/AuthMiddleware');
 
 require("dotenv").config();
 // const {createUser,getUsers, updateUser, deleteUser} = require("./Routes/userController");
@@ -24,6 +19,7 @@ const app = express();
 console.log("test")
 
 //Multer config
+//FIXME check shahed shit to update this 
 const storage = multer.diskStorage({ 
   destination: (req, file, cb) => { 
       cb(null, './uploads')  //save the file uploads to the server
@@ -49,26 +45,9 @@ mongoose.connect(MongoURI)
   }).
   catch(err => console.log("DB CONNECTION ERROR", err));
 
-//FIXME ??
-// Configure JWT secret key (replace 'your-secret-key' with your secret)
-const jwtSecret = process.env.ACCESS_TOKEN_SECRET;
 
-passport.use(
-  new JwtStrategy(
-    {
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.ACCESS_TOKEN_SECRET,
-    },
-    (jwtPayload, done) => {
-      // Verify the token and retrieve user data
-      User.findById(jwtPayload.userId, (err, user) => {
-        if (err) return done(err, false);
-        if (user) return done(null, user);
-        return done(null, false);
-      });
-    }
-  )
-);
+
+
 
 // middleware
 app.use(morgan("dev"));
@@ -79,8 +58,6 @@ app.use((req, res, next) => {
 });
 app.use(express.json()); // to allow us to access the body
 app.use(cookieParser());
-app.use(passport.initialize());
-app.use(passport.session());
 
 // JWT authentication middleware
 const authenticateJWT = (req, res, next) => {
@@ -117,18 +94,16 @@ app.use(express.static('uploads'));
 const patientRoutes = require('./routes/Patient')
 const pharmacistRoutes = require('./routes/Pharmacist')
 const adminRoutes = require('./routes/Admin')
-// Import the registration and login routes
-const registerRoute = require('./routes/Register');
-const loginRoute = require('./routes/Login');
-const protectedRoutes = require('./routes/ProtectedRoutes')
+const userRoutes = require('./routes/User')
 
 
+//FIXME add authenticareJWT to patient
 // Use the routes
-app.use('/api/patient',authenticateJWT, patientRoutes)
+app.use('/api/patient', patientRoutes)
 app.use('/api/pharmacist', authenticateJWT,pharmacistRoutes)
 app.use('/api/admin', authenticateJWT,adminRoutes)
-app.use('/api/register', registerRoute);
-app.use('/api/login', loginRoute);
+app.use('/api/user', userRoutes);
+
 
 
 

@@ -63,25 +63,20 @@ const AdminNavbar = () => {
               </Row>
             </div>
             <Nav className="ml-auto" navbar>
-             
               <NavItem>
-                <NavLink
-                  className="nav-link-icon" 
-                  to="/auth/patientRegister"
-                  tag={Link}
-                >
-                  <i className="ni ni-circle-08" />
-                  <span className="nav-link-inner--text">Register as patient</span>
+                <NavLink className="nav-link-icon" to="/" tag={Link}>
+                  <i className="ni ni-planet" />
+                  <span className="nav-link-inner--text">Dashboard</span>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
                   className="nav-link-icon"
-                  to="/auth/pharmacistRegister"
+                  to="/auth/register"
                   tag={Link}
                 >
                   <i className="ni ni-circle-08" />
-                  <span className="nav-link-inner--text">Apply as a pharmacist</span>
+                  <span className="nav-link-inner--text">Register</span>
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -91,7 +86,14 @@ const AdminNavbar = () => {
                 </NavLink>
               </NavItem>
               <NavItem>
-                
+                <NavLink
+                  className="nav-link-icon"
+                  to="/admin/user-profile"
+                  tag={Link}
+                >
+                  <i className="ni ni-single-02" />
+                  <span className="nav-link-inner--text">Profile</span>
+                </NavLink>
               </NavItem>
             </Nav>
           </UncontrolledCollapse>

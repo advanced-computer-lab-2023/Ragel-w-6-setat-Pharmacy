@@ -44,7 +44,7 @@ import { useEffect, useState } from "react";
 
 const HandlePharmReq = () => {
 
-  
+    
 
   const [pharmacistRequests, setPharmacistRequests] = useState(null)
   useEffect(() => { 

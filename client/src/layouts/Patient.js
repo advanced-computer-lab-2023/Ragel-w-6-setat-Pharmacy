@@ -22,11 +22,11 @@ import { Container } from "reactstrap";
 // core components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import AdminFooter from "components/Footers/AdminFooter.js";
-import AdminSidebar from "components/Sidebar/AdminSidebar.js";
+import PatientSidebar from "components/Sidebar/PatientSidebar.js";
 
 import routes from "routes.js";
 
-const Admin = (props) => {
+const Patient = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
 
@@ -38,7 +38,7 @@ const Admin = (props) => {
 
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin" || prop.layout === "auth") {
+      if (prop.layout === "/patient" || prop.layout === "/auth") {
         return (
           <Route path={prop.path} element={prop.component} key={key} exact />
         );
@@ -62,11 +62,11 @@ const Admin = (props) => {
 
   return (
     <>
-      <AdminSidebar
+      <PatientSidebar
         {...props}
         routes={routes}
         logo={{
-          innerLink: "/admin/index",
+          innerLink: "/patient",
           imgSrc: require("../assets/img/brand/argon-react.png"),
           imgAlt: "...",
         }}
@@ -78,7 +78,7 @@ const Admin = (props) => {
         />
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/admin/index" replace />} />
+          <Route path="*" element={<Navigate to="/patient" replace />} />
         </Routes>
         <Container fluid>
           <AdminFooter />
@@ -88,4 +88,4 @@ const Admin = (props) => {
   );
 };
 
-export default Admin;
+export default Patient;
