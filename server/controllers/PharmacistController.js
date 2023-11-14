@@ -1,7 +1,9 @@
 const Pharmacist = require('../models/Pharmacist')
 const Medicine = require('../models/Medicine')
 const PharmacistReq = require('../models/PharmacistRequests')
-
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ dest: 'uploads/' });
 const mongoose = require('mongoose');
 
 // create a pharmacist Request
@@ -111,66 +113,76 @@ const getMedicinesByMedicinalUse = async (req, res) => {
 
 // Add a medicine 
 const addMedicine = async (req, res) => {
-    const {
-        totalSales = 0,
-        name,
-        image,
-        price,
-        description,
-        activeIngredient,
-        quantity,
-        medicinalUse,
-    } = req.body;
-
     try {
-        let existingMedicine = await Medicine.findOne({ name });
-
-        if (existingMedicine) {
-            // If medicine with the same name exists, increase the quantity
-            existingMedicine.quantity += quantity;
-            await existingMedicine.save();
-            res.status(200).json(existingMedicine);
-        } else {
-            // If medicine with the given name doesn't exist, create a new medicine
-            let imageData;
-            if (!image) {
-                const path = require('path');
-                const fs = require('fs');
-
-                const defaultImagePath = path.join(__dirname, '../resources/acl_pharma.png');
-                const imageBuffer = fs.readFileSync(defaultImagePath);
-                imageData = imageBuffer.toString('base64');
-            } else {
-                imageData = image;
+        upload.single('image')(req, res, async function (err) {
+            if (err) {
+              return res.status(400).json({ error: err.message });
             }
-
-            // Create a new Medicine instance and save it to the database
-            const newMedicine = new Medicine({
-                name,
-                image: imageData,
-                price,
-                description,
-                activeIngredient,
-                quantity,
-                medicinalUse,
-                totalSales,
-            });
-
-            await newMedicine.save();
-            res.status(200).json(newMedicine);
+  
+        console.log('Request Body:', req.body);
+  
+        let imageData;
+  
+        if (req.file) {
+            imageData= req.file.filename;// Save image as Buffer
+            
+        } else {
+          const path = require('path');
+          const fs = require('fs');
+  
+          const defaultImagePath = path.join(__dirname, '../resources/acl_pharma.png');
+          const imageBuffer = fs.readFileSync(defaultImagePath);
+          imageData = imageBuffer.toString('base64');
         }
+  
+        const {
+          totalSales = 0,
+          name,
+          price,
+          description,
+          activeIngredient,
+          quantity,
+          medicinalUse,
+        } = req.body;
+  
+        let existingMedicine = await Medicine.findOne({ name });
+  
+        if (existingMedicine) {
+          existingMedicine.quantity += quantity;
+          await existingMedicine.save();
+          res.status(200).json(existingMedicine);
+        } else {
+          const newMedicine = new Medicine({
+            name,
+            image:image.push(imageData),
+            price,
+            description,
+            activeIngredient,
+            quantity,
+            medicinalUse,
+            totalSales,
+          });
+  
+          await newMedicine.save();
+          res.status(200).json(newMedicine);
+        }
+      });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
-};
+  };
+  
+  
+  
+
 
  
 
 // Edit medicine details and price (we changed it to find by name 
 //however its supposed to be find by id thru url)
 const editMedicine = async (req, res) => {
-    // const { id } = req.params;
+    const { id } = req.params;
     const { description, price, name } = req.body;
 
     try {

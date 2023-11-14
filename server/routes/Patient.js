@@ -1,4 +1,5 @@
-const express = require('express');
+const express = require('express')
+
 const {
     createPatient,
     getAllMedicines,
@@ -6,45 +7,43 @@ const {
     getMedicinesByMedicinalUse,
     addToCart,
     viewCart,
-    addAddressToPatient,
-    getPatientAddresses,
-    processPayment,
+    removeFromCart,
+    changeQuantityInCart,
     checkoutOrder,
     viewPatientOrders,
     cancelOrder,
-    getWalletBalance
-} = require('../controllers/PatientControllers');
+    getWalletBalance,
+    addAddressToPatient,
+    getPatientAddresses,
+    processPayment,
+} = require('../controllers/PatientControllers')
 
 const router = express.Router();
 
 // Register as a patient
-router.post('/', createPatient);
+router.post('/', createPatient)
 
 // View a list of all medicines
-router.get("/getAllMedicines", getAllMedicines);
+router.get("/getAllMedicines", getAllMedicines)
 
 // Search for medicine based on name
-router.get("/getMedicineByName", getMedicineByName);
+router.get("/getMedicineByName", getMedicineByName)
 
 // Filter medicines based on medicinal use
-router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse);
+router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
 
-// Add medicine to a patient's cart
-router.post('/addToCart/:patientId/:medicineId', addToCart);
+// Add to cart 
+router.get("/addToCart/:patientId/:medicineId", addToCart)
 
-// View cart items
-router.get("/viewCart/:id", viewCart);
+// View Cart
+router.get("/viewCart/:patientId",viewCart)
 
-// Add address(es) to patient
-router.post("/addAddressToPatient/:id", addAddressToPatient);
+// Remove item from cart
+router.delete("/removeFromCart/:patientId/:medicineId", removeFromCart)
 
-// Get all addresses of a patient
-router.get("/getPatientAddresses/:id", getPatientAddresses);
+// Update quantity in cart 
+router.patch("/changeQuantityInCart/:patientId/:medicineId", changeQuantityInCart)
 
-// Pay with wallet
-router.post("/processPayment/:id", processPayment);
-
-// Checkout the patient's order
 router.get('/checkoutOrder/:id', checkoutOrder);
 
 // View order details
@@ -56,4 +55,13 @@ router.put('/cancelOrder/:patientId/:orderId', cancelOrder);
 // Get wallet balance of a patient
 router.get('/getWalletBalance/:patientId', getWalletBalance);
 
-module.exports = router;
+// Add address(es) to patient
+router.post("/addAddressToPatient/:id", addAddressToPatient);
+
+// Get all addresses of a patient
+router.get("/getPatientAddresses/:id", getPatientAddresses);
+
+// Pay with wallet
+router.post("/processPayment/:id", processPayment);
+
+module.exports = router

@@ -24,8 +24,18 @@ import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
 import HandlePharmReq from "views/AdminViews/HandlePharmReq";
 import UploadDocuments from "views/PharmacistViews/UploadDocuments";
-import Cart from 'views/PatientViews/Cart'; // Update the path
+import Checkout from 'views/PatientViews/Checkout'; // Update the path
 import Orders from 'views/PatientViews/Orders'; // Update the path
+import ViewAllMedicine from 'views/PatientViews/ViewAllMedicine'
+import ViewAllMedicinePharm from 'views/PharmacistViews/ViewAllMedicine'
+
+import Cart from "views/PatientViews/Cart";
+import EditMedicineForm from "views/PharmacistViews/EditMedicine";
+import MedicineSales from "views/PharmacistViews/ViewMedSales";
+import AddNewMedicine from "views/PharmacistViews/AddMedicine";
+import Patients from "views/AdminViews/Patient";
+import Admin from "views/AdminViews/Admins";
+import Pharmacist from "views/AdminViews/Pharmacists";
 
 //TODO fix this with the respective layout
 //TODO add menu levewls
@@ -37,20 +47,20 @@ var routes = [
     component: <Index />,
     layout: "/admin",
   },
-  {
-    path: "/icons",
-    name: "Icons",
-    icon: "ni ni-planet text-blue",
-    component: <Icons />,
-    layout: "/admin",
-  },
-  {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    component: <Maps />,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/icons",
+  //   name: "Icons",
+  //   icon: "ni ni-planet text-blue",
+  //   component: <Icons />,
+  //   layout: "/admin",
+  // },
+  // {
+  //   path: "/maps",
+  //   name: "Maps",
+  //   icon: "ni ni-pin-3 text-orange",
+  //   component: <Maps />,
+  //   layout: "/admin",
+  // },
   {
     path: "/user-profile",
     name: "User Profile",
@@ -58,13 +68,13 @@ var routes = [
     component: <Profile />,
     layout: "/admin",
   },
-  {
-    path: "/tables",
-    name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: <Tables />,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/tables",
+  //   name: "Tables",
+  //   icon: "ni ni-bullet-list-67 text-red",
+  //   component: <Tables />,
+  //   layout: "/admin",
+  // },
   {
     path: "/login",
     name: "Login",
@@ -95,19 +105,85 @@ var routes = [
     component: <UploadDocuments />,
     layout: "/admin",
   },
+  
   // Cart layout
   {
-    path: "/cart",
-    name: "Cart",
+    path: "/checkout",
+    name: "Checkout",
     icon: "ni ni-cart text-green", // Add an appropriate icon
-    component: <Cart />,
-    layout: "/admin",
+    component: <Checkout />,
+    layout: "/patient",
   },
   {
     path: "/orders",
     name: "Orders",
     component: <Orders />,
+    layout: "/patient",
+  },
+  {
+    path:"/ViewMedicine",
+    name:"Medicine",
+    component:<ViewAllMedicine/>,
+    layout: "/patient",
+  },
+  {
+    path: "/cart",
+    name: "Cart",
+    component: <Cart />,
+    layout: "/patient",
+  },
+  {
+    path: "/editMedicine",
+    name: "Edit Medicine",
+    component: <EditMedicineForm />,
+    layout: "/pharmacist",
+  },
+  {
+    path:"/ViewMedicine",
+    name:"Medicine",
+    component:<ViewAllMedicinePharm/>,
+    layout: "/pharmacist",
+  },
+  {
+    path:"/MedicineSales",
+    name:"Medicine Sales",
+    component:<MedicineSales/>,
+    layout: "/pharmacist",
+  },
+  {
+    path:"/AddMedicine",
+    name:"Add Medicine",
+    component:<AddNewMedicine/>,
+    layout: "/pharmacist",
+  },
+  {
+    path:"/ViewMedicine",
+    name:"Medicine",
+    component:<ViewAllMedicinePharm/>,
     layout: "/admin",
   },
+  
+  {
+    path:"/Admins",
+    name:"Admins",
+    component:<Admin/>,
+    layout: "/admin",
+  },
+  {
+    path:"/Patients",
+    name:"Patients",
+    component:<Patients/>,
+    layout: "/admin",
+  },
+  {
+    path:"/Pharmacists",
+    name:"Pharmacists",
+    component:<Pharmacist/>,
+    layout: "/admin",
+  },
+  
+
+  
+
 ];
 export default routes;

@@ -5,14 +5,12 @@ mongoose.set('strictQuery', false);
 const morgan = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 // const {createUser,getUsers, updateUser, deleteUser} = require("./Routes/userController");
 const MongoURI = process.env.MONGO_URI;
 
 // app
 const app = express();
 // const user = require('./Models/User');
-console.log("test")
 
 // db
 mongoose.connect(MongoURI)

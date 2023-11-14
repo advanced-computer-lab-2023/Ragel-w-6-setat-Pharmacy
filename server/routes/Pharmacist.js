@@ -1,4 +1,6 @@
 const express = require('express')
+const multer = require('multer');
+const upload = multer(); // Configure multer without storage to handle in-memory files
 
 const router = express.Router();
 const {
@@ -35,10 +37,11 @@ router.get("/getMedicineByName", getMedicineByName)
 // Filter medicines based on medicinal use
 router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
 
+
 // Add a medicine 
-router.post("/addMedicine", addMedicine)
+router.post("/addMedicine", upload.single('image'), addMedicine);
 
 // Edit medicine details and price 
-router.patch("/editMedicine", editMedicine)
+router.patch("/editMedicine/:medicineId", editMedicine)
 
 module.exports = router
