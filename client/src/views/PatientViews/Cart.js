@@ -20,7 +20,7 @@ import {
     Form,
     FormGroup,
     Label,
-    Input,
+    Input
 } from "reactstrap";
 
 import AdminHeader from "components/Headers/AdminHeader.js";
@@ -134,44 +134,55 @@ const Cart = () => {
 
     const handleConfirmOrder = async () => {
         try {
-            if (
-                !selectedPaymentMethod ||
-                !selectedAddress ||
-                cartData.cartItems.length === 0
-            ) {
-                console.error(
-                    "Please select both address and payment method, and ensure the cart is not empty"
-                );
+            if (!selectedPaymentMethod || !selectedAddress || cartData.cartItems.length === 0) {
+                console.error("Please select both address and payment method, and ensure the cart is not empty");
                 return;
             }
 
-            const response = await fetch(
-                `/api/patient/processPayment/654beffcf9d0ca04d098b0e3`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        paymentType: selectedPaymentMethod,
-                        paymentAmount: cartData.totalCost,
-                    }),
+            // Extracting relevant information from cartData
+            const items = cartData.cartItems.map(item => ({
+                name: item.medicine.name,
+                price: item.medicine.price,
+                quantity: item.quantity
+            }));
+
+            const paymentData = {
+                paymentType: selectedPaymentMethod,
+                items: items,
+                paymentMethodId: 'pm_card_visa'
+            };
+
+            const response = await fetch(`/api/patient/processPayment/654beffcf9d0ca04d098b0e3`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(paymentData),
+            });
+
+            if (selectedPaymentMethod === 'creditCard') {
+                if (response.ok) {
+                    const data = await response.json();
+                    // Redirect to Stripe Checkout
+                    window.location.href = data.url; // Make sure `data.url` is the correct property containing the Stripe Checkout URL
+                } else {
+                    const errorData = await response.json();
+                    console.error("Error during credit card payment:", errorData);
+                    alert(errorData.error); // Display an alert with the error message
                 }
-            );
-
-            if (response.ok) {
-                const data = await response.json();
-                setCartData(data);
-
-                navigate("/admin/orders");
-            } else if (response.status === 400) {
-                const errorData = await response.json();
-                alert(errorData.error); // Display an alert with the error message
             } else {
-                console.error("Error during checkout:", response.statusText);
+                if (response.ok) {
+                    const data = await response.json();
+                    setCartData(data);
+                    navigate("/admin/orders");
+                } else if (response.status === 400) {
+                    const errorData = await response.json();
+                    console.error("Error during checkout:", errorData);
+                    alert(errorData.error); // Display an alert with the error message
+                } else {
+                    console.error("Error during checkout:", response.statusText);
+                }
             }
-
-            const data = await response.json();
         } catch (error) {
             console.error("Error confirming order:", error);
         }

@@ -186,9 +186,35 @@ const getPatientAddresses = async (req, res) => {
 };
 
 // Process payment
+const processCreditCardPayment = async (res, items) => {
+    try {
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: items.map(item => ({
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: item.name, // Adjust this based on your item data
+                    },
+                    unit_amount: Math.round(item.price * 100), // Stripe requires amount in cents
+                },
+                quantity: item.quantity,
+            })),
+            mode: 'payment',
+            success_url: `${process.env.CLIENT_URL}/admin/orders`,
+            cancel_url: `${process.env.CLIENT_URL}/admin/cart`,
+        });
+
+        res.json({ url: session.url });
+    } catch (error) {
+        console.error('Stripe payment error:', error);
+        res.status(400).json({ error: 'Credit card payment failed. Please check your card details and try again.', details: error.message });
+    }
+};
+
 const processPayment = async (req, res) => {
     const { id } = req.params;
-    const { paymentType, paymentAmount } = req.body;
+    const { paymentType, items, paymentMethodId } = req.body;
 
     try {
         const patient = await Patient.findById(id);
@@ -199,47 +225,32 @@ const processPayment = async (req, res) => {
 
         switch (paymentType) {
             case 'wallet':
-                if (patient.payment.walletBalance >= paymentAmount) {
-                    patient.payment.walletBalance -= paymentAmount;
+                if (patient.payment.walletBalance >= patient.cart.totalCost) {
+                    patient.payment.walletBalance -= patient.cart.totalCost;
                     await patient.save();
-                    await handleSuccessfulPayment(patient); // Await here
+                    await handleSuccessfulPayment(patient);
                     res.status(200).json({ message: 'Payment with wallet balance successful' });
                 } else {
                     res.status(400).json({ error: 'Insufficient funds in wallet. Please add funds or choose a different payment method.' });
                 }
                 break;
             case 'creditCard':
-                try {
-                    const paymentIntent = await stripe.paymentIntents.create({
-                        amount: paymentAmount * 100, // Stripe requires amount in cents
-                        currency: 'usd',
-                        payment_method: req.body.paymentMethodId,
-                        confirm: true,
-                        return_url: 'https://example.com/success', // Replace with your actual success URL
-                    });
-
-                    // Handle Stripe payment response accordingly
-                    if (paymentIntent.status === 'succeeded') {
-                        await handleSuccessfulPayment(patient); // Await here
-                        res.status(200).json({ message: 'Credit card payment successful' });
-                    } else {
-                        res.status(400).json({ error: 'Credit card payment failed. Please check your card details and try again.' });
-                    }
-                } catch (error) {
-                    res.status(400).json({ error: 'Credit card payment failed. Please check your card details and try again.' });
-                }
+                await processCreditCardPayment(res, items);
+                await handleSuccessfulPayment(patient);
                 break;
             case 'cashOnDelivery':
-                await handleSuccessfulPayment(patient); // Await here
+                await handleSuccessfulPayment(patient);
                 res.status(200).json({ message: 'Payment on delivery' });
                 break;
             default:
                 res.status(400).json({ error: 'Invalid payment type' });
         }
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Process payment error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 // Increase medicine's total sales and decrease available quantity
 const handleSuccessfulPayment = async (patient) => {
@@ -369,6 +380,15 @@ const cancelOrder = async (req, res) => {
 
         // Refund the total cost to the patient's wallet balance
         patient.payment.walletBalance += canceledOrder.totalCost;
+
+        // Iterate through items in the canceled order and increment medicine quantities
+        for (const cartItem of canceledOrder.items) {
+            const medicine = await Medicine.findById(cartItem.medicineId);
+            if (medicine) {
+                medicine.quantity += cartItem.quantity;
+                await medicine.save();
+            }
+        }
 
         // Update order status to 'cancelled'
         canceledOrder.status = 'cancelled';
