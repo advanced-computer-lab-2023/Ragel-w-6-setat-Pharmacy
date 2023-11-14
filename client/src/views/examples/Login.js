@@ -17,6 +17,9 @@
 */
 
 // reactstrap components
+import {useState} from "react";
+import {toast} from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Card,
@@ -33,6 +36,67 @@ import {
 } from "reactstrap";
 
 const Login = () => {
+
+  const navigate = useNavigate()
+  const [success, setSuccess] = useState(false);
+  
+  const [error, setError] = useState(null)
+
+  const [ data,setData]=useState({
+    username:"",
+    password:""
+  })
+  const [username, setUsername] = useState('')
+
+  const [password, setPassword] = useState('')
+
+  const  loginUser = async(e) =>
+  {
+    e.preventDefault();
+    const user = {username,password}
+    try{
+      const response= await fetch('/api/user/login',{
+        method:'POST',
+        body: JSON.stringify(user),
+        headers:{
+            'Content-Type':'application/json'
+        }
+    })
+    const json= await response.json()
+    if (!response.ok){
+      setError(json.error)
+      setSuccess(false)
+      toast.error(json.error)
+  }
+  else{ 
+      setSuccess(true)
+     setError('Thank you for logging ')
+     toast.success('Thank you for logging in toast') 
+      //navigate('/auth/login') 
+      //FIXME check this is the correct syntax to navigate
+      //FIXME route based on user role to the correct dashboard ; swithc case
+      // Navigate based on user role
+      switch (json.user.role) {
+        case "patient":
+          navigate("/patient");
+          break;
+        case "pharmacist":
+          navigate("/pharmacist");
+          break;
+        case "admin":
+          navigate("/admin/index");
+          break;
+        // Add other roles as needed
+        default:
+          navigate("/"); // Default route if the role is not recognized
+      }
+  } 
+    }
+    catch(error){
+      console.error(error);
+    }
+  }
+
   return (
     <>
       <Col lg="5" md="7">
@@ -42,7 +106,7 @@ const Login = () => {
             <div className="text-center text-muted mb-4">
               <small>Sign in</small>
             </div>
-            <Form role="form">
+            <Form role="form" onSubmit={loginUser}>
               <FormGroup className="mb-3">
                 <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
@@ -51,10 +115,10 @@ const Login = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Username"
-                    type="username"
-                    autoComplete="new-username"
-                  />
+                   placeholder="Username" type="text" 
+                   onChange={(e)=>setUsername(e.target.value)}
+                   value={username}
+                   required/>
                 </InputGroup>
               </FormGroup>
               <FormGroup>
@@ -65,10 +129,10 @@ const Login = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Password"
-                    type="password"
-                    autoComplete="new-password"
-                  />
+                   placeholder="Password" type="password" 
+                   onChange={(e)=>setPassword(e.target.value)}
+                   value={password}
+                   required/>
                 </InputGroup>
               </FormGroup>
               <div className="custom-control custom-control-alternative custom-checkbox">
@@ -85,7 +149,7 @@ const Login = () => {
                 </label>
               </div>
               <div className="text-center">
-                <Button className="my-4" color="primary" type="button">
+                <Button className="my-4" color="primary" type="submit">
                   Sign in
                 </Button>
               </div>

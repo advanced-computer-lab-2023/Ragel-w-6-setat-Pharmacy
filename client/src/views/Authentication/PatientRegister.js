@@ -16,7 +16,8 @@
 
 */
 import { Link } from "react-router-dom";
-
+import {toast} from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
 // reactstrap components
 import {
     Button,
@@ -40,7 +41,7 @@ import {
     import { useState } from "react";
   
   const PatientRegister = () => {
-
+    const navigate = useNavigate();
     const [genderDropdownOpen, setGenderDropdownOpen] = useState(false);
     const [selectedGender, setSelectedGender] = useState('');
   
@@ -87,11 +88,14 @@ import {
       if (!response.ok){
           setError(json.error)
           setSuccess(false)
+          toast.error(json.error)
       }
       else{ 
           setSuccess(true)
          setError('Thank you for registering ')
-          
+         toast.success('Thank you for registeringgg toast') 
+          navigate('/auth/login')
+          //FIXME check this is the correct syntax to navigate
           
       } }
 

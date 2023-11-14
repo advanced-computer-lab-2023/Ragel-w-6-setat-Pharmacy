@@ -57,13 +57,7 @@ const registerPatient = async (req, res) => {
           return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' });
       }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const role = 'patient';
-        const user = await User.create({ username,name, email, password: hashedPassword, role });
-        const token = createToken(user.username);
-
-        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-        console.log("tewst before callig");
+        
 
         const patient = await Patient.create(
           { name,
@@ -75,6 +69,13 @@ const registerPatient = async (req, res) => {
             gender,
             emergencyContact}
         );
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const role = 'patient';
+        const user = await User.create({ username,name, email, password: hashedPassword, role });
+        const token = createToken(user.username);
+
+        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+        console.log("tewst before callig");
         
 
         res.status(200).json({ user, patient });
@@ -118,14 +119,9 @@ const registerPharmacist = async (req, res) => {
        if (!passwordPattern.test(password)) {
            return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' });
        }
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const role = 'pharmacist';
-        const registrationStatus = 'pending';
-        const user = await User.create({ name, email, password: hashedPassword, role, registrationStatus });
-        const token = createToken(user.username);
+       const hashedPassword = await bcrypt.hash(password, 10);
 
-        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-
+        
         const pharmacistRequest = await pharmacistController.createPharmacistRequest(
             name,
             username,
@@ -137,6 +133,13 @@ const registerPharmacist = async (req, res) => {
             qualification,
             'false'
         );
+        const role = 'pharmacist';
+        const registrationStatus = 'pending';
+        const user = await User.create({ name, email, password: hashedPassword, role, registrationStatus });
+        const token = createToken(user.username);
+
+        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+
 
         res.status(200).json({ user, pharmacistRequest });
     } catch (error) {
@@ -161,15 +164,15 @@ const login = async (req, res) => {
         if (!isPasswordValid) {
           return res.status(400).json({ message: 'Invalid password' });
         }
-        const usernameInSchema=user.username;
+      //  const usernameInSchema=user.username;
         if (user.role==='admin'){
-            const userInSchema = await User.findOne({ usernameInSchema });
+            const userInSchema = await User.findOne({ username });
             if (!userInSchema) {
               return res.status(400).json({ message: 'User not found in Admin Schema' });
             } }
         if (user.role==='patient'){
             
-            const userInSchema = await Patient.findOne({ usernameInSchema });
+            const userInSchema = await Patient.findOne({ username });
             if (!userInSchema) {
               return res.status(400).json({ message: 'User not found in Patient Schema' });
             } }
@@ -177,12 +180,12 @@ const login = async (req, res) => {
             if(user.registrationStatus==='pending'){
                 return res.status(400).json({ message: 'Registration as pharmacist is pending' });
             }
-            const userInSchema = await Pharmacist.findOne({ usernameInSchema });
+            const userInSchema = await Pharmacist.findOne({ username });
             if (!userInSchema) {
               return res.status(400).json({ message: 'User not found in Pharmacist Schema' });
             } }
     
-            const token = createToken(user.username);   
+            const token = createToken(username);   
             res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });    
             res.status(200).json({ token, user});
             
