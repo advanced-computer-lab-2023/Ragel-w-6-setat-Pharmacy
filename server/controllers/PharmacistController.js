@@ -3,8 +3,7 @@ const Medicine = require('../models/Medicine')
 const PharmacistReq = require('../models/PharmacistRequests')
 const multer = require('multer');
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
+const upload = multer({ dest: 'uploads/' });
 const mongoose = require('mongoose');
 
 // create a pharmacist Request
@@ -115,18 +114,18 @@ const getMedicinesByMedicinalUse = async (req, res) => {
 // Add a medicine 
 const addMedicine = async (req, res) => {
     try {
-      upload.single('image')(req, res, async function (err) {
-        if (err) {
-          return res.status(400).json({ error: err.message });
-        }
+        upload.single('image')(req, res, async function (err) {
+            if (err) {
+              return res.status(400).json({ error: err.message });
+            }
   
         console.log('Request Body:', req.body);
   
         let imageData;
   
-        if (req.body.image && req.file && req.file.mimetype) {
-            console.log("IM HERE");
-          imageData = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+        if (req.file) {
+            imageData= req.file.buffer;// Save image as Buffer
+            ; 
         } else {
           const path = require('path');
           const fs = require('fs');
@@ -182,7 +181,7 @@ const addMedicine = async (req, res) => {
 // Edit medicine details and price (we changed it to find by name 
 //however its supposed to be find by id thru url)
 const editMedicine = async (req, res) => {
-    // const { id } = req.params;
+    const { id } = req.params;
     const { description, price, name } = req.body;
 
     try {

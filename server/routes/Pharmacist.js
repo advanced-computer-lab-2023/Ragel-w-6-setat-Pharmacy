@@ -42,6 +42,6 @@ router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
 router.post("/addMedicine", upload.single('image'), addMedicine);
 
 // Edit medicine details and price 
-router.patch("/editMedicine", editMedicine)
+router.patch("/editMedicine/:medicineId", editMedicine)
 
 module.exports = router

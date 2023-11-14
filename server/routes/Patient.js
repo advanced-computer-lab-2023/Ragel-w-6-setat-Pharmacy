@@ -8,7 +8,14 @@ const {
     addToCart,
     viewCart,
     removeFromCart,
-    changeQuantityInCart
+    changeQuantityInCart,
+    checkoutOrder,
+    viewPatientOrders,
+    cancelOrder,
+    getWalletBalance,
+    addAddressToPatient,
+    getPatientAddresses,
+    processPayment,
 } = require('../controllers/PatientControllers')
 
 const router = express.Router();
@@ -37,7 +44,24 @@ router.delete("/removeFromCart/:patientId/:medicineId", removeFromCart)
 // Update quantity in cart 
 router.patch("/changeQuantityInCart/:patientId/:medicineId", changeQuantityInCart)
 
+router.get('/checkoutOrder/:id', checkoutOrder);
 
+// View order details
+router.get('/viewPatientOrders/:id', viewPatientOrders);
 
+// Cancel an order
+router.put('/cancelOrder/:patientId/:orderId', cancelOrder);
+
+// Get wallet balance of a patient
+router.get('/getWalletBalance/:patientId', getWalletBalance);
+
+// Add address(es) to patient
+router.post("/addAddressToPatient/:id", addAddressToPatient);
+
+// Get all addresses of a patient
+router.get("/getPatientAddresses/:id", getPatientAddresses);
+
+// Pay with wallet
+router.post("/processPayment/:id", processPayment);
 
 module.exports = router
