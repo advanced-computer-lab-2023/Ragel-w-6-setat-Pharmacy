@@ -5,6 +5,7 @@ mongoose.set('strictQuery', false);
 const morgan = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
+
 // const {createUser,getUsers, updateUser, deleteUser} = require("./Routes/userController");
 const MongoURI = process.env.MONGO_URI;
 
@@ -36,11 +37,13 @@ app.use(express.json()); // to allow us to access the body
 const patientRoutes = require('./routes/Patient')
 const pharmacistRoutes = require('./routes/Pharmacist')
 const adminRoutes = require('./routes/Admin')
+const userRoutes = require('./routes/User')
 
 
 app.use('/api/patient', patientRoutes)
 app.use('/api/pharmacist', pharmacistRoutes)
 app.use('/api/admin', adminRoutes)
+app.use('/api/user', userRoutes)
 
 // port
 const port = process.env.PORT || "8000";

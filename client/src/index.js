@@ -21,7 +21,7 @@ root.render(
       <Route path="/patient/*" element={<PatientLayout />} />
       <Route path="/pharmacist/*" element={<PharmacistLayout />} />
       {/* Add a default route to redirect to a different URL */}
-      <Route path="*" element={<Navigate to="/admin/index" replace />} />
+      <Route path="*" element={<Navigate to="/auth/login" replace />} />
     </Routes>
   </BrowserRouter>
 );

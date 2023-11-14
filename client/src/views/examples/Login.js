@@ -30,70 +30,89 @@ import {
   InputGroup,
   Row,
   Col,
+  Alert
 } from "reactstrap";
 
+import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+
+
+
 const Login = () => {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState(null);
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('/api/user/login', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Login successful, redirect or perform actions as needed
+        console.log("Login successful", data);
+        setMessage({ type: "success", text: "Login successful" });
+        switch (data.userType) {
+          case "pharmacist":
+            navigate("/pharmacist");
+            break;
+          case "patient":
+            navigate("/patient");
+            break;
+          case "admin":
+            navigate("/admin");
+            break;
+          default:
+            // Default redirection or handle unknown user type
+            navigate("/default/dashboard");
+        }
+
+      } else {
+        // Login failed, handle errors
+        console.error("Login failed", data);
+        setMessage({ type: "danger", text: "Login failed. Invalid credentials" });
+
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      setMessage({ type: "danger", text: "Internal server error" });
+
+    }
+  };
   return (
     <>
       <Col lg="5" md="7">
-        <Card className="bg-secondary shadow border-0">
-          <CardHeader className="bg-transparent pb-5">
-            <div className="text-muted text-center mt-2 mb-3">
-              <small>Sign in with</small>
-            </div>
-            <div className="btn-wrapper text-center">
-              <Button
-                className="btn-neutral btn-icon"
-                color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <span className="btn-inner--icon">
-                  <img
-                    alt="..."
-                    src={
-                      require("../../assets/img/icons/common/github.svg")
-                        .default
-                    }
-                  />
-                </span>
-                <span className="btn-inner--text">Github</span>
-              </Button>
-              <Button
-                className="btn-neutral btn-icon"
-                color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <span className="btn-inner--icon">
-                  <img
-                    alt="..."
-                    src={
-                      require("../../assets/img/icons/common/google.svg")
-                        .default
-                    }
-                  />
-                </span>
-                <span className="btn-inner--text">Google</span>
-              </Button>
-            </div>
-          </CardHeader>
+        <Card className="bg-light shadow border-0">
           <CardBody className="px-lg-5 py-lg-5">
-            <div className="text-center text-muted mb-4">
-              <small>Or sign in with credentials</small>
+            <div className="text-center text-dark mb-4">
+              <small>Sign in with credentials</small>
             </div>
+            {/* Display messages */}
+            {message && (
+              <Alert color={message.type} className="text-center">
+                {message.text}
+              </Alert>
+            )}
             <Form role="form">
               <FormGroup className="mb-3">
                 <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
-                      <i className="ni ni-email-83" />
+                      <i className="ni ni-email-83 text-primary" />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Email"
-                    type="email"
-                    autoComplete="new-email"
+                    placeholder="Username"
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </InputGroup>
               </FormGroup>
@@ -101,13 +120,15 @@ const Login = () => {
                 <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
-                      <i className="ni ni-lock-circle-open" />
+                      <i className="ni ni-lock-circle-open text-primary" />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
                     placeholder="Password"
                     type="password"
                     autoComplete="new-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </InputGroup>
               </FormGroup>
@@ -118,15 +139,23 @@ const Login = () => {
                   type="checkbox"
                 />
                 <label
-                  className="custom-control-label"
+                  className="custom-control-label text-muted"
                   htmlFor=" customCheckLogin"
                 >
-                  <span className="text-muted">Remember me</span>
+                  Remember me
                 </label>
               </div>
               <div className="text-center">
-                <Button className="my-4" color="primary" type="button">
-                  Sign in
+                <Button className="my-4" color="info" type="button" onClick={handleLogin}>
+                  Login
+                </Button>
+              </div>
+              <label>You dont have an Account?</label>
+              <div className="text-center">
+                <Button className="my-4"
+                  onClick={() => navigate("/auth/register")}
+                  color="info" type="button">
+                  Sign Up
                 </Button>
               </div>
             </Form>
@@ -135,7 +164,7 @@ const Login = () => {
         <Row className="mt-3">
           <Col xs="6">
             <a
-              className="text-light"
+              className="text-dark"
               href="#pablo"
               onClick={(e) => e.preventDefault()}
             >
@@ -144,7 +173,7 @@ const Login = () => {
           </Col>
           <Col className="text-right" xs="6">
             <a
-              className="text-light"
+              className="text-dark"
               href="#pablo"
               onClick={(e) => e.preventDefault()}
             >
