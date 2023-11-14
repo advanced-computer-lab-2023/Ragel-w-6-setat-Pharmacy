@@ -116,68 +116,68 @@ const addMedicine = async (req, res) => {
     try {
         upload.single('image')(req, res, async function (err) {
             if (err) {
-              return res.status(400).json({ error: err.message });
+                return res.status(400).json({ error: err.message });
             }
-  
-        console.log('Request Body:', req.body);
-  
-        let imageData;
-  
-        if (req.file) {
-            imageData= req.file.filename;// Save image as Buffer
-            
-        } else {
-          const path = require('path');
-          const fs = require('fs');
-  
-          const defaultImagePath = path.join(__dirname, '../resources/acl_pharma.png');
-          const imageBuffer = fs.readFileSync(defaultImagePath);
-          imageData = imageBuffer.toString('base64');
-        }
-  
-        const {
-          totalSales = 0,
-          name,
-          price,
-          description,
-          activeIngredient,
-          quantity,
-          medicinalUse,
-        } = req.body;
-  
-        let existingMedicine = await Medicine.findOne({ name });
-  
-        if (existingMedicine) {
-          existingMedicine.quantity += quantity;
-          await existingMedicine.save();
-          res.status(200).json(existingMedicine);
-        } else {
-          const newMedicine = new Medicine({
-            name,
-            image:image.push(imageData),
-            price,
-            description,
-            activeIngredient,
-            quantity,
-            medicinalUse,
-            totalSales,
-          });
-  
-          await newMedicine.save();
-          res.status(200).json(newMedicine);
-        }
-      });
+
+            console.log('Request Body:', req.body);
+
+            let imageData;
+
+            if (req.file) {
+                imageData = req.file.filename;// Save image as Buffer
+
+            } else {
+                const path = require('path');
+                const fs = require('fs');
+
+                const defaultImagePath = path.join(__dirname, '../resources/acl_pharma.png');
+                const imageBuffer = fs.readFileSync(defaultImagePath);
+                imageData = imageBuffer.toString('base64');
+            }
+
+            const {
+                totalSales = 0,
+                name,
+                price,
+                description,
+                activeIngredient,
+                quantity,
+                medicinalUse,
+            } = req.body;
+
+            let existingMedicine = await Medicine.findOne({ name });
+
+            if (existingMedicine) {
+                existingMedicine.quantity += quantity;
+                await existingMedicine.save();
+                res.status(200).json(existingMedicine);
+            } else {
+                const newMedicine = new Medicine({
+                    name,
+                    image: image.push(imageData),
+                    price,
+                    description,
+                    activeIngredient,
+                    quantity,
+                    medicinalUse,
+                    totalSales,
+                });
+
+                await newMedicine.save();
+                res.status(200).json(newMedicine);
+            }
+        });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-  };
-  
-  
-  
+};
 
 
- 
+
+
+
+
 
 // Edit medicine details and price (we changed it to find by name 
 //however its supposed to be find by id thru url)
@@ -202,6 +202,31 @@ const editMedicine = async (req, res) => {
     }
 };
 
+// Change password for Pharmacist
+const changePharmacistPassword = async (req, res) => {
+    const { username, newPassword } = req.body;
+
+    try {
+        // Find the admin by username
+        const pharmacist = await Pharmacist.findOne({ username });
+
+        if (!pharmacist) {
+            return res.status(404).json({ error: "Pharmacist not found" });
+        }
+
+        // Change the password
+        pharmacist.password = newPassword;
+
+        // Save the updated password
+        await pharmacist.save();
+
+        return res.status(200).json({ message: "Password changed successfully" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Server error" });
+    }
+};
+
 module.exports = {
     createPharmacistRequest,
     createPharmacist,
@@ -211,5 +236,6 @@ module.exports = {
     getMedicineByName,
     getMedicinesByMedicinalUse,
     getMedicinesByMedicinalUse,
-    editMedicine
+    editMedicine,
+    changePharmacistPassword
 }

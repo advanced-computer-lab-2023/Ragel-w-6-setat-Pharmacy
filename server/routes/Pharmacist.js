@@ -11,7 +11,8 @@ const {
     getMedicineByName,
     getMedicinesByMedicinalUse,
     addMedicine,
-    editMedicine
+    editMedicine,
+    changePharmacistPassword
 } = require('../controllers/PharmacistController')
 
 // Make a pharmacist Request 
@@ -43,5 +44,7 @@ router.post("/addMedicine", upload.single('image'), addMedicine);
 
 // Edit medicine details and price 
 router.patch("/editMedicine/:medicineId", editMedicine)
+
+router.post('/changePharmacistPassword', changePharmacistPassword);
 
 module.exports = router

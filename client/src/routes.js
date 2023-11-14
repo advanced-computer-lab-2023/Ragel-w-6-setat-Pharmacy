@@ -103,9 +103,9 @@ var routes = [
     name: "Upload documents",
     icon: "ni ni-circle-08 text-pink",
     component: <UploadDocuments />,
-    layout: "/admin",
+    layout: "/pharmacist",
   },
-  
+
   // Cart layout
   {
     path: "/checkout",
@@ -121,9 +121,9 @@ var routes = [
     layout: "/patient",
   },
   {
-    path:"/ViewMedicine",
-    name:"Medicine",
-    component:<ViewAllMedicine/>,
+    path: "/ViewMedicine",
+    name: "Medicine",
+    component: <ViewAllMedicine />,
     layout: "/patient",
   },
   {
@@ -139,51 +139,51 @@ var routes = [
     layout: "/pharmacist",
   },
   {
-    path:"/ViewMedicine",
-    name:"Medicine",
-    component:<ViewAllMedicinePharm/>,
+    path: "/ViewMedicine",
+    name: "Medicine",
+    component: <ViewAllMedicinePharm />,
     layout: "/pharmacist",
   },
   {
-    path:"/MedicineSales",
-    name:"Medicine Sales",
-    component:<MedicineSales/>,
+    path: "/MedicineSales",
+    name: "Medicine Sales",
+    component: <MedicineSales />,
     layout: "/pharmacist",
   },
   {
-    path:"/AddMedicine",
-    name:"Add Medicine",
-    component:<AddNewMedicine/>,
+    path: "/AddMedicine",
+    name: "Add Medicine",
+    component: <AddNewMedicine />,
     layout: "/pharmacist",
   },
   {
-    path:"/ViewMedicine",
-    name:"Medicine",
-    component:<ViewAllMedicinePharm/>,
+    path: "/ViewMedicine",
+    name: "Medicine",
+    component: <ViewAllMedicinePharm />,
     layout: "/admin",
   },
-  
-  {
-    path:"/Admins",
-    name:"Admins",
-    component:<Admin/>,
-    layout: "/admin",
-  },
-  {
-    path:"/Patients",
-    name:"Patients",
-    component:<Patients/>,
-    layout: "/admin",
-  },
-  {
-    path:"/Pharmacists",
-    name:"Pharmacists",
-    component:<Pharmacist/>,
-    layout: "/admin",
-  },
-  
 
-  
+  {
+    path: "/Admins",
+    name: "Admins",
+    component: <Admin />,
+    layout: "/admin",
+  },
+  {
+    path: "/Patients",
+    name: "Patients",
+    component: <Patients />,
+    layout: "/admin",
+  },
+  {
+    path: "/Pharmacists",
+    name: "Pharmacists",
+    component: <Pharmacist />,
+    layout: "/admin",
+  },
+
+
+
 
 ];
 export default routes;

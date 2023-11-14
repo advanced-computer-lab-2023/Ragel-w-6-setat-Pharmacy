@@ -248,6 +248,31 @@ const getSinglePatientInfo = async (req, res) => {
 
 //TODO View  Patient Emergency Contacts Information?
 
+// Change password for Admin
+const changeAdminPassword = async (req, res) => {
+    const { username, newPassword } = req.body;
+
+    try {
+        // Find the admin by username
+        const admin = await Admin.findOne({ username });
+
+        if (!admin) {
+            return res.status(404).json({ error: "Admin not found" });
+        }
+
+        // Change the password
+        admin.password = newPassword;
+
+        // Save the updated password
+        await admin.save();
+
+        return res.status(200).json({ message: "Password changed successfully" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Server error" });
+    }
+};
+
 module.exports = {
     deletePatient,
     getAllMedicines,
@@ -263,9 +288,9 @@ module.exports = {
     getPharmacistsRequestsInfo,
     deleteAdmin,
     deleteAdminByUsername,
-    deletePatientByUsername, 
-    deletePharmacistByUsername
-
+    deletePatientByUsername,
+    deletePharmacistByUsername,
+    changeAdminPassword
 }
 
 //TODO deleteEmergencyContact

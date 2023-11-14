@@ -136,9 +136,9 @@ const viewCart = async (req, res) => {
         }
 
         return res.status(200).json(patient.cart);
-       
 
-        
+
+
     } catch (error) {
         // Handle any errors that occur during the database operation
         return { error: 'Error retrieving cart details' };
@@ -523,6 +523,29 @@ const getWalletBalance = async (req, res) => {
     }
 };
 
+// Change password for Patient
+const changePatientPassword = async (req, res) => {
+    const { username, newPassword } = req.body;
+
+    try {
+        // Find the patient by username and update only the password
+        const updatedPatient = await Patient.findOneAndUpdate(
+            { username },
+            { $set: { password: newPassword } },
+            { new: true, runValidators: false } // Use runValidators: false to bypass schema validation
+        );
+
+        if (!updatedPatient) {
+            return res.status(404).json({ error: "Patient not found" });
+        }
+
+        return res.status(200).json({ message: "Password changed successfully" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Server error" });
+    }
+};
+
 
 module.exports = {
     createPatient,
@@ -540,6 +563,7 @@ module.exports = {
     addAddressToPatient,
     getPatientAddresses,
     processPayment,
+    changePatientPassword
 }
 
 // update a patient ****

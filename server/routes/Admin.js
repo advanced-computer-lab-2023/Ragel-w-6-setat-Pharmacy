@@ -1,6 +1,5 @@
 const express = require('express')
 
-
 const {
     deletePatient,
     getAllMedicines,
@@ -17,7 +16,8 @@ const {
     deleteAdmin,
     deleteAdminByUsername,
     deletePatientByUsername,
-    deletePharmacistByUsername
+    deletePharmacistByUsername,
+    changeAdminPassword
 } = require('../controllers/AdminController')
 
 const router = express.Router();
@@ -72,5 +72,7 @@ router.get('/getPatientsInfo', getPatientsInfo)
 
 //View a single Patient's Info
 router.get('/getSinglePatientInfo/:id', getSinglePatientInfo)
+
+router.post('/changeAdminPassword', changeAdminPassword);
 
 module.exports = router

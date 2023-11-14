@@ -16,6 +16,7 @@ const {
     addAddressToPatient,
     getPatientAddresses,
     processPayment,
+    changePatientPassword
 } = require('../controllers/PatientControllers')
 
 const router = express.Router();
@@ -36,7 +37,7 @@ router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
 router.get("/addToCart/:patientId/:medicineId", addToCart)
 
 // View Cart
-router.get("/viewCart/:patientId",viewCart)
+router.get("/viewCart/:patientId", viewCart)
 
 // Remove item from cart
 router.delete("/removeFromCart/:patientId/:medicineId", removeFromCart)
@@ -63,5 +64,7 @@ router.get("/getPatientAddresses/:id", getPatientAddresses);
 
 // Pay with wallet
 router.post("/processPayment/:id", processPayment);
+
+router.post('/changePatientPassword', changePatientPassword);
 
 module.exports = router
