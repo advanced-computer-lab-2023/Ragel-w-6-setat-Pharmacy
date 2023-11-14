@@ -99,7 +99,7 @@ const userRoutes = require('./routes/User')
 
 //FIXME add authenticareJWT to patient
 // Use the routes
-app.use('/api/patient', patientRoutes)
+app.use('/api/patient', authenticateJWT,patientRoutes)
 app.use('/api/pharmacist', authenticateJWT,pharmacistRoutes)
 app.use('/api/admin', authenticateJWT,adminRoutes)
 app.use('/api/user', userRoutes);
