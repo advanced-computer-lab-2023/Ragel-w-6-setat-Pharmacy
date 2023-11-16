@@ -1,4 +1,5 @@
 // import modules
+const multer = require('multer');
 const express = require("express");
 const mongoose = require("mongoose");
 mongoose.set('strictQuery', false);
@@ -6,13 +7,28 @@ const morgan = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
 
+
 // const {createUser,getUsers, updateUser, deleteUser} = require("./Routes/userController");
 const MongoURI = process.env.MONGO_URI;
 
 // app
 const app = express();
-// const user = require('./Models/User');
 
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "/uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+    ); //Appending extension
+  },
+});
+
+const upload = multer({ storage: storage });
+// const user = require('./Models/User');
 // db
 mongoose.connect(MongoURI)
   .then(() =>
@@ -32,6 +48,9 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json()); // to allow us to access the body
+app.use(express.static('./public'));
+app.use(express.urlencoded({ extended: false }));
+
 
 // routes
 const patientRoutes = require('./routes/Patient')

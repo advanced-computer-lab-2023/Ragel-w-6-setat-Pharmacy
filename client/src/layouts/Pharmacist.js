@@ -72,10 +72,10 @@ const Pharmacist = (props) => {
         }}
       />
       <div className="main-content" ref={mainContent}>
-        {/* <AdminNavbar
+        <AdminNavbar
           {...props}
           brandText={getBrandText(props?.location?.pathname)}
-        /> */}
+        />
         <Routes>
           {getRoutes(routes)}
           <Route path="*" element={<Navigate to="/pharmacist" replace />} />

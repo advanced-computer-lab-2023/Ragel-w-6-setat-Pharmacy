@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // If you're using React Router for navigation
+import AdminHeader from '../../components/Headers/AdminHeader';
+import { Container } from 'reactstrap';
+
 
 const AddNewMedicine = () => {
   const [name, setName] = useState('');
@@ -44,6 +47,14 @@ const AddNewMedicine = () => {
   };
 
   return (
+    <>
+      <AdminHeader />
+      {/* Page content */}
+     <Container>
+     
+    
+    
+     
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-md-6">
@@ -140,6 +151,8 @@ const AddNewMedicine = () => {
         </div>
       </div>
     </div>
+    </Container>
+    </>
   );
 };
 

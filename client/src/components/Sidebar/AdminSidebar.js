@@ -229,7 +229,7 @@ const AdminSidebar = (props) => {
               </InputGroupAddon>
             </InputGroup>
           </Form>
-          {/* Navigation */} //TODO AdminSidebar has diff stuff in the routes
+          {/* Navigation */} 
           <Nav navbar>{createLinks(routes)}</Nav>
           {/* Divider */}
           <hr className="my-3" />

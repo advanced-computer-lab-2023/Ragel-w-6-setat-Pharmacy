@@ -1,6 +1,8 @@
 const Patient = require('../models/Patient')
 const Medicine = require('../models/Medicine')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+const User = require('../models/User')
+const bcrypt = require('bcrypt')
 
 //const EmergencyContact = require('../models/Patient') //it is stored there
 
@@ -523,17 +525,25 @@ const getWalletBalance = async (req, res) => {
     }
 };
 
+
 // Change password for Patient
 const changePatientPassword = async (req, res) => {
     const { username, newPassword } = req.body;
 
     try {
+        const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+       if (!passwordPattern.test(newPassword)) {
+           return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' });
+       }
         // Find the patient by username and update only the password
         const updatedPatient = await Patient.findOneAndUpdate(
             { username },
             { $set: { password: newPassword } },
             { new: true, runValidators: false } // Use runValidators: false to bypass schema validation
         );
+        const user = await User.findOne({ username });
+        user.password = await bcrypt.hash(newPassword, 10);
+
 
         if (!updatedPatient) {
             return res.status(404).json({ error: "Patient not found" });

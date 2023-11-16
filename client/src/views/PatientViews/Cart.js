@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-
+import AdminHeader from '../../components/Headers/AdminHeader';
+import { Container } from 'reactstrap';
 
 const Cart = ({}) => {
   const [cart, setCart] = useState(null);
@@ -70,6 +71,15 @@ const Cart = ({}) => {
   
 
   return (
+    <>
+      <AdminHeader />
+      {/* Page content */}
+     <Container>
+     
+    
+    
+     
+    
     <div className="container mt-5">
       <h2 className="mb-4">Cart</h2>
       
@@ -121,6 +131,9 @@ const Cart = ({}) => {
       )}
       
     </div>
+    </Container>
+    
+    </>
    
   );
 };

@@ -4,23 +4,49 @@ const Patient = require('../models/Patient')
 const Admin = require('../models/Admin')
 const PharmacistRequests = require('../models/PharmacistRequests');
 const EmergencyContact = require('../models/Patient'); //it is stored there
-
+const User = require('../models/User');
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt')
 
+//FIXME man needing an email in admin lmao and making it unique?? bruhhhhhh
 // Add another administrator
 const addAdmin = async (req, res) => {
-    const {
-        username, password
-    } = req.body
+    const { username, password } = req.body;
+    let existingUsername; // Declare the variable here
     try {
-        const admin = await Admin.create({
-            username, password
-        })
-        res.status(200).json(admin)
+        // Check if username is already in use
+        const existingUsernameAdmin = await Admin.findOne({username});
+        if (existingUsername) {
+            return res.status(400).json({ error: 'Username is already in use. in admin' + existingUsernameAdmin });
+        }
+        
+        // Check if username is already in use
+         existingUsername = await User.findOne({username});
+        if (existingUsername) {
+            return res.status(400).json({ error: 'Username is already in use.' + existingUsername });
+        }
+
+        
+
+        // Check if password is valid
+        const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+        if (!passwordPattern.test(password)) {
+            return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const role = 'admin';
+        
+        const user = await User.create({ username, password: hashedPassword, role });
+        const admin = await Admin.create({ username, password });
+        
+        res.status(200).json(admin);
     } catch (error) {
-        res.status(400).json({ error: error.message })
+        res.status(400).json({ error: error.message });
     }
-}
+};
+
 
 // View admins
 const getAdmins = async (req, res) => {
@@ -248,6 +274,8 @@ const getSinglePatientInfo = async (req, res) => {
 
 //TODO View  Patient Emergency Contacts Information?
 
+
+//FIXME ask admin to enter old password, authenticate it matches minimum 
 // Change password for Admin
 const changeAdminPassword = async (req, res) => {
     const { username, newPassword } = req.body;
@@ -260,8 +288,17 @@ const changeAdminPassword = async (req, res) => {
             return res.status(404).json({ error: "Admin not found" });
         }
 
+        const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+       if (!passwordPattern.test(newPassword)) {
+           return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' + newPassword });
+       }
+
         // Change the password
         admin.password = newPassword;
+
+        const user = await User.findOne({ username });
+        user.password = await bcrypt.hash(newPassword, 10);
+        ;
 
         // Save the updated password
         await admin.save();
@@ -272,6 +309,55 @@ const changeAdminPassword = async (req, res) => {
         return res.status(500).json({ error: "Server error" });
     }
 };
+
+// Register as a pharmacist
+const createPharmacist = async (req, res) => {
+    const {
+        name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground, ID,workingLicense,pharmacyDegree
+    } = req.body
+    const status=false;
+        // Access file buffers from req.files
+       // Access file buffers from req.files
+       // Access file buffers from req.files
+    /* const ID = req.files.ID[0].filename;
+    const workingLicense = req.files.workingLicense[0].filename;
+    const pharmacyDegree = req.files.pharmacyDegree[0].filename; */
+
+    //since we can only create pharmacist from admin i just pass the name directly from the body
+    try {
+        const pharm = await Pharmacist.create({
+            name, username, email,status, password, dateOfBirth, hourlyRate, affiliation, educationalBackground,ID,workingLicense,pharmacyDegree
+        })
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const role = 'pharmacist';
+        const user = await User.create({ username,email, password: hashedPassword, role });
+        res.status(200).json(pharm)
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+};
+
+const rejectPharmacistRequest = async (req, res) => {
+     
+    try {
+        const requestId = req.params.id;
+    
+        // Find the request by its ID and remove it
+        const deletedRequest = await PharmacistRequests.findByIdAndRemove(requestId);
+    
+        if (!deletedRequest) {
+          return res.status(404).json({ message: 'Request not found' });
+        }
+    
+        res.status(200).json({ message: 'Pharmacist request rejected and removed' });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+    
+    
+  };
+
 
 module.exports = {
     deletePatient,
@@ -290,7 +376,9 @@ module.exports = {
     deleteAdminByUsername,
     deletePatientByUsername,
     deletePharmacistByUsername,
-    changeAdminPassword
+    changeAdminPassword,
+    createPharmacist,
+    rejectPharmacistRequest
 }
 
 //TODO deleteEmergencyContact

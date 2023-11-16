@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
+import AdminHeader from 'components/Headers/AdminHeader.js';
+import { Container } from 'reactstrap';
 // components
 import AdminViewPatientsInfo from 'components/AdminComponents/AdminViewPatientsInfo.js';
 import AdminDeletePatient from 'components/AdminComponents/DeletePatient.js';
@@ -20,6 +21,14 @@ const Patients = () => {
   }, []); // empty array means it will only run once
 
   return (
+    <>
+      <AdminHeader />
+      {/* Page content */}
+     <Container>
+     
+    
+    
+    
     <div className="container-fluid">
       <AdminDeletePatient />
 
@@ -63,7 +72,12 @@ const Patients = () => {
         </div>
       </div>
     </div>
+    </Container>
+    
+    </>
   );
 };
+
+
 
 export default Patients;

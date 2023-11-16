@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-
+import {Toaster} from 'react-hot-toast';
 import AdminLayout from "layouts/Admin";
 import AuthLayout from "layouts/Auth";
 /* import PatientAuthLayout from "layouts/PatientAuth";
@@ -14,6 +14,7 @@ import NotFound from "components/NotFound"; // A custom NotFound component
 function App() {
   return (
     <div className="App"> {/* This div is not necessary, but it is a good practice to wrap all the components in a div */}
+     <Toaster position='bottom-right' toastOptions={{duration:2000}}/>
      <BrowserRouter>
        <div className="pages"> {/* This div is not necessary, but it is a good practice to wrap all the components in a div */}
         <Routes>

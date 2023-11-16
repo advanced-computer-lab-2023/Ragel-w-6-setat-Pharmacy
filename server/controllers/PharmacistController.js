@@ -5,6 +5,8 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ dest: 'uploads/' });
 const mongoose = require('mongoose');
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
 
 // create a pharmacist Request
 const createPharmacistRequest = async (req, res) => {
@@ -12,9 +14,14 @@ const createPharmacistRequest = async (req, res) => {
         name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground
     } = req.body
 
+    // Access file buffers from req.files
+    const ID = req.files.ID[0].filename;
+    const workingLicense = req.files.workingLicense[0].filename;
+    const pharmacyDegree = req.files.pharmacyDegree[0].filename;
+
     try {
         const pharmReq = await PharmacistReq.create({
-            name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground, status
+            name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground, status,ID,workingLicense,pharmacyDegree
 
         })
         res.status(200).json(pharmReq)
@@ -26,12 +33,20 @@ const createPharmacistRequest = async (req, res) => {
 // Register as a pharmacist
 const createPharmacist = async (req, res) => {
     const {
-        name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground
+        name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground, ID,workingLicense,pharmacyDegree
     } = req.body
+    const status=false;
+        // Access file buffers from req.files
+       // Access file buffers from req.files
+       // Access file buffers from req.files
+    /* const ID = req.files.ID[0].filename;
+    const workingLicense = req.files.workingLicense[0].filename;
+    const pharmacyDegree = req.files.pharmacyDegree[0].filename; */
 
+    //since we can only create pharmacist from admin i just pass the name directly from the body
     try {
-        const pharm = await PharmacistReq.create({
-            name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground
+        const pharm = await Pharmacist.create({
+            name, username, email,status, password, dateOfBirth, hourlyRate, affiliation, educationalBackground,ID,workingLicense,pharmacyDegree
         })
         res.status(200).json(pharm)
     } catch (error) {
@@ -213,9 +228,16 @@ const changePharmacistPassword = async (req, res) => {
         if (!pharmacist) {
             return res.status(404).json({ error: "Pharmacist not found" });
         }
+        const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+       if (!passwordPattern.test(newPassword)) {
+           return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' });
+       }
 
+       const user = await User.findOne({ username });
         // Change the password
         pharmacist.password = newPassword;
+        user.password =  await bcrypt.hash(newPassword, 10);
+
 
         // Save the updated password
         await pharmacist.save();

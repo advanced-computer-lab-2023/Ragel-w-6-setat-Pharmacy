@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 //import MedicineDetails from '../components/Medicine/MedicineDetails';
 //import '../css/GetAllMedicine.css';
 import axios from 'axios';
- 
+import AdminHeader from '../../components/Headers/AdminHeader';
+import { Container } from 'reactstrap';
+
 const GetAllMedicines = () => {
     const [medicine, setMedicine] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -136,6 +138,14 @@ const MedicineDetails = ({ medicines, handleAddToCart }) => {
     };
   
     return (
+        <>
+      <AdminHeader />
+      {/* Page content */}
+     <Container>
+     
+    
+    
+     
       <div className="card">
         <img
           src={`data:image/png;base64,${medicines.image}`}
@@ -165,6 +175,8 @@ const MedicineDetails = ({ medicines, handleAddToCart }) => {
           </button>
         </div>
       </div>
+      </Container>
+      </>
     );
   };
   
