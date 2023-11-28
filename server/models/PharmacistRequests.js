@@ -38,7 +38,20 @@ const requestSchema = new Schema({
     status: {
         type: Boolean,
         required: true
-    }
+    },
+    ID: {
+        type: String,
+        required:true
+      },
+      workingLicense: {
+        type: String,
+        required:true
+      },
+      pharmacyDegree: {
+        type: String,
+        required:true
+      },
+
 
 }, { timestamp: true })
 

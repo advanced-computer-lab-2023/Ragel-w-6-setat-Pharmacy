@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 //import MedicineDetails from '../components/Medicine/MedicineDetails';
 //import '../css/GetAllMedicine.css';
 import axios from 'axios';
- 
+import AdminHeader from '../../components/Headers/AdminHeader';
+import { Container } from 'reactstrap';
+
+import { UserContext } from "../../contexts/UserContext";
+
 const GetAllMedicines = () => {
+    const { user } = useContext(UserContext);
+
     const [medicine, setMedicine] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedMedicinalUse, setSelectedMedicinalUse] = useState('');
@@ -11,7 +17,7 @@ const GetAllMedicines = () => {
 
     
 
-    const patientId = '654beffcf9d0ca04d098b0e3';
+    const patientId = user._id;
 
     useEffect(() => {
         const fetchMedicines = async () => {
@@ -136,6 +142,14 @@ const MedicineDetails = ({ medicines, handleAddToCart }) => {
     };
   
     return (
+        <>
+      <AdminHeader />
+      {/* Page content */}
+     <Container>
+     
+    
+    
+     
       <div className="card">
         <img
           src={`data:image/png;base64,${medicines.image}`}
@@ -165,6 +179,8 @@ const MedicineDetails = ({ medicines, handleAddToCart }) => {
           </button>
         </div>
       </div>
+      </Container>
+      </>
     );
   };
   

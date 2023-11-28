@@ -227,7 +227,7 @@ const Sidebar = (props) => {
               </InputGroupAddon>
             </InputGroup>
           </Form>
-          {/* Navigation */}
+          {/* Navigation */} //TODO sidebar has diff stuff in the routes
           <Nav navbar>{createLinks(routes)}</Nav>
           {/* Divider */}
           <hr className="my-3" />

@@ -27,6 +27,7 @@ import AuthFooter from "components/Footers/AuthFooter.js";
 import routes from "routes.js";
 
 const Auth = (props) => {
+ 
   const mainContent = React.useRef(null);
   const location = useLocation();
 
@@ -56,6 +57,7 @@ const Auth = (props) => {
 
   return (
     <>
+  
       <div className="main-content" ref={mainContent}>
         <AuthNavbar />
         <div className="header bg-gradient-info py-7 py-lg-8">

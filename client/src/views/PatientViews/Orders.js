@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
     Card,
     CardHeader,
@@ -10,14 +10,19 @@ import {
 } from "reactstrap";
 
 import AdminHeader from "components/Headers/AdminHeader.js";
+import { UserContext } from "../../contexts/UserContext";
+ 
 
 const Orders = () => {
+    const { user } = useContext(UserContext);
+
     const [patientOrders, setPatientOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const patientId=user._id;
 
     const cancelOrder = async (orderId) => {
         try {
-            const response = await fetch(`/api/patient/cancelOrder/654beffcf9d0ca04d098b0e3/${orderId}`, {
+            const response = await fetch(`/api/patient/cancelOrder/${patientId}/${orderId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,7 +43,7 @@ const Orders = () => {
     const fetchPatientOrders = async () => {
         try {
             const response = await fetch(
-                "/api/patient/viewPatientOrders/654beffcf9d0ca04d098b0e3"
+                "/api/patient/viewPatientOrders/${patientId}"
             );
             const data = await response.json();
             setPatientOrders(data);

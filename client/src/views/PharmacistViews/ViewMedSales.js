@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import AdminHeader from '../../components/Headers/AdminHeader';
+import { Container } from 'reactstrap';
 
 const MedicineSales = () => {
     const [medicines, setMedicine] = useState(null);
@@ -32,6 +34,14 @@ const MedicineSales = () => {
 
 const MedDetails2 = ({ medicine }) => {
     return (
+        <>
+      <AdminHeader />
+      {/* Page content */}
+     <Container>
+     
+    
+    
+    
         <div className="card">
             <div className="card-body">
                 <h5 className="card-title">{medicine.name}</h5>
@@ -50,6 +60,8 @@ const MedDetails2 = ({ medicine }) => {
                
             </div>
         </div>
+        </Container>    
+        </>
     );
 };
 

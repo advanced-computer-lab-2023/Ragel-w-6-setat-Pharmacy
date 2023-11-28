@@ -17,7 +17,9 @@ const {
     deleteAdminByUsername,
     deletePatientByUsername,
     deletePharmacistByUsername,
-    changeAdminPassword
+    changeAdminPassword,
+    createPharmacist,
+    rejectPharmacistRequest
 } = require('../controllers/AdminController')
 
 const router = express.Router();
@@ -25,7 +27,8 @@ const router = express.Router();
 //  add another admin 
 router.post("/addAdmin", addAdmin)
 
-
+router.post("/createPharmacist", createPharmacist)
+router.delete("/rejectPharmacistRequest/:id", rejectPharmacistRequest)
 // view all admins
 router.get("/getAdmins", getAdmins)
 

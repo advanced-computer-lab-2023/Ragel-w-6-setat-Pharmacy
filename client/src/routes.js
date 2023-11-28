@@ -15,52 +15,140 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Index from "views/Index.js";
+import AdminDashboard from "views/AdminDashboard.js";
+import PatientAdmin from "views/AdminViews/Patient.js";
+import PharmacistAdmin from "views/AdminViews/Pharmacists.js";
+import PatientDashboard from "views/PatientDashboard.js";
+import PharmacistDashboard from "views/PharmacistDashboard.js";
 import Profile from "views/examples/Profile.js";
 import Maps from "views/examples/Maps.js";
 import Register from "views/examples/Register.js";
+import PatientRegister from "views/Authentication/PatientRegister.js";
+import PharmacistRegister from "views/Authentication/PharmacistRegister.js";
 import Login from "views/examples/Login.js";
+import ForgotPassword from "views/examples/ForgotPassword.js";
 import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
 import HandlePharmReq from "views/AdminViews/HandlePharmReq";
 import UploadDocuments from "views/PharmacistViews/UploadDocuments";
-import Checkout from 'views/PatientViews/Checkout'; // Update the path
-import Orders from 'views/PatientViews/Orders'; // Update the path
-import ViewAllMedicine from 'views/PatientViews/ViewAllMedicine'
-import ViewAllMedicinePharm from 'views/PharmacistViews/ViewAllMedicine'
+import Admins from "views/AdminViews/Admins";
 
 import Cart from "views/PatientViews/Cart";
-import EditMedicineForm from "views/PharmacistViews/EditMedicine";
-import MedicineSales from "views/PharmacistViews/ViewMedSales";
-import AddNewMedicine from "views/PharmacistViews/AddMedicine";
-import Patients from "views/AdminViews/Patient";
-import Admin from "views/AdminViews/Admins";
-import Pharmacist from "views/AdminViews/Pharmacists";
+import Checkout from "views/PatientViews/Checkout";
+import Orders from "views/PatientViews/Orders";
+import ViewAllMedicinePatient from "views/PatientViews/ViewAllMedicine";
+
+import AddMedicine from "views/PharmacistViews/AddMedicine";
+import EditMedicine from "views/PharmacistViews/EditMedicine";
+import ViewAllMedicinePharmacist from "views/PharmacistViews/ViewAllMedicine";
+import ViewMedSales from "views/PharmacistViews/ViewMedSales";
+
 
 //TODO fix this with the respective layout
 //TODO add menu levewls
 var routes = [
   {
-    path: "/index",
+    path: "/",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
-    component: <Index />,
+    component: <AdminDashboard />,
     layout: "/admin",
   },
-  // {
-  //   path: "/icons",
-  //   name: "Icons",
-  //   icon: "ni ni-planet text-blue",
-  //   component: <Icons />,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/maps",
-  //   name: "Maps",
-  //   icon: "ni ni-pin-3 text-orange",
-  //   component: <Maps />,
-  //   layout: "/admin",
-  // },
+  {
+    path: "/patients",
+    name: "Patients",
+    icon: "ni ni-tv-2 text-primary",
+    component: <PatientAdmin />,
+    layout: "/admin",
+  },
+  {
+    path: "/pharmacists",
+    name: "Pharmacists",
+    icon: "ni ni-tv-2 text-primary",
+    component: <PharmacistAdmin />,
+    layout: "/admin",
+  },
+  {
+    path: "/",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: <PatientDashboard />,
+    layout: "/patient",
+  },
+  {
+    path: "/cart",
+    name: "Cart",
+    icon: "ni ni-tv-2 text-primary",
+    component: <Cart />,
+    layout: "/patient",
+  },
+  {
+    path: "/checkout",
+    name: "Checkout",
+    icon: "ni ni-tv-2 text-primary",
+    component: <Checkout />,
+    layout: "/patient",
+  },
+  {
+    path: "/orders",
+    name: "Orders",
+    icon: "ni ni-tv-2 text-primary",
+    component: <Orders />,
+    layout: "/patient",
+  },
+  {
+    path: "/viewallmedicinepatient",
+    name: "View All Medicine - Patient",
+    icon: "ni ni-tv-2 text-primary",
+    component: <ViewAllMedicinePatient />,
+    layout: "/patient",
+  },
+
+  {
+    path: "/",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: <PharmacistDashboard />,
+    layout: "/pharmacist",
+  },
+  {
+    path: "/addmedicine",
+    name: "Add Medicine",
+    icon: "ni ni-tv-2 text-primary",
+    component: <AddMedicine />,
+    layout: "/pharmacist",
+  },
+  {
+    path: "/editMedicine",
+    name: "Edit Medicine",
+    icon: "ni ni-tv-2 text-primary",
+    component: <EditMedicine />,
+    layout: "/pharmacist",
+  },
+  
+  {
+    path: "/viewallmedicine",
+    name: "View All Medicine - Pharmacist",
+    icon: "ni ni-tv-2 text-primary",
+    component: <ViewAllMedicinePharmacist />,
+    layout: "/pharmacist",
+  },
+  {
+    path: "/viewmedsales",
+    name: "View Med Sales",
+    icon: "ni ni-tv-2 text-primary",
+    component: <ViewMedSales />,
+    layout: "/pharmacist",
+  },
+
+  {
+    path: "/admins",
+    name: "Admins",
+    icon: "ni ni-tv-2 text-primary",
+    component: <Admins />,
+    layout: "/admin",
+  },
+  
   {
     path: "/user-profile",
     name: "User Profile",
@@ -68,13 +156,7 @@ var routes = [
     component: <Profile />,
     layout: "/admin",
   },
-  // {
-  //   path: "/tables",
-  //   name: "Tables",
-  //   icon: "ni ni-bullet-list-67 text-red",
-  //   component: <Tables />,
-  //   layout: "/admin",
-  // },
+
   {
     path: "/login",
     name: "Login",
@@ -83,10 +165,24 @@ var routes = [
     layout: "/auth",
   },
   {
-    path: "/register",
-    name: "Register",
+    path: "/forgotPassword",
+    name: "Forgot Password",
+    icon: "ni ni-key-25 text-info",
+    component: <ForgotPassword />,
+    layout: "/auth",
+  },
+  {
+    path: "/patientRegister",
+    name: "PatientRegister",
     icon: "ni ni-circle-08 text-pink",
-    component: <Register />,
+    component: <PatientRegister />,
+    layout: "/auth",
+  },
+  {
+    path: "/pharmacistRegister",
+    name: "PharmacistRegister",
+    icon: "ni ni-circle-08 text-pink",
+    component: <PharmacistRegister />,
     layout: "/auth",
   },
   { //Handle Pharm Req in the layout Admin (will make a layout for every role)
@@ -96,94 +192,15 @@ var routes = [
     component: <HandlePharmReq />,
     layout: "/admin",
   },
-  //FIXME change layout to /pharmacist 
-  //FIXME how to render profile info of that specific pharmacist
+//FIXME change layout to /pharmacist 
+//FIXME how to render profile info of that specific pharmacist
   { //Handle Pharm Req in the layout Admin (will make a layout for every role)
     path: "/UploadDocuments",
     name: "Upload documents",
     icon: "ni ni-circle-08 text-pink",
     component: <UploadDocuments />,
     layout: "/pharmacist",
-  },
-
-  // Cart layout
-  {
-    path: "/checkout",
-    name: "Checkout",
-    icon: "ni ni-cart text-green", // Add an appropriate icon
-    component: <Checkout />,
-    layout: "/patient",
-  },
-  {
-    path: "/orders",
-    name: "Orders",
-    component: <Orders />,
-    layout: "/patient",
-  },
-  {
-    path: "/ViewMedicine",
-    name: "Medicine",
-    component: <ViewAllMedicine />,
-    layout: "/patient",
-  },
-  {
-    path: "/cart",
-    name: "Cart",
-    component: <Cart />,
-    layout: "/patient",
-  },
-  {
-    path: "/editMedicine",
-    name: "Edit Medicine",
-    component: <EditMedicineForm />,
-    layout: "/pharmacist",
-  },
-  {
-    path: "/ViewMedicine",
-    name: "Medicine",
-    component: <ViewAllMedicinePharm />,
-    layout: "/pharmacist",
-  },
-  {
-    path: "/MedicineSales",
-    name: "Medicine Sales",
-    component: <MedicineSales />,
-    layout: "/pharmacist",
-  },
-  {
-    path: "/AddMedicine",
-    name: "Add Medicine",
-    component: <AddNewMedicine />,
-    layout: "/pharmacist",
-  },
-  {
-    path: "/ViewMedicine",
-    name: "Medicine",
-    component: <ViewAllMedicinePharm />,
-    layout: "/admin",
-  },
-
-  {
-    path: "/Admins",
-    name: "Admins",
-    component: <Admin />,
-    layout: "/admin",
-  },
-  {
-    path: "/Patients",
-    name: "Patients",
-    component: <Patients />,
-    layout: "/admin",
-  },
-  {
-    path: "/Pharmacists",
-    name: "Pharmacists",
-    component: <Pharmacist />,
-    layout: "/admin",
-  },
-
-
-
-
+  }
+  
 ];
 export default routes;

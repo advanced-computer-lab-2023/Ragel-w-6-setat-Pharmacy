@@ -229,8 +229,7 @@ const PatientSidebar = (props) => {
               </InputGroupAddon>
             </InputGroup>
           </Form>
-          {/* Navigation */}
-           //TODO PatientSidebar has diff stuff in the routes
+          {/* Navigation */} //TODO PatientSidebar has diff stuff in the routes
           <Nav navbar>{createLinks(routes)}</Nav>
           {/* Divider */}
           <hr className="my-3" />

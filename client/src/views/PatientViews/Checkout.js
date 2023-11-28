@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
     Badge,
     Button,
@@ -25,8 +25,12 @@ import {
 
 import AdminHeader from "components/Headers/AdminHeader.js";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
+
 
 const Checkout = () => {
+    const { user } = useContext(UserContext);
+
     const [cartData, setCartData] = useState(null);
     const [addresses, setAddresses] = useState([]);
    // const [quantity, setQuanity] = useState(null);
@@ -47,7 +51,7 @@ const Checkout = () => {
 
     const navigate = useNavigate();
 
-    const patientId='654beffcf9d0ca04d098b0e3'
+    const patientId=user._id;
 
     const handleCheckout = async () => {
         try {

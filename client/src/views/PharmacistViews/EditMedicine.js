@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import AdminHeader from '../../components/Headers/AdminHeader';
+import { Container } from 'reactstrap';
 
 const EditMedicineForm = () => {
   const [name, setName] = useState('');
@@ -33,6 +35,14 @@ const EditMedicineForm = () => {
   };
 
   return (
+    <>
+      <AdminHeader />
+      {/* Page content */}
+     <Container>
+     
+    
+    
+     
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="name">Name:</label>
@@ -79,6 +89,8 @@ const EditMedicineForm = () => {
 
       {error && <div className="text-danger mt-3">{error}</div>}
     </form>
+    </Container>
+    </>
   );
 };
 

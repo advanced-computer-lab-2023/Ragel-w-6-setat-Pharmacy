@@ -17,6 +17,9 @@
 */
 
 // reactstrap components
+import {useState, useContext} from "react";
+import {toast} from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Card,
@@ -30,106 +33,115 @@ import {
   InputGroup,
   Row,
   Col,
-  Alert
 } from "reactstrap";
 
-import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
-
-
+import { UserContext } from "../../contexts/UserContext";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState(null);
-  const handleLogin = async () => {
-    try {
-      const response = await fetch('/api/user/login', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
 
-      const data = await response.json();
+  const { user, setUser } = useContext(UserContext);
 
-      if (response.ok) {
-        // Login successful, redirect or perform actions as needed
-        console.log("Login successful", data);
-        setMessage({ type: "success", text: "Login successful" });
-        switch (data.userType) {
-          case "pharmacist":
-            navigate("/pharmacist");
-            break;
-          case "patient":
-            navigate("/patient");
-            break;
-          case "admin":
-            navigate("/admin");
-            break;
-          default:
-            // Default redirection or handle unknown user type
-            navigate("/default/dashboard");
+  const navigate = useNavigate()
+  const [success, setSuccess] = useState(false);
+  
+  const [error, setError] = useState(null)
+
+  const [ data,setData]=useState({
+    username:"",
+    password:""
+  })
+  const [username, setUsername] = useState('')
+
+  const [password, setPassword] = useState('')
+  
+
+  const  loginUser = async(e) =>
+  {
+    e.preventDefault();
+    const user = {username,password}
+    try{
+      const response= await fetch('/api/user/login',{
+        method:'POST',
+        body: JSON.stringify(user),
+        headers:{
+            'Content-Type':'application/json'
         }
-
-      } else {
-        // Login failed, handle errors
-        console.error("Login failed", data);
-        setMessage({ type: "danger", text: "Login failed. Invalid credentials" });
-
+    })
+    const json= await response.json()
+    if (!response.ok){
+      setError(json.error)
+      setSuccess(false)
+  }
+  else{ 
+      setSuccess(true)
+     setError('Thank you for logging ')
+      //navigate('/auth/login') 
+      //FIXME check this is the correct syntax to navigate
+      //FIXME route based on user role to the correct dashboard ; swithc case
+      // Navigate based on user role
+      setUser({ _id: json.user._id.toString() });
+      switch (json.userType) {
+        case "patient":
+          navigate("/patient");
+          break;
+        case "pharmacist":
+          navigate("/pharmacist");
+          break;
+        case "admin":
+          navigate("/admin");
+          break;
+        // Add other roles as needed
+        default:
+          navigate("/auth/login"); // Default route if the role is not recognized
       }
-    } catch (error) {
-      console.error("Error during login:", error);
-      setMessage({ type: "danger", text: "Internal server error" });
-
+  } 
     }
+    catch(error){
+      console.error(error);
+    }
+  }
+
+  const handleForgotPasswordClick = (e) => {
+    e.preventDefault();
+    navigate('/auth/forgotpassword');
   };
+
   return (
     <>
       <Col lg="5" md="7">
-        <Card className="bg-light shadow border-0">
+        <Card className="bg-secondary shadow border-0">
+          
           <CardBody className="px-lg-5 py-lg-5">
-            <div className="text-center text-dark mb-4">
-              <small>Sign in with credentials</small>
+            <div className="text-center text-muted mb-4">
+              <small>Sign in</small>
             </div>
-            {/* Display messages */}
-            {message && (
-              <Alert color={message.type} className="text-center">
-                {message.text}
-              </Alert>
-            )}
-            <Form role="form">
+            <Form role="form" onSubmit={loginUser}>
               <FormGroup className="mb-3">
                 <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
-                      <i className="ni ni-email-83 text-primary" />
+                      <i className="ni ni-email-83" />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Username"
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                  />
+                   placeholder="Username" type="text" 
+                   onChange={(e)=>setUsername(e.target.value)}
+                   value={username}
+                   required/>
                 </InputGroup>
               </FormGroup>
               <FormGroup>
                 <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
-                      <i className="ni ni-lock-circle-open text-primary" />
+                      <i className="ni ni-lock-circle-open" />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Password"
-                    type="password"
-                    autoComplete="new-password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+                   placeholder="Password" type="password" 
+                   onChange={(e)=>setPassword(e.target.value)}
+                   value={password}
+                   required/>
                 </InputGroup>
               </FormGroup>
               <div className="custom-control custom-control-alternative custom-checkbox">
@@ -139,23 +151,15 @@ const Login = () => {
                   type="checkbox"
                 />
                 <label
-                  className="custom-control-label text-muted"
+                  className="custom-control-label"
                   htmlFor=" customCheckLogin"
                 >
-                  Remember me
+                  <span className="text-muted">Remember me</span>
                 </label>
               </div>
               <div className="text-center">
-                <Button className="my-4" color="info" type="button" onClick={handleLogin}>
-                  Login
-                </Button>
-              </div>
-              <label>You dont have an Account?</label>
-              <div className="text-center">
-                <Button className="my-4"
-                  onClick={() => navigate("/auth/register")}
-                  color="info" type="button">
-                  Sign Up
+                <Button className="my-4" color="primary" type="submit">
+                  Sign in
                 </Button>
               </div>
             </Form>
@@ -163,21 +167,21 @@ const Login = () => {
         </Card>
         <Row className="mt-3">
           <Col xs="6">
-            <a
-              className="text-dark"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
-            >
-              <small>Forgot password?</small>
-            </a>
-          </Col>
+      <a
+        className="text-light"
+        href="#pablo"
+        onClick={handleForgotPasswordClick}
+      >
+        <small>Forgot password?</small>
+      </a>
+    </Col>
           <Col className="text-right" xs="6">
             <a
-              className="text-dark"
+              className="text-light"
               href="#pablo"
               onClick={(e) => e.preventDefault()}
             >
-              <small>Create new account</small>
+              <small>Create new account REMOVE THIS?</small>
             </a>
           </Col>
         </Row>

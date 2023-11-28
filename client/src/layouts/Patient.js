@@ -62,6 +62,7 @@ const Patient = (props) => {
 
   return (
     <>
+     <AdminNavbar />
       <PatientSidebar
         {...props}
         routes={routes}
