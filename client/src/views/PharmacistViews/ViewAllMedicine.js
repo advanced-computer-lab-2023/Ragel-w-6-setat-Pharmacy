@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 //import MedicineDetails from '../components/Medicine/MedicineDetails';
 //import '../css/GetAllMedicine.css';
 import axios from 'axios';
+import AdminHeader from '../../components/Headers/AdminHeader';
+import { Container } from 'reactstrap';
  
 const GetAllMedicinesPharm = () => {
     const [medicine, setMedicine] = useState(null);
@@ -69,6 +71,14 @@ const GetAllMedicinesPharm = () => {
       
 
     return (
+        <>
+      <AdminHeader />
+      {/* Page content */}
+     <Container>
+     
+    
+    
+     
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-6">
@@ -115,6 +125,8 @@ const GetAllMedicinesPharm = () => {
                     ))}
             </div>
         </div>
+    </Container>
+    </>
     );
 };
 

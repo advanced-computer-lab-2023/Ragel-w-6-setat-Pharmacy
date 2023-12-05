@@ -13,6 +13,11 @@ const adminSchema = new Schema({
         type: String,
         required: true
     },
+    email:{
+        type:String,
+        default:null
+    
+    }
 
 
 }, { timestamp: true })

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
     Badge,
     Button,
@@ -25,8 +25,12 @@ import {
 
 import AdminHeader from "components/Headers/AdminHeader.js";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
+
 
 const Checkout = () => {
+    const { user } = useContext(UserContext);
+
     const [cartData, setCartData] = useState(null);
     const [addresses, setAddresses] = useState([]);
    // const [quantity, setQuanity] = useState(null);
@@ -47,12 +51,12 @@ const Checkout = () => {
 
     const navigate = useNavigate();
 
-    const patientId='654beffcf9d0ca04d098b0e3'
+    const patientId=user._id;
 
     const handleCheckout = async () => {
         try {
             const response = await fetch(
-                "/api/patient/checkoutOrder/654beffcf9d0ca04d098b0e3"
+                `/api/patient/checkoutOrder/${patientId}`
             );
             const data = await response.json();
             setCartData(data);
@@ -64,7 +68,7 @@ const Checkout = () => {
     const getAddresses = async () => {
         try {
             const response = await fetch(
-                "/api/patient/getPatientAddresses/654beffcf9d0ca04d098b0e3"
+                `/api/patient/getPatientAddresses/${patientId}`
             );
             const data = await response.json();
             setAddresses(data.addresses);
@@ -76,7 +80,7 @@ const Checkout = () => {
     const getWalletBalance = async () => {
         try {
             const response = await fetch(
-                "/api/patient/getWalletBalance/654beffcf9d0ca04d098b0e3"
+                `/api/patient/getWalletBalance/${patientId}`
             );
             const data = await response.json();
             setWalletBalance(data.walletBalance);
@@ -106,7 +110,7 @@ const Checkout = () => {
     const handleAddAddress = async () => {
         try {
             const response = await fetch(
-                "/api/patient/addAddressToPatient/654beffcf9d0ca04d098b0e3",
+                `/api/patient/addAddressToPatient/${patientId}`,
                 {
                     method: "POST",
                     headers: {
@@ -138,44 +142,55 @@ const Checkout = () => {
 
     const handleConfirmOrder = async () => {
         try {
-            if (
-                !selectedPaymentMethod ||
-                !selectedAddress ||
-                cartData.cartItems.length === 0
-            ) {
-                console.error(
-                    "Please select both address and payment method, and ensure the cart is not empty"
-                );
+            if (!selectedPaymentMethod || !selectedAddress || cartData.cartItems.length === 0) {
+                console.error("Please select both address and payment method, and ensure the cart is not empty");
                 return;
             }
 
-            const response = await fetch(
-                `/api/patient/processPayment/654beffcf9d0ca04d098b0e3`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        paymentType: selectedPaymentMethod,
-                        paymentAmount: cartData.totalCost,
-                    }),
+            // Extracting relevant information from cartData
+            const items = cartData.cartItems.map(item => ({
+                name: item.medicine.name,
+                price: item.medicine.price,
+                quantity: item.quantity
+            }));
+
+            const paymentData = {
+                paymentType: selectedPaymentMethod,
+                items: items,
+                paymentMethodId: 'pm_card_visa'
+            };
+
+            const response = await fetch(`/api/patient/processPayment/${patientId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(paymentData),
+            });
+
+            if (selectedPaymentMethod === 'creditCard') {
+                if (response.ok) {
+                    const data = await response.json();
+                    // Redirect to Stripe Checkout
+                    window.location.href = data.url; // Make sure `data.url` is the correct property containing the Stripe Checkout URL
+                } else {
+                    const errorData = await response.json();
+                    console.error("Error during credit card payment:", errorData);
+                    alert(errorData.error); // Display an alert with the error message
                 }
-            );
-
-            if (response.ok) {
-                const data = await response.json();
-                setCartData(data);
-
-                navigate("/patient/orders");
-            } else if (response.status === 400) {
-                const errorData = await response.json();
-                alert(errorData.error); // Display an alert with the error message
             } else {
-                console.error("Error during checkout:", response.statusText);
+                if (response.ok) {
+                    const data = await response.json();
+                    setCartData(data);
+                    navigate("/patient/orders");
+                } else if (response.status === 400) {
+                    const errorData = await response.json();
+                    console.error("Error during checkout:", errorData);
+                    alert(errorData.error); // Display an alert with the error message
+                } else {
+                    console.error("Error during checkout:", response.statusText);
+                }
             }
-
-            const data = await response.json();
         } catch (error) {
             console.error("Error confirming order:", error);
         }

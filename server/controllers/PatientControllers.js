@@ -1,5 +1,9 @@
 const Patient = require('../models/Patient')
 const Medicine = require('../models/Medicine')
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+const User = require('../models/User')
+const bcrypt = require('bcrypt')
+
 //const EmergencyContact = require('../models/Patient') //it is stored there
 
 const mongoose = require('mongoose');
@@ -134,9 +138,9 @@ const viewCart = async (req, res) => {
         }
 
         return res.status(200).json(patient.cart);
-       
 
-        
+
+
     } catch (error) {
         // Handle any errors that occur during the database operation
         return { error: 'Error retrieving cart details' };
@@ -292,10 +296,35 @@ const getPatientAddresses = async (req, res) => {
 };
 
 
-// Process payment
+const processCreditCardPayment = async (res, items) => {
+    try {
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: items.map(item => ({
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: item.name, // Adjust this based on your item data
+                    },
+                    unit_amount: Math.round(item.price * 100), // Stripe requires amount in cents
+                },
+                quantity: item.quantity,
+            })),
+            mode: 'payment',
+            success_url: `${process.env.CLIENT_URL}/patient/orders`,
+            cancel_url: `${process.env.CLIENT_URL}/patient/checkout`,
+        });
+
+        res.json({ url: session.url });
+    } catch (error) {
+        console.error('Stripe payment error:', error);
+        res.status(400).json({ error: 'Credit card payment failed. Please check your card details and try again.', details: error.message });
+    }
+};
+
 const processPayment = async (req, res) => {
     const { id } = req.params;
-    const { paymentType, paymentAmount } = req.body;
+    const { paymentType, items, paymentMethodId } = req.body;
 
     try {
         const patient = await Patient.findById(id);
@@ -306,47 +335,32 @@ const processPayment = async (req, res) => {
 
         switch (paymentType) {
             case 'wallet':
-                if (patient.payment.walletBalance >= paymentAmount) {
-                    patient.payment.walletBalance -= paymentAmount;
+                if (patient.payment.walletBalance >= patient.cart.totalCost) {
+                    patient.payment.walletBalance -= patient.cart.totalCost;
                     await patient.save();
-                    await handleSuccessfulPayment(patient); // Await here
+                    await handleSuccessfulPayment(patient);
                     res.status(200).json({ message: 'Payment with wallet balance successful' });
                 } else {
                     res.status(400).json({ error: 'Insufficient funds in wallet. Please add funds or choose a different payment method.' });
                 }
                 break;
             case 'creditCard':
-                try {
-                    const paymentIntent = await stripe.paymentIntents.create({
-                        amount: paymentAmount * 100, // Stripe requires amount in cents
-                        currency: 'usd',
-                        payment_method: req.body.paymentMethodId,
-                        confirm: true,
-                        return_url: 'https://example.com/success', // Replace with your actual success URL
-                    });
-
-                    // Handle Stripe payment response accordingly
-                    if (paymentIntent.status === 'succeeded') {
-                        await handleSuccessfulPayment(patient); // Await here
-                        res.status(200).json({ message: 'Credit card payment successful' });
-                    } else {
-                        res.status(400).json({ error: 'Credit card payment failed. Please check your card details and try again.' });
-                    }
-                } catch (error) {
-                    res.status(400).json({ error: 'Credit card payment failed. Please check your card details and try again.' });
-                }
+                await processCreditCardPayment(res, items);
+                await handleSuccessfulPayment(patient);
                 break;
             case 'cashOnDelivery':
-                await handleSuccessfulPayment(patient); // Await here
+                await handleSuccessfulPayment(patient);
                 res.status(200).json({ message: 'Payment on delivery' });
                 break;
             default:
                 res.status(400).json({ error: 'Invalid payment type' });
         }
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Process payment error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 // Increase medicine's total sales and decrease available quantity
 const handleSuccessfulPayment = async (patient) => {
@@ -512,6 +526,37 @@ const getWalletBalance = async (req, res) => {
 };
 
 
+// Change password for Patient
+const changePatientPassword = async (req, res) => {
+    const { username, newPassword } = req.body;
+
+    try {
+        const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+       if (!passwordPattern.test(newPassword)) {
+           return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' });
+       }
+        // Find the patient by username and update only the password
+        const updatedPatient = await Patient.findOneAndUpdate(
+            { username },
+            { $set: { password: newPassword } },
+            { new: true, runValidators: false } // Use runValidators: false to bypass schema validation
+        );
+        const user = await User.findOne({ username });
+        user.password = await bcrypt.hash(newPassword, 10);
+
+
+        if (!updatedPatient) {
+            return res.status(404).json({ error: "Patient not found" });
+        }
+
+        return res.status(200).json({ message: "Password changed successfully" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Server error" });
+    }
+};
+
+
 module.exports = {
     createPatient,
     getAllMedicines,
@@ -528,6 +573,7 @@ module.exports = {
     addAddressToPatient,
     getPatientAddresses,
     processPayment,
+    changePatientPassword
 }
 
 // update a patient ****

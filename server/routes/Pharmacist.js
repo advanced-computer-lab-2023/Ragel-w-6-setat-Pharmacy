@@ -1,6 +1,30 @@
 const express = require('express')
 const multer = require('multer');
-const upload = multer(); // Configure multer without storage to handle in-memory files
+const path = require('path');
+
+
+
+//import { body, validationResult } from "express-validator";
+
+// multer
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./public/uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+    ); //Appending extension
+  },
+});
+
+const upload = multer({ storage: storage });
+
+
+
+
 
 const router = express.Router();
 const {
@@ -11,18 +35,17 @@ const {
     getMedicineByName,
     getMedicinesByMedicinalUse,
     addMedicine,
-    editMedicine
+    editMedicine,
+    changePharmacistPassword
 } = require('../controllers/PharmacistController')
 
 // Make a pharmacist Request 
-router.post("/createPharmacistRequest", createPharmacistRequest)
+router.post("/createPharmacistRequest", upload.fields([{ name:'ID', maxCount:1},{ name:'workingLicense', maxCount:1} , { name:'pharmacyDegree', maxCount:1}]), createPharmacistRequest);
 
-//Create a Pharmacist 
-router.post("/", createPharmacist)
+// Create a Pharmacist 
+router.post("/createPharmacist", upload.fields([{ name:'ID', maxCount:1},{ name:'workingLicense', maxCount:1} , { name:'pharmacyDegree', maxCount:1}]), createPharmacist);
 
 
-//Create a Pharmacist 
-router.post("/", createPharmacist)
 
 
 // View a list of all medicines
@@ -42,6 +65,8 @@ router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
 router.post("/addMedicine", upload.single('image'), addMedicine);
 
 // Edit medicine details and price 
-router.patch("/editMedicine/:medicineId", editMedicine)
+router.patch("/editMedicine", editMedicine)
+
+router.post('/changePharmacistPassword', changePharmacistPassword);
 
 module.exports = router

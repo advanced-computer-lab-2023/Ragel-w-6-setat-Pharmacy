@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // If you're using React Router for navigation
+import AdminHeader from '../../components/Headers/AdminHeader';
+import { Container } from 'reactstrap';
+
 
 const AddNewMedicine = () => {
   const [name, setName] = useState('');
@@ -44,10 +47,19 @@ const AddNewMedicine = () => {
   };
 
   return (
+    <>
+      <AdminHeader />
+      {/* Page content */}
+     <Container>
+     
+    
+    
+     
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-md-6">
-        <form className="mt-5" onSubmit={handleSubmit} encType="multipart/form-data">            <h2 className="text-center">Add Medicine</h2>
+        <form className="mt-5" onSubmit={handleSubmit} encType="multipart/form-data">            
+        <h2 className="text-center">Add Medicine</h2>
 
             <div className="form-group">
               <label>Name</label>
@@ -115,15 +127,14 @@ const AddNewMedicine = () => {
               />
             </div>
             <div className="form-group">
-        <label>Image</label>
-        <input
-            type="file"
-            className="form-control-file"
-            onChange={handleImageChange}
-            accept="image/*"
-            name="image"
-        />
-    </div>
+              <label>Image</label>
+              <input
+                type="file"
+                className="form-control-file"
+                onChange={(e) => setImage(e.target.files[0])}
+                accept="image/*"
+              />
+            </div>
 
             {!success ? (
               <button type="submit" className="btn btn-primary btn-block">
@@ -140,6 +151,8 @@ const AddNewMedicine = () => {
         </div>
       </div>
     </div>
+    </Container>
+    </>
   );
 };
 

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import AdminViewPharmacistInfo from 'components/AdminComponents/AdminViewPharmacistInfo';
 import DeletePharmacist from 'components/AdminComponents/DeletePharmacist';
 
+import AdminHeader from 'components/Headers/AdminHeader.js';
+import { Container } from 'reactstrap';
 const Pharmacist = () => {
   const [pharmacists, setPharmacists] = useState(null);
 
@@ -21,6 +23,14 @@ const Pharmacist = () => {
   }, []); // empty array means it will only run once
 
   return (
+    <>
+    <AdminHeader />
+    {/* Page content */}
+   <Container>
+   
+  
+  
+   
     <div className="container-fluid">
       <DeletePharmacist />
 
@@ -64,6 +74,9 @@ const Pharmacist = () => {
       </div>
 
     </div>
+    </Container>
+  
+  </>
   );
 };
 

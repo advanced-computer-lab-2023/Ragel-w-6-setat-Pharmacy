@@ -24,6 +24,8 @@ import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import AdminFooter from "components/Footers/AdminFooter.js";
 import AdminSidebar from "components/Sidebar/AdminSidebar.js";
 
+
+
 import routes from "routes.js";
 
 const Admin = (props) => {
@@ -62,6 +64,8 @@ const Admin = (props) => {
 
   return (
     <>
+    <AdminNavbar />
+    
       <AdminSidebar
         {...props}
         routes={routes}
@@ -72,10 +76,7 @@ const Admin = (props) => {
         }}
       />
       <div className="main-content" ref={mainContent}>
-        {/* <AdminNavbar
-          {...props}
-          brandText={getBrandText(props?.location?.pathname)}
-        /> */}
+ 
         <Routes>
           {getRoutes(routes)}
           <Route path="*" element={<Navigate to="/admin/index" replace />} />

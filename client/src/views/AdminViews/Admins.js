@@ -1,12 +1,57 @@
-import React, { useEffect, useState } from 'react';
+/*!
 
+=========================================================
+* Argon Dashboard React - v1.2.3
+=========================================================
 
-// components
-import AdminDetails from 'components/AdminComponents/AdminDetails.js';
-import AdminAdd from 'components/AdminComponents/AddAdmin.js';
-import AdminDelete from 'components/AdminComponents/DeleteAdmin.js';
+* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
 
-const Admin = () => {
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+import { useState } from "react";
+// node.js library that concatenates classes (strings)
+import classnames from "classnames";
+// javascipt plugin for creating charts
+import Chart from "chart.js";
+// react plugin used to create charts
+import { Line, Bar } from "react-chartjs-2";
+// reactstrap components
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  NavItem,
+  NavLink,
+  Nav,
+  Progress,
+  Table,
+  Container,
+  Row,
+  Col,
+} from "reactstrap";
+
+// core components
+import {
+  chartOptions,
+  parseOptions,
+  chartExample1,
+  chartExample2,
+} from "variables/charts.js";
+
+import AdminHeader from "components/Headers/AdminHeader.js";
+import AddAdmin from "components/AdminComponents/AddAdmin.js";
+import AdminDetails from "components/AdminComponents/AdminDetails.js";
+import DeleteAdmin from "components/AdminComponents/DeleteAdmin.js";
+import { useEffect } from "react";
+const Index = (props) => {
   const [admins, setAdmins] = useState(null);
 
   useEffect(() => {
@@ -21,13 +66,12 @@ const Admin = () => {
 
     fetchAdmins();
   }, []); // empty array means it will only run once
-
   return (
-    <div className="container-fluid">
-      <AdminAdd />
-      <AdminDelete />
-
-      <div className="row">
+    <>
+      <AdminHeader />
+      {/* Page content */}
+     <Container>
+     <div className="row">
         <div className="col-lg-12">
           <div className="card">
             <div className="card-header">
@@ -55,8 +99,14 @@ const Admin = () => {
           </div>
         </div>
       </div>
-    </div>
+    
+    <AddAdmin/>
+    
+    <DeleteAdmin/>
+     </Container>
+    
+    </>
   );
 };
 
-export default Admin;
+export default Index;

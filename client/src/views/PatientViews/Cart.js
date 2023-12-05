@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import AdminHeader from '../../components/Headers/AdminHeader';
+import { Container } from 'reactstrap';
 
-
+import { UserContext } from "../../contexts/UserContext";
 const Cart = ({}) => {
+  const { user } = useContext(UserContext);
   const [cart, setCart] = useState(null);
   const [medicineId, setMedicineId] = useState('');
   const [quantityChanges, setQuantityChanges] = useState({}); // State to track quantity changes for each item
-  const patientId = '654beffcf9d0ca04d098b0e3';
+  const patientId = user._id;
   const navigate = useNavigate();
 
 
@@ -70,6 +73,15 @@ const Cart = ({}) => {
   
 
   return (
+    <>
+      <AdminHeader />
+      {/* Page content */}
+     <Container>
+     
+    
+    
+     
+    
     <div className="container mt-5">
       <h2 className="mb-4">Cart</h2>
       
@@ -121,6 +133,9 @@ const Cart = ({}) => {
       )}
       
     </div>
+    </Container>
+    
+    </>
    
   );
 };

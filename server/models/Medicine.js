@@ -9,8 +9,8 @@ const medSchema = new Schema({
         unique: true
     },
     image: {
-    type: String,
-    //required: true,
+        type: String,
+
     },
     price: {
         type: Number,

@@ -5,6 +5,8 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ dest: 'uploads/' });
 const mongoose = require('mongoose');
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
 
 // create a pharmacist Request
 const createPharmacistRequest = async (req, res) => {
@@ -12,9 +14,14 @@ const createPharmacistRequest = async (req, res) => {
         name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground
     } = req.body
 
+    // Access file buffers from req.files
+    const ID = req.files.ID[0].filename;
+    const workingLicense = req.files.workingLicense[0].filename;
+    const pharmacyDegree = req.files.pharmacyDegree[0].filename;
+
     try {
         const pharmReq = await PharmacistReq.create({
-            name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground, status
+            name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground, status,ID,workingLicense,pharmacyDegree
 
         })
         res.status(200).json(pharmReq)
@@ -26,12 +33,20 @@ const createPharmacistRequest = async (req, res) => {
 // Register as a pharmacist
 const createPharmacist = async (req, res) => {
     const {
-        name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground
+        name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground, ID,workingLicense,pharmacyDegree
     } = req.body
+    const status=false;
+        // Access file buffers from req.files
+       // Access file buffers from req.files
+       // Access file buffers from req.files
+    /* const ID = req.files.ID[0].filename;
+    const workingLicense = req.files.workingLicense[0].filename;
+    const pharmacyDegree = req.files.pharmacyDegree[0].filename; */
 
+    //since we can only create pharmacist from admin i just pass the name directly from the body
     try {
-        const pharm = await PharmacistReq.create({
-            name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground
+        const pharm = await Pharmacist.create({
+            name, username, email,status, password, dateOfBirth, hourlyRate, affiliation, educationalBackground,ID,workingLicense,pharmacyDegree
         })
         res.status(200).json(pharm)
     } catch (error) {
@@ -120,12 +135,21 @@ const addMedicine = async (req, res) => {
             }
   
         console.log('Request Body:', req.body);
+        const {
+            totalSales = 0,
+            name,
+            price,
+            description,
+            activeIngredient,
+            quantity,
+            medicinalUse,
+          } = req.body;
   
         let imageData;
   
         if (req.file) {
-            imageData= req.file.buffer;// Save image as Buffer
-            ; 
+            imageData= `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+            
         } else {
           const path = require('path');
           const fs = require('fs');
@@ -135,15 +159,7 @@ const addMedicine = async (req, res) => {
           imageData = imageBuffer.toString('base64');
         }
   
-        const {
-          totalSales = 0,
-          name,
-          price,
-          description,
-          activeIngredient,
-          quantity,
-          medicinalUse,
-        } = req.body;
+        
   
         let existingMedicine = await Medicine.findOne({ name });
   
@@ -154,7 +170,7 @@ const addMedicine = async (req, res) => {
         } else {
           const newMedicine = new Medicine({
             name,
-            image: imageData,
+            image:imageData,
             price,
             description,
             activeIngredient,
@@ -171,12 +187,13 @@ const addMedicine = async (req, res) => {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  };
-  
-  
+};
 
 
- 
+
+
+
+
 
 // Edit medicine details and price (we changed it to find by name 
 //however its supposed to be find by id thru url)
@@ -201,6 +218,38 @@ const editMedicine = async (req, res) => {
     }
 };
 
+// Change password for Pharmacist
+const changePharmacistPassword = async (req, res) => {
+    const { username, newPassword } = req.body;
+
+    try {
+        // Find the admin by username
+        const pharmacist = await Pharmacist.findOne({ username });
+
+        if (!pharmacist) {
+            return res.status(404).json({ error: "Pharmacist not found" });
+        }
+        const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+       if (!passwordPattern.test(newPassword)) {
+           return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' });
+       }
+
+       const user = await User.findOne({ username });
+        // Change the password
+        pharmacist.password = newPassword;
+        user.password =  await bcrypt.hash(newPassword, 10);
+
+
+        // Save the updated password
+        await pharmacist.save();
+
+        return res.status(200).json({ message: "Password changed successfully" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Server error" });
+    }
+};
+
 module.exports = {
     createPharmacistRequest,
     createPharmacist,
@@ -210,5 +259,6 @@ module.exports = {
     getMedicineByName,
     getMedicinesByMedicinalUse,
     getMedicinesByMedicinalUse,
-    editMedicine
+    editMedicine,
+    changePharmacistPassword
 }
