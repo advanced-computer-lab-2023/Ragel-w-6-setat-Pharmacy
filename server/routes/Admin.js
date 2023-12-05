@@ -19,17 +19,22 @@ const {
     deletePharmacistByUsername,
     changeAdminPassword,
     createPharmacist,
-    rejectPharmacistRequest
+    rejectPharmacistRequest,
+    getTotalSalesReport
 } = require('../controllers/AdminController')
 
 const router = express.Router();
 
-//  add another admin 
+//  Add another admin 
 router.post("/addAdmin", addAdmin)
 
+// Create pharmacist
 router.post("/createPharmacist", createPharmacist)
+
+// Reject pharmacist request
 router.delete("/rejectPharmacistRequest/:id", rejectPharmacistRequest)
-// view all admins
+
+// View all admins
 router.get("/getAdmins", getAdmins)
 
 // Delete an Admin
@@ -38,8 +43,7 @@ router.delete("/deleteAdmin/:id", deleteAdmin)
 // Delete an Admin by username
 router.delete("/deleteAdminByUsername/:username", deleteAdminByUsername)
 
-// delete pharmacist
-
+// Delete pharmacist
 router.delete('/deletePharmacist/:id', deletePharmacist)
 
 // Delete pharmacist by name
@@ -51,8 +55,7 @@ router.delete('/deletePatient/:id', deletePatient)
 // Delete patient by name
 router.delete('/deletePatientByUsername/:username', deletePatientByUsername)
 
-
-//View all information uploaded by pharmacist to apply to join the platform
+// View all information uploaded by pharmacist to apply to join the platform
 router.get("/getPharmacistsRequestsInfo", getPharmacistsRequestsInfo)
 
 // View a list of all medicines
@@ -67,15 +70,19 @@ router.get("/getMedicinesByMedicinalUse", getMedicinesByMedicinalUse)
 // View Pharmacist Information 
 router.get('/getPharmacistsInfo', getPharmacistsInfo)
 
-//View a single Pharmacist's Info
+// View a single Pharmacist's Info
 router.get('/getSinglePharmacistInfo/:id', getSinglePharmacistInfo)
 
 // View Patient Information 
 router.get('/getPatientsInfo', getPatientsInfo)
 
-//View a single Patient's Info
+// View a single Patient's Info
 router.get('/getSinglePatientInfo/:id', getSinglePatientInfo)
 
+// Change admin password
 router.post('/changeAdminPassword', changeAdminPassword);
+
+// Get total sales report based on a chosen month
+router.get('/getTotalSalesReport', getTotalSalesReport)
 
 module.exports = router

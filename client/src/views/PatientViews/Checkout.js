@@ -27,14 +27,11 @@ import AdminHeader from "components/Headers/AdminHeader.js";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 
-
 const Checkout = () => {
     const { user } = useContext(UserContext);
 
     const [cartData, setCartData] = useState(null);
     const [addresses, setAddresses] = useState([]);
-   // const [quantity, setQuanity] = useState(null);
-
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
@@ -50,14 +47,11 @@ const Checkout = () => {
     const [walletBalance, setWalletBalance] = useState(0);
 
     const navigate = useNavigate();
-
-    const patientId=user._id;
+    const patientId = user._id;
 
     const handleCheckout = async () => {
         try {
-            const response = await fetch(
-                `/api/patient/checkoutOrder/${patientId}`
-            );
+            const response = await fetch(`/api/patient/checkoutOrder/${patientId}`);
             const data = await response.json();
             setCartData(data);
         } catch (error) {
@@ -67,9 +61,7 @@ const Checkout = () => {
 
     const getAddresses = async () => {
         try {
-            const response = await fetch(
-                `/api/patient/getPatientAddresses/${patientId}`
-            );
+            const response = await fetch(`/api/patient/getPatientAddresses/${patientId}`);
             const data = await response.json();
             setAddresses(data.addresses);
         } catch (error) {
@@ -79,14 +71,27 @@ const Checkout = () => {
 
     const getWalletBalance = async () => {
         try {
-            const response = await fetch(
-                `/api/patient/getWalletBalance/${patientId}`
-            );
-            const data = await response.json();
-            setWalletBalance(data.walletBalance);
+            const response = await fetch(`/api/patient/getWalletBalance/${patientId}`);
+            if (response.ok) {
+                const data = await response.json();
+                return data.walletBalance;
+            } else {
+                console.error("Error fetching wallet balance:", response.statusText);
+                return 0; // Return a default value in case of an error
+            }
         } catch (error) {
             console.error("Error fetching wallet balance:", error);
+            return 0; // Return a default value in case of an error
         }
+    };
+
+    const saveWalletBalanceToLocalStorage = (balance) => {
+        localStorage.setItem("walletBalance", balance);
+    };
+
+    const getWalletBalanceFromLocalStorage = () => {
+        const balance = localStorage.getItem("walletBalance");
+        return balance ? parseFloat(balance) : 0;
     };
 
     const toggleDropdown = () => {
@@ -109,16 +114,13 @@ const Checkout = () => {
 
     const handleAddAddress = async () => {
         try {
-            const response = await fetch(
-                `/api/patient/addAddressToPatient/${patientId}`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ addresses: [newAddress] }), // Send the new address as an array
-                }
-            );
+            const response = await fetch(`/api/patient/addAddressToPatient/${patientId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ addresses: [newAddress] }),
+            });
 
             const data = await response.json();
             console.log("Response from backend:", data);
@@ -183,6 +185,15 @@ const Checkout = () => {
                     const data = await response.json();
                     setCartData(data);
                     navigate("/patient/orders");
+
+                    // Update the wallet balance after successful order
+                    const updatedBalance = await getWalletBalance();
+                    if (!isNaN(updatedBalance)) {
+                        setWalletBalance(updatedBalance);
+                        saveWalletBalanceToLocalStorage(updatedBalance);
+                    } else {
+                        console.error("Invalid wallet balance received:", updatedBalance);
+                    }
                 } else if (response.status === 400) {
                     const errorData = await response.json();
                     console.error("Error during checkout:", errorData);
@@ -196,60 +207,20 @@ const Checkout = () => {
         }
     };
 
-    // const handleChangeQuantity = async (itemId, newQuantity) => {
-    //     try {
-    //       const response = await fetch(`/api/patient/changeQuantityInCart/${patientId}/${itemId}`, {
-    //         method: 'PUT',
-    //         headers: {
-    //           'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ quantityChange: newQuantity }),
-    //       });
-      
-    //       if (response.ok) {
-    //         const data = await response.json();
-    //         cartData.quantity=data.quantity
-    //         setCartData(data.quantity);
-    //         // Update the state in your frontend based on the response data
-    //         // Your logic to update the state based on the response data goes here
-    //       } else if (response.status === 400) {
-    //         const errorData = await response.json();
-    //         // Handle the error response accordingly
-    //         console.error('Error:', errorData.message);
-    //       } else {
-    //         console.error('Error changing quantity:', response.statusText);
-    //       }
-    //     } catch (error) {
-    //       console.error('Error changing quantity:', error.message);
-    //     }
-    //   };
-      
-    
-    
-    // const handleRemoveFromCart = async (medicineId) => {
-    //     try {
-    //         const response = await fetch(`/api/patient/removeFromCart/${patientId}/${medicineId}`, {
-    //             method: 'DELETE',
-    //         });
-    
-    //         if (response.ok) {
-    //             const data = await response.json();
-    //             setCartData(data);
-    //         } else if (response.status === 404) {
-    //             const errorData = await response.json();
-    //             alert(errorData.message);
-    //         } else {
-    //             console.error('Error removing item from the cart:', response.statusText);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error removing item from the cart:', error);
-    //     }
-    // };
-    
     useEffect(() => {
+        // Get wallet balance from local storage
+        const savedBalance = getWalletBalanceFromLocalStorage();
+        setWalletBalance(savedBalance);
+
         handleCheckout();
         getAddresses();
-        getWalletBalance();
+
+        // Set the wallet balance in local storage after fetching it from the API
+        getWalletBalance().then((balance) => {
+            setWalletBalance(balance);
+            saveWalletBalanceToLocalStorage(balance);
+        });
+
         setConfirmOrderDisabled(
             !selectedPaymentMethod ||
             !selectedAddress ||
@@ -276,20 +247,19 @@ const Checkout = () => {
                                         <CardTitle tag="h5">
                                             Total Cost: {cartData.totalCost}
                                         </CardTitle>
-                                    <CardText>
-                                    <strong>Items:</strong>
-                                    <ul>
-                                        {cartData && cartData.cartItems ? (
-                                            cartData.cartItems.map((item, index) => (
-                                                <li key={index}>
-                                                    {item.quantity} x {item.medicine.name} - ${item.total}
-                                                 
-                                                </li>
-                                            ))
-                                        ) : (
-                                            <li>No items in the cart</li>
-                                        )}
-                                    </ul>
+                                        <CardText>
+                                            <strong>Items:</strong>
+                                            <ul>
+                                                {cartData && cartData.cartItems ? (
+                                                    cartData.cartItems.map((item, index) => (
+                                                        <li key={index}>
+                                                            {item.quantity} x {item.medicine ? item.medicine.name : 'Unknown Medicine'} - ${item.total}
+                                                        </li>
+                                                    ))
+                                                ) : (
+                                                    <li>No items in the cart</li>
+                                                )}
+                                            </ul>
                                         </CardText>
 
                                     </>
@@ -416,7 +386,7 @@ const Checkout = () => {
             {/* Display wallet balance on the right side */}
             <div style={{ position: 'fixed', top: '10%', right: '5%', padding: '20px', backgroundColor: '#3498db', color: '#fff', textAlign: 'center', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
                 <h4 style={{ margin: 0, marginBottom: '10px' }}>Wallet Balance</h4>
-                <p style={{ fontSize: '1.5em', fontWeight: 'bold' }}>${walletBalance.toFixed(2)}</p>
+                <p style={{ fontSize: '1.5em', fontWeight: 'bold' }}>${walletBalance}</p>
             </div>
         </>
     );
