@@ -55,9 +55,57 @@ const createPharmacist = async (req, res) => {
 
 // View a list of all medicines (showing only the price, image, description)
 const getAllMedicines = async (req, res) => {
-    const medicine = await Medicine.find({}, 'name image price description medicinalUse').sort({ createdAt: -1 });
+    const medicine = await Medicine.find({}, 'name image price description medicinalUse archived').sort({ createdAt: -1 });
     res.status(200).json(medicine)
 }
+
+// View a list of all medicines (showing only the price, image, description)
+const getAllMedicinesOutOfStock = async (req, res) => {
+    const medicine = await Medicine.find({outOfStock:true}, 'name image price description medicinalUse archived').sort({ createdAt: -1 });
+    res.status(200).json(medicine)
+}
+
+// Archive medicine
+const archiveMedicine = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const medicine = await Medicine.findByIdAndUpdate(
+            id,
+            { archived: true },
+            // { new: true }
+        );
+
+        if (!medicine) {
+            res.status(404).json({ error: 'Medicine not found' });
+        } else {
+            res.status(200).json(medicine);
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Unarchive medicine
+const unarchiveMedicine = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const medicine = await Medicine.findByIdAndUpdate(
+            id,
+            { archived: false },
+            // { new: true }
+        );
+
+        if (!medicine) {
+            res.status(404).json({ error: 'Medicine not found' });
+        } else {
+            res.status(200).json(medicine);
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 // View the available quantity and sales of each medicine
 const getQuantityAndSalesOfMedicine = async (req, res) => {
@@ -126,54 +174,60 @@ const addMedicine = async (req, res) => {
             if (err) {
                 return res.status(400).json({ error: err.message });
             }
-
-            console.log('Request Body:', req.body);
-            const {
-                totalSales = 0,
-                name,
-                price,
-                description,
-                activeIngredient,
-                quantity,
-                medicinalUse,
-            } = req.body;
-
-            let imageData;
-
-            if (req.file) {
-                imageData = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
-
-            } else {
-                const path = require('path');
-                const fs = require('fs');
-
-                const defaultImagePath = path.join(__dirname, '../resources/acl_pharma.png');
-                const imageBuffer = fs.readFileSync(defaultImagePath);
-                imageData = imageBuffer.toString('base64');
-            }
-
-            let existingMedicine = await Medicine.findOne({ name });
-
-            if (existingMedicine) {
-                existingMedicine.quantity += quantity;
-                await existingMedicine.save();
-                res.status(200).json(existingMedicine);
-            } else {
-                const newMedicine = new Medicine({
-                    name,
-                    image: imageData,
-                    price,
-                    description,
-                    activeIngredient,
-                    quantity,
-                    medicinalUse,
-                    totalSales,
-                });
-
-                await newMedicine.save();
-                res.status(200).json(newMedicine);
-            }
-        });
+  
+        console.log('Request Body:', req.body);
+        const {
+            totalSales = 0,
+            archived=false,
+            name,
+            price,
+            description,
+            activeIngredient,
+            quantity,
+            medicinalUse,
+            outOfStock=false
+          } = req.body;
+  
+        let imageData;
+  
+        if (req.file) {
+            imageData= `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+            
+        } else {
+          const path = require('path');
+          const fs = require('fs');
+  
+          const defaultImagePath = path.join(__dirname, '../resources/acl_pharma.png');
+          const imageBuffer = fs.readFileSync(defaultImagePath);
+          imageData = imageBuffer.toString('base64');
+        }
+  
+        
+  
+        let existingMedicine = await Medicine.findOne({ name });
+  
+        if (existingMedicine) {
+          existingMedicine.quantity += quantity;
+          await existingMedicine.save();
+          res.status(200).json(existingMedicine);
+        } else {
+          const newMedicine = new Medicine({
+            name,
+            image:imageData,
+            price,
+            description,
+            activeIngredient,
+            quantity,
+            medicinalUse,
+            totalSales,
+            archived,
+            outOfStock
+          });
+  
+          await newMedicine.save();
+          res.status(200).json(newMedicine);
+        }
+      });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -344,6 +398,9 @@ module.exports = {
     getMedicinesByMedicinalUse,
     editMedicine,
     changePharmacistPassword,
+    archiveMedicine,
+    unarchiveMedicine,
+    getAllMedicinesOutOfStock,
     getTotalSalesReport,
     getFilteredSalesReport
 }

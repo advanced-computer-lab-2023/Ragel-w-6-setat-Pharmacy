@@ -49,7 +49,17 @@ const medSchema = new Schema({
     },
     overTheCounter: {
         type: Boolean,
+         //required: true
     },
+    archived: {
+        type: Boolean,
+        default: false
+    },
+    outOfStock: {
+        type: Boolean,
+        required: true
+    },
+    
     sales: [saleSchema],
 }, { timestamps: true });
 

@@ -32,7 +32,10 @@ const {
   editMedicine,
   changePharmacistPassword,
   getTotalSalesReport,
-  getFilteredSalesReport
+  getFilteredSalesReport,
+    archiveMedicine,
+    unarchiveMedicine,
+    getAllMedicinesOutOfStock
 } = require('../controllers/PharmacistController')
 
 // Make a pharmacist Request 
@@ -67,5 +70,16 @@ router.get('/getTotalSalesReport', getTotalSalesReport)
 
 // Filter sales report based on medicine and date sold
 router.get('/getFilteredSalesReport', getFilteredSalesReport)
+
+// Archive medicine
+router.put('/archiveMedicine/:id', archiveMedicine);
+
+// Unarchive medicine
+router.put('/unarchiveMedicine/:id', unarchiveMedicine);
+
+//Get all out of stock medicines
+router.get('/getAllMedicinesOutOfStock', getAllMedicinesOutOfStock);
+
+
 
 module.exports = router

@@ -33,11 +33,19 @@ const createPatient = async (req, res) => {
     }
 }
 
-// View a list of a medicine (showing only the price, image, description)
+
+// View a list of medicines (showing only the price, image, description) with archived attribute set to false
 const getAllMedicines = async (req, res) => {
-    const medicine = await Medicine.find({}, 'name image price description medicinalUse').sort({ createdAt: -1 });
-    res.status(200).json(medicine)
-}
+    try {
+        const medicine = await Medicine.find({ archived: false }, 'name image price description medicinalUse')
+            .sort({ createdAt: -1 });
+
+        res.status(200).json(medicine);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 // Search for medicine based on name
 const getMedicineByName = async (req, res) => {
@@ -75,6 +83,46 @@ const getMedicinesByMedicinalUse = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+const medAlternative =async (req,res)=>{
+    try {
+        const {medicineId} = req.params;
+
+        // Check if the requested medicine is out of stock
+        const medicine = await Medicine.findById(medicineId);
+        if (!medicine) {
+          return res.status(404).json({ message: 'Medicine not found' });
+        }
+
+        if (medicine.outOfStock) {
+          // If out of stock, suggest similar medicines based on active ingredient
+          const similarMedicines = await Medicine.find({
+            activeIngredient: medicine.activeIngredient,
+            outOfStock: false,
+          });
+
+          if (similarMedicines.length > 0) {
+            return res.status(200).json({
+              message: 'Medicine is out of stock. Here are some alternatives:',
+              alternatives: similarMedicines,
+            });
+          } else {
+            return res.status(404).json({
+              message: 'Medicine is out of stock, and no alternatives are available.',
+            });
+          }
+        } else {
+          // If not out of stock, return the medicine details
+          return res.status(200).json({
+            message: 'Medicine is in stock.',
+            medicineDetails: medicine,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+}
+
 
 // Add to cart  
 const addToCart = async (req, res) => {
@@ -364,6 +412,64 @@ const processPayment = async (req, res) => {
     }
 };
 
+// Get email addresses of all pharmacists
+const getPharmacistEmails = async () => {
+    try {
+        const pharmacistEmails = await Pharmacist.find({}, 'email').exec();
+        return pharmacistEmails.map(pharmacist => pharmacist.email);
+    } catch (error) {
+        console.error('Error fetching pharmacist emails:', error);
+        return [];
+    }
+};
+
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: '3projectalpha3@gmail.com',
+        pass: 'ncgo dehg lebs zazh'
+    }
+});
+
+const emailPharmacistOutOfStock = async (medicine) => {
+
+
+//TODO send email to all pharmacists
+//write  a method to call all pharmacist emails (bypass if null or empty) and send email
+
+try {
+    if (!medicine) {
+        console.log('No medicine provided.');
+        return;
+    }
+
+    const subject = 'Medicine Out of Stock Notification';
+    const text = `\n\nThe medicine ${medicine.name} is currently out of stock. Please take appropriate action.`;
+
+    const pharmacistEmails = await getPharmacistEmails();
+
+    if (!pharmacistEmails.length) {
+        console.log('No pharmacist emails available.');
+        return;
+    }
+
+    const mailOptions = {
+        from: '3projectalpha3@gmail.com',
+        to: pharmacistEmails.join(','), // Join the pharmacist emails with a comma
+        subject,
+        text,
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log('Email sent to pharmacists successfully.');
+} catch (error) {
+    console.error('Error sending email to pharmacists:', error);
+}
+
+}
+
 // Increase medicine's total sales and decrease available quantity
 const handleSuccessfulPayment = async (patient) => {
     try {
@@ -382,6 +488,14 @@ const handleSuccessfulPayment = async (patient) => {
                         // Ensure quantity and total sales are updated correctly
                         const quantityToDecrease = Math.min(medicine.quantity, cartItem.quantity);
                         medicine.quantity -= quantityToDecrease;
+                        if (medicine.quantity<=0){
+                            medicine.outOfStock=true;
+                            emailPharmacistOutOfStock(medicine);
+                            //TODO send email to all pharmacists
+                            //write  a method to call all pharmacist emails (bypass if null or empty) and send email
+
+
+                        }
                         medicine.totalSales += cartItem.quantity; // Update based on the cart quantity
                         medicine.sales.push({
                             saleDate: new Date(),
@@ -407,8 +521,7 @@ const handleSuccessfulPayment = async (patient) => {
             patient.cart.items = [];
             patient.cart.totalQty = 0;
             patient.cart.totalCost = 0;
-
-            // Save the changes to the patient document
+// Save the changes to the patient document
             await patient.save();
         }
     } catch (error) {
@@ -589,7 +702,9 @@ module.exports = {
     addAddressToPatient,
     getPatientAddresses,
     processPayment,
-    changePatientPassword
+    changePatientPassword,
+    medAlternative,
+
 }
 
 // update a patient ****
