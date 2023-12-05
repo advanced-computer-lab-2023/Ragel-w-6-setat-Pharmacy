@@ -58,10 +58,8 @@ const medSchema = new Schema({
     outOfStock: {
         type: Boolean,
         required: true
-    }
-}, { timestamp: true })
-
     },
+    
     sales: [saleSchema],
 }, { timestamps: true });
 
