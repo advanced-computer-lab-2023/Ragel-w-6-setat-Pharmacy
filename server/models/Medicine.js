@@ -1,56 +1,46 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema;
-
-const saleSchema = new Schema({
-    saleDate: {
-        type: Date,
-        required: true,
-        default: Date.now,
-    },
-    quantitySold: {
-        type: Number,
-        required: true,
-    },
-});
+const Schema = mongoose.Schema
 
 const medSchema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
     image: {
         type: String,
+
     },
     price: {
         type: Number,
-        required: true,
+        required: true
     },
     description: {
         type: String,
-        required: true,
+        required: true
     },
     activeIngredient: {
         type: String,
-        required: true,
+        required: true
     },
     quantity: {
         type: Number,
-        required: true,
+        required: true
     },
     medicinalUse: {
         type: String,
-        required: true,
+        required: true
     },
     totalSales: {
         type: Number,
-        default: 0,
+        //required: true
     },
-    overTheCounter: {
+    overTheCounter:{
         type: Boolean,
-    },
-    sales: [saleSchema],
-}, { timestamps: true });
+         //required: true
+    }
+}, { timestamp: true })
 
-module.exports = mongoose.model('Medicine', medSchema);
+
+module.exports = mongoose.model('Medicine', medSchema)

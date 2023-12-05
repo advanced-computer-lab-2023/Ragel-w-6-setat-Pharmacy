@@ -38,16 +38,16 @@ const pharmSchema = new Schema({
     },
     ID: {
         type: String,
-        required: true
-    },
+        required:true
+      },
     workingLicense: {
         type: String,
-        required: true
-    },
-    pharmacyDegree: {
+        required:true
+      },
+      pharmacyDegree: {
         type: String,
-        required: true
-    }
+        required:true
+      }
 
 }, { timestamp: true })
 

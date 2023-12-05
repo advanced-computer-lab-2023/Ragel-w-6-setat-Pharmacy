@@ -41,16 +41,18 @@ const requestSchema = new Schema({
     },
     ID: {
         type: String,
-        required: true
-    },
-    workingLicense: {
+        required:true
+      },
+      workingLicense: {
         type: String,
-        required: true
-    },
-    pharmacyDegree: {
+        required:true
+      },
+      pharmacyDegree: {
         type: String,
-        required: true
-    },
+        required:true
+      },
+
+
 }, { timestamp: true })
 
 module.exports = mongoose.model('Requests', requestSchema)

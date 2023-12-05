@@ -3,9 +3,12 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 
-// import { body, validationResult } from "express-validator";
+
+
+//import { body, validationResult } from "express-validator";
 
 // multer
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./public/uploads");
@@ -21,22 +24,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const {
-  login,
-  registerPatient,
-  registerPharmacist,
-  resetPasswordOTP
+    login,
+    registerPatient,
+    registerPharmacist,
+    resetPasswordOTP
 } = require('../controllers/UserController')
 
-// Login
 router.post('/login', login);
 
-// Register patient
 router.post('/registerPatient', registerPatient);
-
 // Make a pharmacist Request 
-router.post("/registerPharmacist", upload.fields([{ name: 'ID', maxCount: 1 }, { name: 'workingLicense', maxCount: 1 }, { name: 'pharmacyDegree', maxCount: 1 }]), registerPharmacist);
+router.post("/registerPharmacist", upload.fields([{ name:'ID', maxCount:1},{ name:'workingLicense', maxCount:1} , { name:'pharmacyDegree', maxCount:1}]), registerPharmacist);
 
-// Reset password (OTP)
 router.post('/resetPasswordOTP', resetPasswordOTP);
+
 
 module.exports = router

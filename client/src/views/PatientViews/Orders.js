@@ -11,13 +11,14 @@ import {
 
 import AdminHeader from "components/Headers/AdminHeader.js";
 import { UserContext } from "../../contexts/UserContext";
+ 
 
 const Orders = () => {
     const { user } = useContext(UserContext);
 
     const [patientOrders, setPatientOrders] = useState([]);
     const [loading, setLoading] = useState(true);
-    const patientId = user._id;
+    const patientId=user._id;
 
     const cancelOrder = async (orderId) => {
         try {
@@ -53,25 +54,9 @@ const Orders = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                console.log("Orders component rendered");
-                const response = await fetch(`/api/patient/viewPatientOrders/${patientId}`);
-                const data = await response.json();
-
-                if (Array.isArray(data)) {
-                    setPatientOrders(data);
-                    setLoading(false);
-                } else {
-                    console.error("Fetched data is not an array:", data);
-                }
-            } catch (error) {
-                console.error("Error fetching patient orders:", error);
-            }
-        };
-
-        fetchData();
-    }, [patientId]);
+        console.log("Orders component rendered");
+        fetchPatientOrders();
+    }, []);
 
     return (
         <>
@@ -81,7 +66,7 @@ const Orders = () => {
                     <div className="col">
                         {loading ? (
                             <p>Loading patient orders...</p>
-                        ) : !Array.isArray(patientOrders) || patientOrders.length === 0 ? (
+                        ) : patientOrders.length === 0 ? (
                             <p>No orders found for this patient.</p>
                         ) : (
                             patientOrders.map((order) => (

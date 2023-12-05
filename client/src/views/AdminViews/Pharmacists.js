@@ -6,7 +6,6 @@ import DeletePharmacist from 'components/AdminComponents/DeletePharmacist';
 
 import AdminHeader from 'components/Headers/AdminHeader.js';
 import { Container } from 'reactstrap';
-
 const Pharmacist = () => {
   const [pharmacists, setPharmacists] = useState(null);
 
@@ -19,57 +18,65 @@ const Pharmacist = () => {
         setPharmacists(json);
       }
     };
+
     fetchPharmacists();
   }, []); // empty array means it will only run once
 
   return (
     <>
-      <AdminHeader />
-      {/* Page content */}
-      <Container>
-        <div className="container-fluid">
-          <DeletePharmacist />
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="card">
-                <div className="card-header">
-                  <h5 className="card-title">Pharmacists</h5>
-                </div>
-                <div className="card-body">
-                  <div className="table-responsive">
-                    <table className="table tablesorter">
-                      <thead className="text-primary">
-                        <tr>
-                          <th>Name</th>
-                          <th>Username</th>
-                          <th>Password</th>
-                          <th>Email</th>
-                          <th>Date of Birth</th>
-                          <th>Hourly Rate</th>
-                          <th>Affiliation</th>
-                          <th>Educational Background</th>
-                          <th>Time Stamp</th>
-                          <th className="text-center">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {pharmacists &&
-                          pharmacists.map((pharmacist) => (
-                            <AdminViewPharmacistInfo
-                              key={pharmacist._id}
-                              pharmacist={pharmacist}
-                            />
-                          ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+    <AdminHeader />
+    {/* Page content */}
+   <Container>
+   
+  
+  
+   
+    <div className="container-fluid">
+      <DeletePharmacist />
+
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="card">
+            <div className="card-header">
+              <h5 className="card-title">Pharmacists</h5>
+            </div>
+            <div className="card-body">
+              <div className="table-responsive">
+                <table className="table tablesorter">
+                  <thead className="text-primary">
+                    <tr>
+                      <th>Name</th>
+                      <th>Username</th>
+                      <th>Password</th>
+                      <th>Email</th>
+                      <th>Date of Birth</th>
+                      <th>Hourly Rate</th>
+                      <th>Affiliation</th>
+                      <th>Educational Background</th>
+                      <th>Time Stamp</th>
+                      <th className="text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pharmacists &&
+                      pharmacists.map((pharmacist) => (
+                        <AdminViewPharmacistInfo
+                          key={pharmacist._id}
+                          pharmacist={pharmacist}
+                        />
+                      ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
         </div>
-      </Container>
-    </>
+      </div>
+
+    </div>
+    </Container>
+  
+  </>
   );
 };
 

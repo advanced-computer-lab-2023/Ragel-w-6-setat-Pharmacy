@@ -23,7 +23,6 @@ const paymentSchema = new Schema({
     method: {
         type: String,
         enum: ['wallet', 'creditCard', 'cashOnDelivery'],
-        default: 'cashOnDelivery',
         required: true
     },
     walletBalance: {

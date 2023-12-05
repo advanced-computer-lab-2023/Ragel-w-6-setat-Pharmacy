@@ -8,25 +8,16 @@ const bcrypt = require('bcrypt')
 
 const mongoose = require('mongoose');
 
+
 // Register as a patient 
 const createPatient = async (req, res) => {
     const {
-        name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact, addresses
+        name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact
     } = req.body
     try {
         const patient = await Patient.create({
-            name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact, addresses,
-            payment: {
-                method: 'cashOnDelivery',
-                walletBalance: 0
-            },
-            orders: []
+            name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact
         })
-
-        const role = 'patient';
-        // FIXME: FIX THIS (patient gets added to patient, then checks if password is valid even tho he was added)
-        const user = await User.create({ username, password, role });
-
         res.status(200).json(patient)
     } catch (error) {
         res.status(400).json({ error: error.message })
@@ -122,9 +113,9 @@ const addToCart = async (req, res) => {
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 };
-
 // Helper method to addToCart
 function validateMedicineObject(medicine) {
+
     if (medicine.quantity > 0) {
         return true;
     }
@@ -148,12 +139,16 @@ const viewCart = async (req, res) => {
 
         return res.status(200).json(patient.cart);
 
+
+
     } catch (error) {
         // Handle any errors that occur during the database operation
         return { error: 'Error retrieving cart details' };
     }
 
 };
+
+
 
 // Remove a medicine from cart 
 const removeFromCart = async (req, res) => {
@@ -193,6 +188,7 @@ const removeFromCart = async (req, res) => {
     }
 };
 
+
 // Update the quantity of medicine in cart 
 const changeQuantityInCart = async (req, res) => {
     const { patientId, medicineId } = req.params;
@@ -213,6 +209,7 @@ const changeQuantityInCart = async (req, res) => {
         if (cartItemIndex === -1) {
             return res.status(404).json({ message: 'Medicine not found in the cart' });
             console.log('here 2');
+
         }
 
         // Get the current quantity and price of the medicine in the cart
@@ -256,7 +253,6 @@ const changeQuantityInCart = async (req, res) => {
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 };
-
 // Allows patients to add new addresses
 const addAddressToPatient = async (req, res) => {
     console.log('Received request:', req.body);
@@ -298,6 +294,7 @@ const getPatientAddresses = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 const processCreditCardPayment = async (res, items) => {
     try {
@@ -364,6 +361,7 @@ const processPayment = async (req, res) => {
     }
 };
 
+
 // Increase medicine's total sales and decrease available quantity
 const handleSuccessfulPayment = async (patient) => {
     try {
@@ -383,10 +381,6 @@ const handleSuccessfulPayment = async (patient) => {
                         const quantityToDecrease = Math.min(medicine.quantity, cartItem.quantity);
                         medicine.quantity -= quantityToDecrease;
                         medicine.totalSales += cartItem.quantity; // Update based on the cart quantity
-                        medicine.sales.push({
-                            saleDate: new Date(),
-                            quantitySold: cartItem.quantity,
-                        });
                         await medicine.save();
                     }
                 })();
@@ -430,7 +424,6 @@ const checkoutOrder = async (req, res) => {
         // Get items in the cart (medicineId, quantity, price, total) without populating (assuming you have cart stored in patient object)
         const cartItems = patient.cart.items.map(item => {
             return {
-                name: item.name,
                 medicine: item.medicineId,
                 quantity: item.quantity,
                 price: item.price,
@@ -447,6 +440,7 @@ const checkoutOrder = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 const viewPatientOrders = async (req, res) => {
     const { id } = req.params;
@@ -498,19 +492,6 @@ const cancelOrder = async (req, res) => {
         // Refund the total cost to the patient's wallet balance
         patient.payment.walletBalance += canceledOrder.totalCost;
 
-        // Decrement the quantity sold for each item in the canceled order
-        for (const cartItem of canceledOrder.items) {
-            const medicine = await Medicine.findById(cartItem.medicineId);
-            if (medicine) {
-                const quantityToIncrement = Math.min(medicine.quantity, cartItem.quantity);
-                medicine.quantity += quantityToIncrement;
-                medicine.totalSales -= cartItem.quantity; // Decrement based on the canceled order quantity
-                // Remove the last sale entry corresponding to the canceled order
-                medicine.sales.pop();
-                await medicine.save();
-            }
-        }
-
         // Update order status to 'cancelled'
         canceledOrder.status = 'cancelled';
 
@@ -522,6 +503,7 @@ const cancelOrder = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 // Get wallet balance of a patient
 const getWalletBalance = async (req, res) => {
@@ -543,15 +525,16 @@ const getWalletBalance = async (req, res) => {
     }
 };
 
+
 // Change password for Patient
 const changePatientPassword = async (req, res) => {
     const { username, newPassword } = req.body;
 
     try {
         const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
-        if (!passwordPattern.test(newPassword)) {
-            return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' });
-        }
+       if (!passwordPattern.test(newPassword)) {
+           return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' });
+       }
         // Find the patient by username and update only the password
         const updatedPatient = await Patient.findOneAndUpdate(
             { username },
@@ -572,6 +555,7 @@ const changePatientPassword = async (req, res) => {
         return res.status(500).json({ error: "Server error" });
     }
 };
+
 
 module.exports = {
     createPatient,
