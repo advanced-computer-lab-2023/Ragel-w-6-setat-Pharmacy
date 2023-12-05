@@ -65,6 +65,7 @@ router.get("/getPatientAddresses/:id", getPatientAddresses);
 // Pay with wallet
 router.post("/processPayment/:id", processPayment);
 
+// Change patient's password
 router.post('/changePatientPassword', changePatientPassword);
 
 module.exports = router
