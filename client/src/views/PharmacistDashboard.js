@@ -49,72 +49,122 @@ const PharmacistDashboard = (props) => {
 
     fetchAdmins();
   }, []); // empty array means it will only run once */
-  const [username, setUsername] = useState('');
-  const [newPassword, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
+    const [username, setUsername] = useState('');
+    const [newPassword, setPassword] = useState('');
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(false);
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+  
+      const pharmacist = { username, newPassword };
+  
+      const response = await fetch('/api/pharmacist/changePharmacistPassword', {
+        method: 'POST',
+        body: JSON.stringify(pharmacist),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      const json = await response.json();
+  
+      if (!response.ok) {
+        setError(json.error);
+        setSuccess(false);
+      } else {
+        setUsername('');
+        setPassword('');
+        setError(null);
+        setSuccess(true);
+      }
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const [medicinesOutOfStock, setMedicinesOutOfStock] = useState([]);
 
-    const pharmacist = { username, newPassword };
+  useEffect(() => {
+    const fetchMedicinesOutOfStock = async () => {
+      try {
+        const response = await fetch('/api/pharmacist/getAllMedicinesOutOfStock');
+        const json = await response.json();
 
-    const response = await fetch('/api/pharmacist/changePharmacistPassword', {
-      method: 'POST',
-      body: JSON.stringify(pharmacist),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+        if (response.ok) {
+          setMedicinesOutOfStock(json);
+        } else {
+          console.error('Failed to fetch medicines out of stock:', json.error);
+        }
+      } catch (error) {
+        console.error('Error fetching medicines out of stock:', error.message);
+      }
+    };
 
-    const json = await response.json();
+    fetchMedicinesOutOfStock();
+  }, []); // empty array means it will only run once
 
-    if (!response.ok) {
-      setError(json.error);
-      setSuccess(false);
-    } else {
-      setUsername('');
-      setPassword('');
-      setError(null);
-      setSuccess(true);
-    }
-  };
   return (
     <>
       <AdminHeader />
       {/* Page content */}
-      <Container>
-        <div className="container">
-          <form className="create" onSubmit={handleSubmit}>
-            <h3>Change Password</h3>
-            <div className="form-group">
-              <label>Username</label>
-              <input
-                type="text"
-                className="form-control"
-                onChange={(e) => setUsername(e.target.value)}
-                value={username}
-              />
-            </div>
-            <div className="form-group">
-              <label>Password</label>
-              <input
-                type="password"
-                className="form-control"
-                onChange={(e) => setPassword(e.target.value)}
-                value={newPassword}
-              />
-            </div>
-            <button type="submit" className="btn btn-primary">
-              Change Password
-            </button>
-            {error && <div className="text-danger mt-3">{error}</div>}
-            {success && (
-              <div className="text-success mt-3">Pharmacist password changed successfully!</div>
-            )}
-          </form>
+     <Container>
+  
+    <div className="container">
+      <form className="create" onSubmit={handleSubmit}>
+        <h3>Change Password</h3>
+        <div className="form-group">
+          <label>Username</label>
+          <input
+            type="text"
+            className="form-control"
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+          />
         </div>
-      </Container>
+        <div className="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            className="form-control"
+            onChange={(e) => setPassword(e.target.value)}
+            value={newPassword}
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Change Password
+        </button>
+        {error && <div className="text-danger mt-3">{error}</div>}
+        {success && (
+          <div className="text-success mt-3">Pharmacist password changed successfully!</div>
+        )}
+      </form>
+    </div>
+    <div className="container mt-5">
+          <h3>Notifications</h3>
+          <Table>
+            <thead>
+              <tr>
+                <th>Medicine Name</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {medicinesOutOfStock.map((medicine) => (
+                <tr key={medicine._id}>
+                  <td>{medicine.name}</td>
+                  <td>Out of Stock</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+  
+
+
+
+     
+    
+    
+     </Container>
+    
     </>
   );
 };
