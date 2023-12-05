@@ -222,7 +222,22 @@ const login = async (req, res) => {
 const resetPasswordOTP = async (req, res) => {
 
     try {
-        const { username, password,email } = req.body;
+        const { username,email } = req.body; //CHECKME sends random otp
+        const capitalLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const numbers = '0123456789';
+        const specialCharacters = '*';
+    
+        const getRandomChar = (charSet) => {
+            const randomIndex = Math.floor(Math.random() * charSet.length);
+            return charSet[randomIndex];
+        };
+    
+        // Ensure at least one capital letter, one number, and length >= 8
+        const password =
+            getRandomChar(capitalLetters) +
+            getRandomChar(numbers) +
+            Array.from({ length: 6 }, () => getRandomChar(capitalLetters + numbers + specialCharacters)).join('');
+    
 
         const user= await User.findOne({ username }).exec();
         if (!user) {

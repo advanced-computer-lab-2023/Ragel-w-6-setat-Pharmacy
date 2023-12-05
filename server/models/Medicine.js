@@ -43,6 +43,10 @@ const medSchema = new Schema({
     archived: {
         type: Boolean,
         default: false
+    },
+    outOfStock: {
+        type: Boolean,
+        required: true
     }
 }, { timestamp: true })
 

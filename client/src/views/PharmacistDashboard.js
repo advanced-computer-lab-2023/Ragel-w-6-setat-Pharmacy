@@ -96,6 +96,28 @@ const PharmacistDashboard = (props) => {
         setSuccess(true);
       }
     };
+
+    const [medicinesOutOfStock, setMedicinesOutOfStock] = useState([]);
+
+  useEffect(() => {
+    const fetchMedicinesOutOfStock = async () => {
+      try {
+        const response = await fetch('/api/pharmacist/getAllMedicinesOutOfStock');
+        const json = await response.json();
+
+        if (response.ok) {
+          setMedicinesOutOfStock(json);
+        } else {
+          console.error('Failed to fetch medicines out of stock:', json.error);
+        }
+      } catch (error) {
+        console.error('Error fetching medicines out of stock:', error.message);
+      }
+    };
+
+    fetchMedicinesOutOfStock();
+  }, []); // empty array means it will only run once
+
   return (
     <>
       <AdminHeader />
@@ -132,6 +154,25 @@ const PharmacistDashboard = (props) => {
         )}
       </form>
     </div>
+    <div className="container mt-5">
+          <h3>Notifications</h3>
+          <Table>
+            <thead>
+              <tr>
+                <th>Medicine Name</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {medicinesOutOfStock.map((medicine) => (
+                <tr key={medicine._id}>
+                  <td>{medicine.name}</td>
+                  <td>Out of Stock</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
   
 
 

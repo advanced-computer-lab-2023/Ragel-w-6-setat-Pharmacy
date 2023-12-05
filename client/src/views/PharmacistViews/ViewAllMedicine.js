@@ -206,6 +206,7 @@ const MedicineDetails = ({ medicines,handleToggleArchive }) => {
             throw error;
         }
     };
+    //TODO should we view out of stock or not status as well?
   
     return (
       <div className="card">

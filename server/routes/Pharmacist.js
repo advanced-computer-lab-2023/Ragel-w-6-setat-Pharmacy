@@ -38,7 +38,8 @@ const {
     editMedicine,
     changePharmacistPassword,
     archiveMedicine,
-    unarchiveMedicine
+    unarchiveMedicine,
+    getAllMedicinesOutOfStock
 } = require('../controllers/PharmacistController')
 
 // Make a pharmacist Request 
@@ -76,6 +77,9 @@ router.put('/archiveMedicine/:id', archiveMedicine);
 
 // Unarchive medicine
 router.put('/unarchiveMedicine/:id', unarchiveMedicine);
+
+//Get all out of stock medicines
+router.get('/getAllMedicinesOutOfStock', getAllMedicinesOutOfStock);
 
 
 

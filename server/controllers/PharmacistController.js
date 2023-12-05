@@ -60,6 +60,12 @@ const getAllMedicines = async (req, res) => {
     res.status(200).json(medicine)
 }
 
+// View a list of all medicines (showing only the price, image, description)
+const getAllMedicinesOutOfStock = async (req, res) => {
+    const medicine = await Medicine.find({outOfStock:true}, 'name image price description medicinalUse archived').sort({ createdAt: -1 });
+    res.status(200).json(medicine)
+}
+
 // Archive medicine
 const archiveMedicine = async (req, res) => {
     const { id } = req.params;
@@ -186,6 +192,7 @@ const addMedicine = async (req, res) => {
             activeIngredient,
             quantity,
             medicinalUse,
+            outOfStock=false
           } = req.body;
   
         let imageData;
@@ -220,7 +227,8 @@ const addMedicine = async (req, res) => {
             quantity,
             medicinalUse,
             totalSales,
-            archived
+            archived,
+            outOfStock
           });
   
           await newMedicine.save();
@@ -306,5 +314,6 @@ module.exports = {
     editMedicine,
     changePharmacistPassword,
     archiveMedicine,
-    unarchiveMedicine
+    unarchiveMedicine,
+    getAllMedicinesOutOfStock
 }
