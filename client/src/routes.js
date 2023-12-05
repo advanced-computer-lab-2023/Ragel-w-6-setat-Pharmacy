@@ -1,51 +1,45 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.3
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
+// Dashboards
 import AdminDashboard from "views/AdminDashboard.js";
+import PharmacistDashboard from "views/PharmacistDashboard.js";
+import PatientDashboard from "views/PatientDashboard.js";
+
+// Admin Views
 import PatientAdmin from "views/AdminViews/Patient.js";
 import PharmacistAdmin from "views/AdminViews/Pharmacists.js";
-import PatientDashboard from "views/PatientDashboard.js";
-import PharmacistDashboard from "views/PharmacistDashboard.js";
-import Profile from "views/examples/Profile.js";
-import Maps from "views/examples/Maps.js";
-import Register from "views/examples/Register.js";
-import PatientRegister from "views/Authentication/PatientRegister.js";
-import PharmacistRegister from "views/Authentication/PharmacistRegister.js";
-import Login from "views/examples/Login.js";
-import ForgotPassword from "views/examples/ForgotPassword.js";
-import Tables from "views/examples/Tables.js";
-import Icons from "views/examples/Icons.js";
 import HandlePharmReq from "views/AdminViews/HandlePharmReq";
-import UploadDocuments from "views/PharmacistViews/UploadDocuments";
 import Admins from "views/AdminViews/Admins";
+import SalesReport from "views/AdminViews/SalesReport";
 
+// Pharmacist Views
+import UploadDocuments from "views/PharmacistViews/UploadDocuments";
+import AddMedicine from "views/PharmacistViews/AddMedicine";
+import EditMedicine from "views/PharmacistViews/EditMedicine";
+import ViewAllMedicinePharmacist from "views/PharmacistViews/ViewAllMedicine";
+import ViewMedSales from "views/PharmacistViews/ViewMedSales";
+import SalesReportPharma from "views/PharmacistViews/SalesReportPharma";
+import FilterSalesReport from "views/PharmacistViews/FilterSalesReport";
+
+// Patient Views
 import Cart from "views/PatientViews/Cart";
 import Checkout from "views/PatientViews/Checkout";
 import Orders from "views/PatientViews/Orders";
 import ViewAllMedicinePatient from "views/PatientViews/ViewAllMedicine";
 
-import AddMedicine from "views/PharmacistViews/AddMedicine";
-import EditMedicine from "views/PharmacistViews/EditMedicine";
-import ViewAllMedicinePharmacist from "views/PharmacistViews/ViewAllMedicine";
-import ViewMedSales from "views/PharmacistViews/ViewMedSales";
+// Authentication
+import PatientRegister from "views/Authentication/PatientRegister.js";
+import PharmacistRegister from "views/Authentication/PharmacistRegister.js";
 
+// Examples
+import Login from "views/examples/Login.js";
+import ForgotPassword from "views/examples/ForgotPassword.js";
+import Profile from "views/examples/Profile.js";
+import Tables from "views/examples/Tables.js";
+import Icons from "views/examples/Icons.js";
+import Maps from "views/examples/Maps.js";
+import Register from "views/examples/Register.js";
 
-//TODO fix this with the respective layout
-//TODO add menu levewls
+// TODO fix this with the respective layout
+// TODO add menu levewls
 var routes = [
   {
     path: "/",
@@ -125,7 +119,7 @@ var routes = [
     component: <EditMedicine />,
     layout: "/pharmacist",
   },
-  
+
   {
     path: "/viewallmedicine",
     name: "View All Medicine - Pharmacist",
@@ -148,7 +142,7 @@ var routes = [
     component: <Admins />,
     layout: "/admin",
   },
-  
+
   {
     path: "/user-profile",
     name: "User Profile",
@@ -192,15 +186,36 @@ var routes = [
     component: <HandlePharmReq />,
     layout: "/admin",
   },
-//FIXME change layout to /pharmacist 
-//FIXME how to render profile info of that specific pharmacist
+  // FIXME change layout to /pharmacist 
+  // FIXME how to render profile info of that specific pharmacist
   { //Handle Pharm Req in the layout Admin (will make a layout for every role)
     path: "/UploadDocuments",
     name: "Upload documents",
     icon: "ni ni-circle-08 text-pink",
     component: <UploadDocuments />,
     layout: "/pharmacist",
-  }
-  
+  },
+  {
+    path: "/SalesReport",
+    name: "Sales Report",
+    icon: "ni ni-tv-2 text-primary",
+    component: <SalesReport />,
+    layout: "/admin",
+  },
+  {
+    path: "/SalesReportPharma",
+    name: "Sales Report",
+    icon: "ni ni-tv-2 text-primary",
+    component: <SalesReportPharma />,
+    layout: "/pharmacist",
+  },
+  {
+    path: "/FilterSalesReport",
+    name: "Filter Sales Report",
+    icon: "ni ni-tv-2 text-primary",
+    component: <FilterSalesReport />,
+    layout: "/pharmacist",
+  },
 ];
+
 export default routes;
