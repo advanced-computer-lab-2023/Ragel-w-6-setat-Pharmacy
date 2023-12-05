@@ -105,11 +105,11 @@ const PatientRegister = () => {
   return (
     <>
       <Col lg="6" md="8">
-        <Card className="bg-secondary shadow border-0">
+        <Card className="">
           
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small>Sign Up as Patient</small>
+              <h2>Sign Up as Patient</h2>
             </div>
             <Form role="form" onSubmit={handleSubmit}>
               <FormGroup>
@@ -195,7 +195,7 @@ const PatientRegister = () => {
 
 <FormGroup>
       <InputGroup>
-        <Dropdown isOpen={genderDropdownOpen} toggle={toggleGenderDropdown}>
+        <Dropdown isOpen={genderDropdownOpen} toggle={toggleGenderDropdown} >
           <DropdownToggle caret>{gender || 'Select Gender'}</DropdownToggle>
           <DropdownMenu right>
             <DropdownItem value="Male" active={gender === 'Male'} onClick={() => setGender('Male')}>
@@ -291,7 +291,7 @@ const PatientRegister = () => {
                 </Col>
               </Row>
               {!success?(
-       <Button type="submit">Register</Button>
+       <Button className="my-4" color="primary" type="submit">Register</Button>
      ):<Link to ="/Login">
      <Button type="submit">Login now</Button></Link>}
      

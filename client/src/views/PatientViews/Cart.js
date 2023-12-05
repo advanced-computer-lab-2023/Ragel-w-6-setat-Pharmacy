@@ -92,7 +92,7 @@ const Cart = ({}) => {
               <h3>Total Quantity: {cart.totalQty}</h3>
               <h3>Total Cost: {cart.totalCost}</h3>
               <button
-                      className="btn btn-primary"
+                      className="btn btn-success"
                       onClick={() => navigate("/patient/checkout")}
                     >
                       Checkout
@@ -115,7 +115,7 @@ const Cart = ({}) => {
                       className="form-control d-inline-block mr-2"
                     />
                     <button
-                      className="btn btn-primary"
+                      className="btn btn-success"
                       onClick={() => updateQuantity(item.medicine._id)}
                     >
                       Update Quantity

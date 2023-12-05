@@ -137,6 +137,7 @@ const addMedicine = async (req, res) => {
         console.log('Request Body:', req.body);
         const {
             totalSales = 0,
+            outOfStock=false,
             name,
             price,
             description,
@@ -177,6 +178,7 @@ const addMedicine = async (req, res) => {
             quantity,
             medicinalUse,
             totalSales,
+            outOfStock
           });
   
           await newMedicine.save();

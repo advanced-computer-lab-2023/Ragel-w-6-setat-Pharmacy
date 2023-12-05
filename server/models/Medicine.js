@@ -39,6 +39,10 @@ const medSchema = new Schema({
     overTheCounter:{
         type: Boolean,
          //required: true
+    },
+    outOfStock:{
+        type:Boolean,
+        required:true
     }
 }, { timestamp: true })
 

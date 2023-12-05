@@ -15,11 +15,11 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import AdminDashboard from "views/AdminDashboard.js";
+//import AdminDashboard from "views/Dashboards/AdminDashboard.js";
 import PatientAdmin from "views/AdminViews/Patient.js";
 import PharmacistAdmin from "views/AdminViews/Pharmacists.js";
-import PatientDashboard from "views/PatientDashboard.js";
-import PharmacistDashboard from "views/PharmacistDashboard.js";
+//import PatientDashboard from "views/Dashboards/PatientDashboard.js";
+//mport PharmacistDashboard from "views/Dashboards/PharmacistDashboard.js";
 import Profile from "views/examples/Profile.js";
 import Maps from "views/examples/Maps.js";
 import Register from "views/examples/Register.js";
@@ -37,6 +37,8 @@ import Cart from "views/PatientViews/Cart";
 import Checkout from "views/PatientViews/Checkout";
 import Orders from "views/PatientViews/Orders";
 import ViewAllMedicinePatient from "views/PatientViews/ViewAllMedicine";
+import ChangePassword from "views/PatientViews/ChangePassword";
+
 
 import AddMedicine from "views/PharmacistViews/AddMedicine";
 import EditMedicine from "views/PharmacistViews/EditMedicine";
@@ -44,14 +46,18 @@ import ViewAllMedicinePharmacist from "views/PharmacistViews/ViewAllMedicine";
 import ViewMedSales from "views/PharmacistViews/ViewMedSales";
 
 
+
+
 //TODO fix this with the respective layout
 //TODO add menu levewls
 var routes = [
+
+  //admin
   {
     path: "/",
-    name: "Dashboard",
+    name: "Change Password",
     icon: "ni ni-tv-2 text-primary",
-    component: <AdminDashboard />,
+    component: <ChangePassword />,
     layout: "/admin",
   },
   {
@@ -61,6 +67,7 @@ var routes = [
     component: <PatientAdmin />,
     layout: "/admin",
   },
+
   {
     path: "/pharmacists",
     name: "Pharmacists",
@@ -69,46 +76,67 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/",
-    name: "Dashboard",
+    path: "/admins",
+    name: "Admins",
     icon: "ni ni-tv-2 text-primary",
-    component: <PatientDashboard />,
+    component: <Admins />,
+    layout: "/admin",
+  },
+  
+  {
+    path: "/user-profile",
+    name: "User Profile",
+    icon: "ni ni-single-02 text-yellow",
+    component: <Profile />,
+    layout: "/admin",
+  },
+
+  //Patient
+  {
+    path: "/viewallmedicine",
+    name: "Medicine",
+    icon: "ni ni-collection  text-white",
+    component: <ViewAllMedicinePatient />,
     layout: "/patient",
   },
   {
     path: "/cart",
     name: "Cart",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-cart   text-white",
     component: <Cart />,
     layout: "/patient",
   },
+
   {
     path: "/checkout",
     name: "Checkout",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-credit-card  text-white",
     component: <Checkout />,
     layout: "/patient",
   },
   {
     path: "/orders",
     name: "Orders",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-delivery-fast text-white",
     component: <Orders />,
     layout: "/patient",
   },
-  {
-    path: "/viewallmedicinepatient",
-    name: "View All Medicine - Patient",
-    icon: "ni ni-tv-2 text-primary",
-    component: <ViewAllMedicinePatient />,
-    layout: "/patient",
-  },
-
+  
   {
     path: "/",
-    name: "Dashboard",
+    name: "Change Password",
+    icon: "ni ni-settings-gear-65  text-white",
+    component: <ChangePassword />,
+    layout: "/patient",
+  },
+ 
+
+  //Pharmacist
+  {
+    path: "/",
+    name: "ChangePassword",
     icon: "ni ni-tv-2 text-primary",
-    component: <PharmacistDashboard />,
+    component: <ChangePassword />,
     layout: "/pharmacist",
   },
   {
@@ -140,51 +168,44 @@ var routes = [
     component: <ViewMedSales />,
     layout: "/pharmacist",
   },
-
-  {
-    path: "/admins",
-    name: "Admins",
-    icon: "ni ni-tv-2 text-primary",
-    component: <Admins />,
-    layout: "/admin",
-  },
-  
-  {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "ni ni-single-02 text-yellow",
-    component: <Profile />,
-    layout: "/admin",
+  { //Handle Pharm Req in the layout Admin (will make a layout for every role)
+    path: "/UploadDocuments",
+    name: "Upload documents",
+    icon: "ni ni-circle-08 text-pink",
+    component: <UploadDocuments />,
+    layout: "/pharmacist",
   },
 
+ 
+//auth
   {
     path: "/login",
     name: "Login",
-    icon: "ni ni-key-25 text-info",
+    icon: "ni ni-key-25 text-white",
     component: <Login />,
     layout: "/auth",
   },
   {
     path: "/forgotPassword",
     name: "Forgot Password",
-    icon: "ni ni-key-25 text-info",
+    icon: "ni ni-key-25 text-white",
     component: <ForgotPassword />,
-    layout: "/auth",
+    layout: "/patient",
   },
-  {
-    path: "/patientRegister",
-    name: "PatientRegister",
-    icon: "ni ni-circle-08 text-pink",
-    component: <PatientRegister />,
-    layout: "/auth",
-  },
-  {
-    path: "/pharmacistRegister",
-    name: "PharmacistRegister",
-    icon: "ni ni-circle-08 text-pink",
-    component: <PharmacistRegister />,
-    layout: "/auth",
-  },
+  // {
+  //   path: "/patientRegister",
+  //   name: "PatientRegister",
+  //   icon: "ni ni-circle-08 text-pink",
+  //   component: <PatientRegister />,
+  //   layout: "/auth",
+  // },
+  //  {
+  //   path: "/pharmacistRegister",
+  //   name: "PharmacistRegister",
+  //   icon: "ni ni-circle-08 text-pink",
+  //   component: <PharmacistRegister />,
+  //   layout: "/auth",
+  // },
   { //Handle Pharm Req in the layout Admin (will make a layout for every role)
     path: "/HandlePharmReq",
     name: "HandlePharmReq",
@@ -194,13 +215,7 @@ var routes = [
   },
 //FIXME change layout to /pharmacist 
 //FIXME how to render profile info of that specific pharmacist
-  { //Handle Pharm Req in the layout Admin (will make a layout for every role)
-    path: "/UploadDocuments",
-    name: "Upload documents",
-    icon: "ni ni-circle-08 text-pink",
-    component: <UploadDocuments />,
-    layout: "/pharmacist",
-  }
+ 
   
 ];
 export default routes;

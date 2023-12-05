@@ -33,6 +33,7 @@ import {
   InputGroup,
   Row,
   Col,
+  Alert
 } from "reactstrap";
 
 import { UserContext } from "../../contexts/UserContext";
@@ -40,21 +41,18 @@ import { UserContext } from "../../contexts/UserContext";
 const Login = () => {
 
   const { user, setUser } = useContext(UserContext);
-
+  const [message, setMessage] = useState(null);
   const navigate = useNavigate()
   const [success, setSuccess] = useState(false);
-  
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null)
-
   const [ data,setData]=useState({
     username:"",
     password:""
   })
   const [username, setUsername] = useState('')
-
   const [password, setPassword] = useState('')
   
-
   const  loginUser = async(e) =>
   {
     e.preventDefault();
@@ -71,10 +69,14 @@ const Login = () => {
     if (!response.ok){
       setError(json.error)
       setSuccess(false)
+      console.error("Login failed", data);
+      setMessage({ type: "danger", text: "Login failed. Invalid credentials" });
   }
   else{ 
-      setSuccess(true)
+    setSuccess(true)
      setError('Thank you for logging ')
+     console.log("Login successful", data);
+     setMessage({ type: "success", text: "Login successful" });
       //navigate('/auth/login') 
       //FIXME check this is the correct syntax to navigate
       //FIXME route based on user role to the correct dashboard ; swithc case
@@ -108,13 +110,19 @@ const Login = () => {
 
   return (
     <>
+    
       <Col lg="5" md="7">
-        <Card className="bg-secondary shadow border-0">
+        <Card className="green">
           
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small>Sign in</small>
+              <h4>Log in with credentials</h4>
             </div>
+            {message && (
+              <Alert color={message.type} className="text-center">
+                {message.text}
+              </Alert>
+            )}
             <Form role="form" onSubmit={loginUser}>
               <FormGroup className="mb-3">
                 <InputGroup className="input-group-alternative">
@@ -138,10 +146,19 @@ const Login = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                   placeholder="Password" type="password" 
+                   placeholder="Password" 
+                   type={showPassword ? "text" : "password"}
                    onChange={(e)=>setPassword(e.target.value)}
                    value={password}
                    required/>
+                    <InputGroupAddon addonType="append">
+              <InputGroupText
+                style={{ cursor: "pointer" }}
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                <i className={showPassword ? "ni ni-check-bold" : "ni ni-fat-remove"} />
+              </InputGroupText>
+            </InputGroupAddon>
                 </InputGroup>
               </FormGroup>
               <div className="custom-control custom-control-alternative custom-checkbox">
@@ -159,7 +176,7 @@ const Login = () => {
               </div>
               <div className="text-center">
                 <Button className="my-4" color="primary" type="submit">
-                  Sign in
+                 Login
                 </Button>
               </div>
             </Form>
@@ -181,7 +198,7 @@ const Login = () => {
               href="#pablo"
               onClick={(e) => e.preventDefault()}
             >
-              <small>Create new account REMOVE THIS?</small>
+              {/* <small>Create new account REMOVE THIS?</small> */}
             </a>
           </Col>
         </Row>

@@ -380,6 +380,9 @@ const handleSuccessfulPayment = async (patient) => {
                         // Ensure quantity and total sales are updated correctly
                         const quantityToDecrease = Math.min(medicine.quantity, cartItem.quantity);
                         medicine.quantity -= quantityToDecrease;
+                        if (medicine.quantity<=0){
+                            medicine.outOfStock=true;
+                        }
                         medicine.totalSales += cartItem.quantity; // Update based on the cart quantity
                         await medicine.save();
                     }
@@ -556,6 +559,48 @@ const changePatientPassword = async (req, res) => {
     }
 };
 
+// View Alternative Medicine based on active ingredient 
+const medAlternative =async (req,res)=>{
+    try {
+        const {medicineId} = req.params;
+    
+        // Check if the requested medicine is out of stock
+        const medicine = await Medicine.findById(medicineId);
+        if (!medicine) {
+          return res.status(404).json({ message: 'Medicine not found' });
+        }
+    
+        if (medicine.outOfStock) {
+          // If out of stock, suggest similar medicines based on active ingredient
+          const similarMedicines = await Medicine.find({
+            activeIngredient: medicine.activeIngredient,
+            outOfStock: false,
+          });
+    
+          if (similarMedicines.length > 0) {
+            return res.status(200).json({
+              message: 'Medicine is out of stock. Here are some alternatives:',
+              alternatives: similarMedicines,
+            });
+          } else {
+            return res.status(404).json({
+              message: 'Medicine is out of stock, and no alternatives are available.',
+            });
+          }
+        } else {
+          // If not out of stock, return the medicine details
+          return res.status(200).json({
+            message: 'Medicine is in stock.',
+            medicineDetails: medicine,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+}
+
+//helper view alternatives (it checks if quanitity )
 
 module.exports = {
     createPatient,
@@ -573,7 +618,8 @@ module.exports = {
     addAddressToPatient,
     getPatientAddresses,
     processPayment,
-    changePatientPassword
+    changePatientPassword,
+    medAlternative  
 }
 
 // update a patient ****
