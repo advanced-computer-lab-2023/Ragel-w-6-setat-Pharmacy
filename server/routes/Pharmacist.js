@@ -36,7 +36,9 @@ const {
     getMedicinesByMedicinalUse,
     addMedicine,
     editMedicine,
-    changePharmacistPassword
+    changePharmacistPassword,
+    archiveMedicine,
+    unarchiveMedicine
 } = require('../controllers/PharmacistController')
 
 // Make a pharmacist Request 
@@ -68,5 +70,13 @@ router.post("/addMedicine", upload.single('image'), addMedicine);
 router.patch("/editMedicine", editMedicine)
 
 router.post('/changePharmacistPassword', changePharmacistPassword);
+
+// Archive medicine
+router.put('/archiveMedicine/:id', archiveMedicine);
+
+// Unarchive medicine
+router.put('/unarchiveMedicine/:id', unarchiveMedicine);
+
+
 
 module.exports = router

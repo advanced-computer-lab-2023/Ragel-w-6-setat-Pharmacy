@@ -7,7 +7,7 @@ const pharmacistController = require('../controllers/PharmacistController');
 const User = require('../models/User');
 const { default: mongoose } = require('mongoose');
 const express = require("express");
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const nodemailer = require('nodemailer');

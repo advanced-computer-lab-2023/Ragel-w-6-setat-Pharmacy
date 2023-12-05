@@ -56,9 +56,51 @@ const createPharmacist = async (req, res) => {
 
 // View a list of all medicines (showing only the price, image, description)
 const getAllMedicines = async (req, res) => {
-    const medicine = await Medicine.find({}, 'name image price description medicinalUse').sort({ createdAt: -1 });
+    const medicine = await Medicine.find({}, 'name image price description medicinalUse archived').sort({ createdAt: -1 });
     res.status(200).json(medicine)
 }
+
+// Archive medicine
+const archiveMedicine = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const medicine = await Medicine.findByIdAndUpdate(
+            id,
+            { archived: true },
+            // { new: true }
+        );
+
+        if (!medicine) {
+            res.status(404).json({ error: 'Medicine not found' });
+        } else {
+            res.status(200).json(medicine);
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Unarchive medicine
+const unarchiveMedicine = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const medicine = await Medicine.findByIdAndUpdate(
+            id,
+            { archived: false },
+            // { new: true }
+        );
+
+        if (!medicine) {
+            res.status(404).json({ error: 'Medicine not found' });
+        } else {
+            res.status(200).json(medicine);
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 // View the available quantity and sales of each medicine
 const getQuantityAndSalesOfMedicine = async (req, res) => {
@@ -137,6 +179,7 @@ const addMedicine = async (req, res) => {
         console.log('Request Body:', req.body);
         const {
             totalSales = 0,
+            archived=false,
             name,
             price,
             description,
@@ -177,6 +220,7 @@ const addMedicine = async (req, res) => {
             quantity,
             medicinalUse,
             totalSales,
+            archived
           });
   
           await newMedicine.save();
@@ -260,5 +304,7 @@ module.exports = {
     getMedicinesByMedicinalUse,
     getMedicinesByMedicinalUse,
     editMedicine,
-    changePharmacistPassword
+    changePharmacistPassword,
+    archiveMedicine,
+    unarchiveMedicine
 }
