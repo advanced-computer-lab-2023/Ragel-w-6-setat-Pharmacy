@@ -27,6 +27,10 @@ import Admins from "views/AdminViews/Admins";
 import SalesReport from "views/AdminViews/SalesReport";
 
 // Pharmacist Views
+import Admins from "views/AdminViews/Admins";
+import SalesReport from "views/AdminViews/SalesReport";
+
+// Pharmacist Views
 import UploadDocuments from "views/PharmacistViews/UploadDocuments";
 import AddMedicine from "views/PharmacistViews/AddMedicine";
 import EditMedicine from "views/PharmacistViews/EditMedicine";
