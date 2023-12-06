@@ -25,6 +25,7 @@ import AdminFooter from "components/Footers/AdminFooter.js";
 import PharmacistSidebar from "components/Sidebar/PharmacistSidebar.js";
 
 import routes from "routes.js";
+import PatientNavBar from "components/Navbars/PatientNavBar";
 
 const Pharmacist = (props) => {
   const mainContent = React.useRef(null);
@@ -62,7 +63,7 @@ const Pharmacist = (props) => {
 
   return (
     <>
-     <AdminNavbar />
+     <PatientNavBar />
       <PharmacistSidebar
         {...props}
         routes={routes}

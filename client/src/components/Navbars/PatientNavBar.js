@@ -16,7 +16,7 @@ import {
 } from "reactstrap";
 
 
-const AdminNavbar = (props) => {
+const PatientNavBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
@@ -55,6 +55,20 @@ const AdminNavbar = (props) => {
             </Nav>{" "}
           </Container>
           <Nav className="ml-auto" style={{ marginRight: "5px" }} navbar>
+            <NavItem className="ml-auto">
+              <NavLink className="rounded-circle text-white">
+                <span className="nav-link-icon d-block">
+                  <i className="ni ni-chat-round" />
+                </span>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className="rounded-circle text-white">
+                <span className="nav-link-icon d-block">
+                  <i className="fa-solid fa-video"></i>
+                </span>
+              </NavLink>
+            </NavItem>
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
               <span className="nav-link-icon d-block text-white">
@@ -75,4 +89,4 @@ const AdminNavbar = (props) => {
   );
 };
 
-export default AdminNavbar;
+export default PatientNavBar;

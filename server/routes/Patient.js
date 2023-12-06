@@ -69,7 +69,7 @@ router.post("/processPayment/:id", processPayment);
 // Change patient's password
 router.post('/changePatientPassword', changePatientPassword);
 
-
+// Get medicine alternatives
 router.post('/medAlternatives/:medicineId',medAlternative)
 
 

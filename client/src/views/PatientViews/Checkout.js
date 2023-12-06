@@ -230,43 +230,43 @@ const Checkout = () => {
 
     return (
         <>
-            <AdminHeader />
-            <Container className="mt--7" fluid>
-                <Row>
-                    <div className="col">
-                        <Card className="shadow">
-                            <CardHeader className="border-0">
-                                <h3 className="mb-0">Cart Information</h3>
-                            </CardHeader>
-                            <CardBody>
-                                {cartData ? (
-                                    <>
-                                        <CardTitle tag="h5">
-                                            Total Quantity: {cartData.totalQty}
-                                        </CardTitle>
-                                        <CardTitle tag="h5">
-                                            Total Cost: {cartData.totalCost}
-                                        </CardTitle>
-                                        <CardText>
-                                            <strong>Items:</strong>
-                                            <ul>
-                                                {cartData && cartData.cartItems ? (
-                                                    cartData.cartItems.map((item, index) => (
-                                                        <li key={index}>
-                                                            {item.quantity} x {item.medicine ? item.medicine.name : 'Unknown Medicine'} - ${item.total}
-                                                        </li>
-                                                    ))
-                                                ) : (
-                                                    <li>No items in the cart</li>
-                                                )}
-                                            </ul>
-                                        </CardText>
+            <div className="d-flex align-items-center justify-content-center" style={{ minHeight: '80vh' }}>
 
-                                    </>
-                                ) : (
-                                    <p>Loading cart data...</p>
-                                )}
-                                {addresses && addresses.length > 0 && (
+                <Container className="mt--7" fluid>
+                    <Row>
+                        <div className="col-md-8">
+                            <Card className="shadow">
+                                <CardHeader className="border-0">
+                                    <h3 className="mb-0">Cart Information</h3>
+                                </CardHeader>
+                                <CardBody>
+                                    {cartData ? (
+                                        <>
+                                            <CardTitle tag="h5">
+                                                Total Quantity: {cartData.totalQty}
+                                            </CardTitle>
+                                            <CardTitle tag="h5">
+                                                Total Cost: {cartData.totalCost}
+                                            </CardTitle>
+                                            <CardText>
+                                                <strong>Items:</strong>
+                                                <ul>
+                                                    {cartData && cartData.cartItems ? (
+                                                        cartData.cartItems.map((item, index) => (
+                                                            <li key={index}>
+                                                                {item.quantity} x {item.medicine ? item.medicine.name : 'Unknown Medicine'} - ${item.total}
+                                                            </li>
+                                                        ))
+                                                    ) : (
+                                                        <li>No items in the cart</li>
+                                                    )}
+                                                </ul>
+                                            </CardText>
+
+                                        </>
+                                    ) : (
+                                        <p>Loading cart data...</p>
+                                    )}
                                     <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
                                         <DropdownToggle caret>
                                             {selectedAddress
@@ -274,119 +274,124 @@ const Checkout = () => {
                                                 : "Select Delivery Address"}
                                         </DropdownToggle>
                                         <DropdownMenu>
-                                            {addresses.map((address, index) => (
-                                                <DropdownItem
-                                                    key={index}
-                                                    onClick={() => handleAddressSelect(address)}
-                                                >
-                                                    {`${address.street}, ${address.city}`}
-                                                </DropdownItem>
-                                            ))}
-                                            <DropdownItem divider />
+                                            {addresses && addresses.length > 0 && (
+                                                <>
+                                                    {addresses.map((address, index) => (
+                                                        <DropdownItem
+                                                            key={index}
+                                                            onClick={() => handleAddressSelect(address)}
+                                                        >
+                                                            {`${address.street}, ${address.city}`}
+                                                        </DropdownItem>
+                                                    ))}
+                                                    <DropdownItem divider />
+                                                </>
+                                            )}
                                             <DropdownItem onClick={toggleModal}>
                                                 Add New Address
                                             </DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
-                                )}
 
-                                {/* Payment dropdown */}
-                                <Dropdown
-                                    isOpen={paymentDropdownOpen}
-                                    toggle={togglePaymentDropdown}
-                                >
-                                    <DropdownToggle caret>
-                                        {selectedPaymentMethod
-                                            ? `Pay with: ${selectedPaymentMethod}`
-                                            : "Select Payment Method"}
-                                    </DropdownToggle>
-                                    <DropdownMenu>
-                                        <DropdownItem onClick={() => setSelectedPaymentMethod("wallet")}>
-                                            Wallet
-                                        </DropdownItem>
-                                        <DropdownItem onClick={() => setSelectedPaymentMethod("creditCard")}>
-                                            Credit Card
-                                        </DropdownItem>
-                                        <DropdownItem onClick={() => setSelectedPaymentMethod("cashOnDelivery")}>
-                                            Cash On Delivery
-                                        </DropdownItem>
-                                    </DropdownMenu>
-                                </Dropdown>
 
-                                {/* Confirm Order button */}
-                                <Button
-                                    color="success"
-                                    onClick={handleConfirmOrder}
-                                    disabled={confirmOrderDisabled}
-                                >
-                                    Confirm Order
-                                </Button>
-                            </CardBody>
-                        </Card>
-                    </div>
-                </Row>
-            </Container>
+                                    {/* Payment dropdown */}
+                                    <Dropdown
+                                        isOpen={paymentDropdownOpen}
+                                        toggle={togglePaymentDropdown}
+                                    >
+                                        <DropdownToggle caret>
+                                            {selectedPaymentMethod
+                                                ? `Pay with: ${selectedPaymentMethod}`
+                                                : "Select Payment Method"}
+                                        </DropdownToggle>
+                                        <DropdownMenu>
+                                            <DropdownItem onClick={() => setSelectedPaymentMethod("wallet")}>
+                                                Wallet
+                                            </DropdownItem>
+                                            <DropdownItem onClick={() => setSelectedPaymentMethod("creditCard")}>
+                                                Credit Card
+                                            </DropdownItem>
+                                            <DropdownItem onClick={() => setSelectedPaymentMethod("cashOnDelivery")}>
+                                                Cash On Delivery
+                                            </DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
 
-            {/* Add New Address Modal */}
-            <Modal isOpen={modalOpen} toggle={toggleModal}>
-                <ModalHeader toggle={toggleModal}>Add New Address</ModalHeader>
-                <ModalBody>
-                    <Form>
-                        <FormGroup>
-                            <Label for="street">Street</Label>
-                            <Input
-                                type="text"
-                                name="street"
-                                id="street"
-                                value={newAddress.street}
-                                onChange={handleNewAddressChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="city">City</Label>
-                            <Input
-                                type="text"
-                                name="city"
-                                id="city"
-                                value={newAddress.city}
-                                onChange={handleNewAddressChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="buildingNumber">Building Number</Label>
-                            <Input
-                                type="text"
-                                name="buildingNumber"
-                                id="buildingNumber"
-                                value={newAddress.buildingNumber}
-                                onChange={handleNewAddressChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="apartmentNumber">Apartment Number</Label>
-                            <Input
-                                type="text"
-                                name="apartmentNumber"
-                                id="apartmentNumber"
-                                value={newAddress.apartmentNumber}
-                                onChange={handleNewAddressChange}
-                            />
-                        </FormGroup>
-                    </Form>
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="primary" onClick={handleAddAddress}>
-                        Add Address
-                    </Button>{" "}
-                    <Button color="secondary" onClick={toggleModal}>
-                        Cancel
-                    </Button>
-                </ModalFooter>
-            </Modal>
-            {/* Display wallet balance on the right side */}
-            <div style={{ position: 'fixed', top: '10%', right: '5%', padding: '20px', backgroundColor: '#3498db', color: '#fff', textAlign: 'center', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
-                <h4 style={{ margin: 0, marginBottom: '10px' }}>Wallet Balance</h4>
-                <p style={{ fontSize: '1.5em', fontWeight: 'bold' }}>${walletBalance}</p>
+                                    {/* Confirm Order button */}
+                                    <Button
+                                        color="success"
+                                        onClick={handleConfirmOrder}
+                                        disabled={confirmOrderDisabled}
+                                    >
+                                        Confirm Order
+                                    </Button>
+                                </CardBody>
+                            </Card>
+                        </div>
+                    </Row>
+                </Container>
+
+                {/* Add New Address Modal */}
+                <Modal isOpen={modalOpen} toggle={toggleModal}>
+                    <ModalHeader toggle={toggleModal}>Add New Address</ModalHeader>
+                    <ModalBody>
+                        <Form>
+                            <FormGroup>
+                                <Label for="street">Street</Label>
+                                <Input
+                                    type="text"
+                                    name="street"
+                                    id="street"
+                                    value={newAddress.street}
+                                    onChange={handleNewAddressChange}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="city">City</Label>
+                                <Input
+                                    type="text"
+                                    name="city"
+                                    id="city"
+                                    value={newAddress.city}
+                                    onChange={handleNewAddressChange}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="buildingNumber">Building Number</Label>
+                                <Input
+                                    type="text"
+                                    name="buildingNumber"
+                                    id="buildingNumber"
+                                    value={newAddress.buildingNumber}
+                                    onChange={handleNewAddressChange}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="apartmentNumber">Apartment Number</Label>
+                                <Input
+                                    type="text"
+                                    name="apartmentNumber"
+                                    id="apartmentNumber"
+                                    value={newAddress.apartmentNumber}
+                                    onChange={handleNewAddressChange}
+                                />
+                            </FormGroup>
+                        </Form>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={handleAddAddress}>
+                            Add Address
+                        </Button>{" "}
+                        <Button color="secondary" onClick={toggleModal}>
+                            Cancel
+                        </Button>
+                    </ModalFooter>
+                </Modal>
+                {/* Display wallet balance on the right side */}
+                <div style={{ position: 'fixed', top: '15%', right: '10%', padding: '20px', backgroundColor: '#009688', color: '#fff', textAlign: 'center', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+                    <h4 style={{ margin: 0, marginBottom: '10px', color: '#fff' }}>Wallet Balance</h4>
+                    <p style={{ fontSize: '1.5em', fontWeight: 'bold' }}>${walletBalance}</p>
+                </div>
             </div>
         </>
     );
