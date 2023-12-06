@@ -1,65 +1,65 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.3
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import { Link } from "react-router-dom";
-// reactstrap components
+import React, { useState } from "react";
 import {
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  Form,
-  FormGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Input,
-  InputGroup,
-  Navbar,
-  Nav,
-  Container,
-  Media,
+    Collapse,
+    Navbar,
+    NavbarToggler,
+    NavbarBrand,
+    Nav,
+    NavItem,
+    NavLink,
+    Container,
+    UncontrolledDropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
+    Media
 } from "reactstrap";
 
+
 const AdminNavbar = (props) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggle = () => setIsOpen(!isOpen);
   const handleLogOut = async (e) => {
     window.location.href = "http://localhost:3000/auth/login";
   };
 
   return (
     <>
-      <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
-        <Container fluid>
-          <Link
-            className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
-            to="/"
-          >
-            {props.brandText}
-          </Link>
-          <Nav className="align-items-center d-none d-md-flex" navbar>
+      <Navbar
+        className="navbar-top navbar-horizontal navbar-dark"
+        style={{
+          backgroundColor: "#009688",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+        dark
+        expand="md"
+      >
+        <NavbarBrand>
+          {/* <img
+            alt="logo"
+            src={require("../../assets/img/brand/healthspace-removebg-preview.png")}
+            style={{
+              height: 130,
+              width: 350,
+            }}
+          /> */}
+        </NavbarBrand>
+        <NavbarToggler onClick={toggle} />
+        <Collapse isOpen={isOpen} navbar>
+          <Container fluid>
+            <Nav navbar>
+            
+
+            </Nav>{" "}
+          </Container>
+          <Nav className="ml-auto" style={{ marginRight: "5px" }} navbar>
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
-                <Media className="align-items-center">
-                  <span className="avatar avatar-sm rounded-circle">
-                    <img
-                      alt="..."
-                      src={require("../../assets/img/theme/react.jpg")}
-                    />
-                  </span>
-                </Media>
+              <span className="nav-link-icon d-block text-white">
+                  <i className="ni ni-button-power" /> 
+                </span>
               </DropdownToggle>
               <DropdownMenu className="dropdown-menu-arrow" right>
                 <DropdownItem href="#pablo" onClick={handleLogOut}>
@@ -69,7 +69,7 @@ const AdminNavbar = (props) => {
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
-        </Container>
+        </Collapse>
       </Navbar>
     </>
   );

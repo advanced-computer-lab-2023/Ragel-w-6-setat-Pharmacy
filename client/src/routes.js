@@ -18,17 +18,10 @@
 //import AdminDashboard from "views/Dashboards/AdminDashboard.js";
 import PatientAdmin from "views/AdminViews/Patient.js";
 import PharmacistAdmin from "views/AdminViews/Pharmacists.js";
-//import PatientDashboard from "views/Dashboards/PatientDashboard.js";
-//mport PharmacistDashboard from "views/Dashboards/PharmacistDashboard.js";
-import Profile from "views/examples/Profile.js";
-import Maps from "views/examples/Maps.js";
-import Register from "views/examples/Register.js";
-import PatientRegister from "views/Authentication/PatientRegister.js";
-import PharmacistRegister from "views/Authentication/PharmacistRegister.js";
-import Login from "views/examples/Login.js";
-import ForgotPassword from "views/examples/ForgotPassword.js";
-import Tables from "views/examples/Tables.js";
-import Icons from "views/examples/Icons.js";
+import PatientDashboard from "views/DashBoards/PatientDashboard.js";
+import PharmacistDashboard from "views/DashBoards/PharmacistDashboard.js";
+import AdminDashboard from "views/DashBoards/AdminDashboard.js"
+
 import HandlePharmReq from "views/AdminViews/HandlePharmReq";
 import Admins from "views/AdminViews/Admins";
 import SalesReport from "views/AdminViews/SalesReport";
@@ -72,15 +65,33 @@ var routes = [
   //admin
   {
     path: "/",
-    name: "Change Password",
-    icon: "ni ni-tv-2 text-primary",
-    component: <ChangePassword />,
+    name: "Home",
+    icon: "ni ni-single-02 text-white",
+    component: <AdminDashboard />,
     layout: "/admin",
   },
+  { //Handle Pharm Req in the layout Admin (will make a layout for every role)
+    path: "/HandlePharmReq",
+    name: "HandlePharmReq",
+    icon: "ni ni-paper-diploma text-white",
+    component: <HandlePharmReq />,
+    layout: "/admin",
+  },
+    // FIXME change layout to /pharmacist 
+  // FIXME how to render profile info of that specific pharmacist
+ 
+  {
+    path: "/SalesReport",
+    name: "Sales Report",
+    icon: "ni ni-folder-17 text-white",
+    component: <SalesReport />,
+    layout: "/admin",
+  },
+  
   {
     path: "/patients",
     name: "Patients",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-single-copy-04 text-white",
     component: <PatientAdmin />,
     layout: "/admin",
   },
@@ -88,27 +99,35 @@ var routes = [
   {
     path: "/pharmacists",
     name: "Pharmacists",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-single-copy-04 text-white",
     component: <PharmacistAdmin />,
     layout: "/admin",
   },
   {
     path: "/admins",
     name: "Admins",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-single-copy-04 text-white",
     component: <Admins />,
     layout: "/admin",
   },
-  
   {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "ni ni-single-02 text-yellow",
-    component: <Profile />,
+    path: "/ChangePassword",
+    name: "Change Password",
+    icon: "ni ni-settings-gear-65  text-white",
+    component: <ChangePassword />,
     layout: "/admin",
   },
+  
+ 
 
   //Patient
+  {
+    path: "/",
+    name: "Home",
+    icon: "ni ni-single-02 text-white",
+    component: <PatientDashboard />,
+    layout: "/patient",
+  },
   {
     path: "/viewallmedicine",
     name: "Medicine",
@@ -119,7 +138,7 @@ var routes = [
   {
     path: "/cart",
     name: "Cart",
-    icon: "ni ni-cart   text-white",
+    icon: "ni ni-cart text-white",
     component: <Cart />,
     layout: "/patient",
   },
@@ -140,75 +159,93 @@ var routes = [
   },
   
   {
-    path: "/",
+    path: "/ChangePassword",
     name: "Change Password",
     icon: "ni ni-settings-gear-65  text-white",
     component: <ChangePassword />,
     layout: "/patient",
   },
+  {
+    path: "/forgotPassword",
+    name: "Forgot Password",
+    icon: "ni ni-settings-gear-65  text-white",
+    component: <ForgotPassword />,
+    layout: "/patient",
+  },
+  
+
  
 
   //Pharmacist
   {
     path: "/",
-    name: "ChangePassword",
-    icon: "ni ni-tv-2 text-primary",
-    component: <ChangePassword />,
+    name: "Home",
+    icon: "ni ni-single-02 text-white",
+    component: <PharmacistDashboard />,
+    layout: "/pharmacist",
+  },
+  {
+    path: "/viewallmedicine",
+    name: "Medicine",
+    icon: "ni ni-collection  text-white",
+    component: <ViewAllMedicinePharmacist />,
     layout: "/pharmacist",
   },
   {
     path: "/addmedicine",
     name: "Add Medicine",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-fat-add  text-white",
     component: <AddMedicine />,
     layout: "/pharmacist",
   },
   {
     path: "/editMedicine",
     name: "Edit Medicine",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-curved-next  text-white",
     component: <EditMedicine />,
-    layout: "/pharmacist",
-  },
-
-  {
-    path: "/viewallmedicine",
-    name: "View All Medicine - Pharmacist",
-    icon: "ni ni-tv-2 text-primary",
-    component: <ViewAllMedicinePharmacist />,
     layout: "/pharmacist",
   },
   {
     path: "/viewmedsales",
-    name: "View Med Sales",
-    icon: "ni ni-tv-2 text-primary",
+    name: "View Medicine Sales",
+    icon: "ni ni-money-coins text-white",
     component: <ViewMedSales />,
     layout: "/pharmacist",
   },
+  {
+    path: "/SalesReportPharma",
+    name: "Sales Report",
+    icon: "ni ni-folder-17 text-white",
+    component: <SalesReportPharma />,
+    layout: "/pharmacist",
+  },
+  {
+    path: "/FilterSalesReport",
+    name: "Filter Sales Report",
+    icon: "ni ni-folder-17 text-white",
+    component: <FilterSalesReport />,
+    layout: "/pharmacist",
+  },
+ 
+  {
+    path: "/ChangePassword",
+    name: "Change Password",
+    icon: "ni ni-settings-gear-65  text-white",
+    component: <ChangePassword />,
+    layout: "/pharmacist",
+  },
+ 
+ 
   { //Handle Pharm Req in the layout Admin (will make a layout for every role)
     path: "/UploadDocuments",
     name: "Upload documents",
-    icon: "ni ni-circle-08 text-pink",
+    icon: "ni ni-cloud-upload-96 text-white",
     component: <UploadDocuments />,
     layout: "/pharmacist",
-
-  {
-    path: "/admins",
-    name: "Admins",
-    icon: "ni ni-tv-2 text-primary",
-    component: <Admins />,
-    layout: "/admin",
   },
+  
+  
 
-  {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "ni ni-single-02 text-yellow",
-    component: <Profile />,
-    layout: "/admin",
-  },
-
- 
 //auth
   {
     path: "/login",
@@ -217,64 +254,23 @@ var routes = [
     component: <Login />,
     layout: "/auth",
   },
+  
   {
-    path: "/forgotPassword",
-    name: "Forgot Password",
-    icon: "ni ni-key-25 text-white",
-    component: <ForgotPassword />,
-    layout: "/patient",
-  },
-  // {
-  //   path: "/patientRegister",
-  //   name: "PatientRegister",
-  //   icon: "ni ni-circle-08 text-pink",
-  //   component: <PatientRegister />,
-  //   layout: "/auth",
-  // },
-  //  {
-  //   path: "/pharmacistRegister",
-  //   name: "PharmacistRegister",
-  //   icon: "ni ni-circle-08 text-pink",
-  //   component: <PharmacistRegister />,
-  //   layout: "/auth",
-  // },
-  { //Handle Pharm Req in the layout Admin (will make a layout for every role)
-    path: "/HandlePharmReq",
-    name: "HandlePharmReq",
+    path: "/patientRegister",
+    name: "PatientRegister",
     icon: "ni ni-circle-08 text-pink",
-    component: <HandlePharmReq />,
-    layout: "/admin",
+    component: <PatientRegister />,
+    layout: "/auth",
   },
-  // FIXME change layout to /pharmacist 
-  // FIXME how to render profile info of that specific pharmacist
-  { //Handle Pharm Req in the layout Admin (will make a layout for every role)
-    path: "/UploadDocuments",
-    name: "Upload documents",
+   {
+    path: "/pharmacistRegister",
+    name: "PharmacistRegister",
     icon: "ni ni-circle-08 text-pink",
-    component: <UploadDocuments />,
-    layout: "/pharmacist",
+    component: <PharmacistRegister />,
+    layout: "/auth",
   },
-  {
-    path: "/SalesReport",
-    name: "Sales Report",
-    icon: "ni ni-tv-2 text-primary",
-    component: <SalesReport />,
-    layout: "/admin",
-  },
-  {
-    path: "/SalesReportPharma",
-    name: "Sales Report",
-    icon: "ni ni-tv-2 text-primary",
-    component: <SalesReportPharma />,
-    layout: "/pharmacist",
-  },
-  {
-    path: "/FilterSalesReport",
-    name: "Filter Sales Report",
-    icon: "ni ni-tv-2 text-primary",
-    component: <FilterSalesReport />,
-    layout: "/pharmacist",
-  },
+ 
+ 
 ];
 
 export default routes;

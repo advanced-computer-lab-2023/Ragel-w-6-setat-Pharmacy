@@ -75,8 +75,10 @@ const Orders = () => {
 
     return (
         <>
-            <AdminHeader />
-            <Container className="mt--7" fluid>
+             <div className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
+           
+
+            <Container>
                 <Row>
                     <div className="col">
                         {loading ? (
@@ -130,6 +132,7 @@ const Orders = () => {
                     </div>
                 </Row>
             </Container>
+            </div>
         </>
     );
 };

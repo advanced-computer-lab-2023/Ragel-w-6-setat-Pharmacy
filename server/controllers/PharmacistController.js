@@ -186,7 +186,6 @@ const addMedicine = async (req, res) => {
             activeIngredient,
             quantity,
             medicinalUse,
-            outOfStock=false
           } = req.body;
   
         let imageData;

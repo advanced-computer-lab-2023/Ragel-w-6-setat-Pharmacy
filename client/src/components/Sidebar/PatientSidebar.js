@@ -71,7 +71,8 @@ const PatientSidebar = (props) => {
   // creates the links that appear in the left menu / PatientSidebar
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/patient" || prop.layout === "/auth") {
+      if (prop.layout === "/patient") {
+        // || prop.layout === "/auth"
         return (
           <NavItem key={key}>
             <NavLink

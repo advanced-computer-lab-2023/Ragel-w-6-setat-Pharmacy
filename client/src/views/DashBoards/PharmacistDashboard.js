@@ -1,172 +1,329 @@
-import { useState } from "react";
-// node.js library that concatenates classes (strings)
-import classnames from "classnames";
-// javascipt plugin for creating charts
-import Chart from "chart.js";
-// react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
+/*!
+
+=========================================================
+* Argon Dashboard React - v1.2.3
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+
 // reactstrap components
 import {
   Button,
   Card,
   CardHeader,
   CardBody,
-  NavItem,
-  NavLink,
-  Nav,
-  Progress,
-  Table,
+  FormGroup,
+  Form,
+  Input,
   Container,
   Row,
   Col,
 } from "reactstrap";
-
 // core components
-import {
-  chartOptions,
-  parseOptions,
-  chartExample1,
-  chartExample2,
-} from "variables/charts.js";
+import UserHeader from "components/Headers/UserHeader.js";
 
-import AdminHeader from "components/Headers/AdminHeader.js";
-import AddAdmin from "components/AdminComponents/AddAdmin.js";
-import AdminDetails from "components/AdminComponents/AdminDetails.js";
-import DeleteAdmin from "components/AdminComponents/DeleteAdmin.js";
-import { useEffect } from "react";
-const PharmacistDashboard = (props) => {
-  /* const [admins, setAdmins] = useState(null);
-
-  useEffect(() => {
-    const fetchAdmins = async () => {
-      const response = await fetch('/api/admin/getAdmins');
-      const json = await response.json(); // array of objects where each represents an admin
-      console.log(json);
-      if (response.ok) {
-        setAdmins(json);
-      }
-    };
-
-    fetchAdmins();
-  }, []); // empty array means it will only run once */
-    const [username, setUsername] = useState('');
-    const [newPassword, setPassword] = useState('');
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(false);
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-  
-      const pharmacist = { username, newPassword };
-  
-      const response = await fetch('/api/pharmacist/changePharmacistPassword', {
-        method: 'POST',
-        body: JSON.stringify(pharmacist),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      const json = await response.json();
-  
-      if (!response.ok) {
-        setError(json.error);
-        setSuccess(false);
-      } else {
-        setUsername('');
-        setPassword('');
-        setError(null);
-        setSuccess(true);
-      }
-    };
-
-    const [medicinesOutOfStock, setMedicinesOutOfStock] = useState([]);
-
-  useEffect(() => {
-    const fetchMedicinesOutOfStock = async () => {
-      try {
-        const response = await fetch('/api/pharmacist/getAllMedicinesOutOfStock');
-        const json = await response.json();
-
-        if (response.ok) {
-          setMedicinesOutOfStock(json);
-        } else {
-          console.error('Failed to fetch medicines out of stock:', json.error);
-        }
-      } catch (error) {
-        console.error('Error fetching medicines out of stock:', error.message);
-      }
-    };
-
-    fetchMedicinesOutOfStock();
-  }, []); // empty array means it will only run once
-
+const Profile = () => {
   return (
     <>
-      <AdminHeader />
+      <UserHeader />
       {/* Page content */}
-     <Container>
-  
-    <div className="container">
-      <form className="create" onSubmit={handleSubmit}>
-        <h3>Change Password</h3>
-        <div className="form-group">
-          <label>Username</label>
-          <input
-            type="text"
-            className="form-control"
-            onChange={(e) => setUsername(e.target.value)}
-            value={username}
-          />
-        </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            className="form-control"
-            onChange={(e) => setPassword(e.target.value)}
-            value={newPassword}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Change Password
-        </button>
-        {error && <div className="text-danger mt-3">{error}</div>}
-        {success && (
-          <div className="text-success mt-3">Pharmacist password changed successfully!</div>
-        )}
-      </form>
-    </div>
-    <div className="container mt-5">
-          <h3>Notifications</h3>
-          <Table>
-            <thead>
-              <tr>
-                <th>Medicine Name</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {medicinesOutOfStock.map((medicine) => (
-                <tr key={medicine._id}>
-                  <td>{medicine.name}</td>
-                  <td>Out of Stock</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
-  
-
-
-
-     
-    
-    
-     </Container>
-    
+      <Container className="mt--7" fluid>
+        <Row>
+          <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
+            <Card className="card-profile shadow">
+              <Row className="justify-content-center">
+                <Col className="order-lg-2" lg="3">
+                  <div className="card-profile-image">
+                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                      <img
+                        alt="..."
+                        className="rounded-circle"
+                        src={require("../../assets/img/theme/team-4-800x800.jpg")}
+                      />
+                    </a>
+                  </div>
+                </Col>
+              </Row>
+              <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                <div className="d-flex justify-content-between">
+                  <Button
+                    className="mr-4"
+                    color="info"
+                    href="#pablo"
+                    onClick={(e) => e.preventDefault()}
+                    size="sm"
+                  >
+                    Connect
+                  </Button>
+                  <Button
+                    className="float-right"
+                    color="default"
+                    href="#pablo"
+                    onClick={(e) => e.preventDefault()}
+                    size="sm"
+                  >
+                    Message
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardBody className="pt-0 pt-md-4">
+                <Row>
+                  <div className="col">
+                    <div className="card-profile-stats d-flex justify-content-center mt-md-5">
+                      <div>
+                        <span className="heading">22</span>
+                        <span className="description">Friends</span>
+                      </div>
+                      <div>
+                        <span className="heading">10</span>
+                        <span className="description">Photos</span>
+                      </div>
+                      <div>
+                        <span className="heading">89</span>
+                        <span className="description">Comments</span>
+                      </div>
+                    </div>
+                  </div>
+                </Row>
+                <div className="text-center">
+                  <h3>
+                    Jessica Jones
+                    <span className="font-weight-light">, 27</span>
+                  </h3>
+                  <div className="h5 font-weight-300">
+                    <i className="ni location_pin mr-2" />
+                    Bucharest, Romania
+                  </div>
+                  <div className="h5 mt-4">
+                    <i className="ni business_briefcase-24 mr-2" />
+                    Solution Manager - Creative Tim Officer
+                  </div>
+                  <div>
+                    <i className="ni education_hat mr-2" />
+                    University of Computer Science
+                  </div>
+                  <hr className="my-4" />
+                  <p>
+                    Ryan — the name taken by Melbourne-raised, Brooklyn-based
+                    Nick Murphy — writes, performs and records all of his own
+                    music.
+                  </p>
+                  <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                    Show more
+                  </a>
+                </div>
+              </CardBody>
+            </Card>
+          </Col>
+          <Col className="order-xl-1" xl="8">
+            <Card className="bg-secondary shadow">
+              <CardHeader className="bg-white border-0">
+                <Row className="align-items-center">
+                  <Col xs="8">
+                    <h3 className="mb-0">My account</h3>
+                  </Col>
+                  <Col className="text-right" xs="4">
+                    <Button
+                      color="primary"
+                      href="#pablo"
+                      onClick={(e) => e.preventDefault()}
+                      size="sm"
+                    >
+                      Settings
+                    </Button>
+                  </Col>
+                </Row>
+              </CardHeader>
+              <CardBody>
+                <Form>
+                  <h6 className="heading-small text-muted mb-4">
+                    User information
+                  </h6>
+                  <div className="pl-lg-4">
+                    <Row>
+                      <Col lg="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-username"
+                          >
+                            Username
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue="lucky.jesse"
+                            id="input-username"
+                            placeholder="Username"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-email"
+                          >
+                            Email address
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id="input-email"
+                            placeholder="jesse@example.com"
+                            type="email"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-first-name"
+                          >
+                            First name
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue="Lucky"
+                            id="input-first-name"
+                            placeholder="First name"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-last-name"
+                          >
+                            Last name
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue="Jesse"
+                            id="input-last-name"
+                            placeholder="Last name"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </div>
+                  <hr className="my-4" />
+                  {/* Address */}
+                  <h6 className="heading-small text-muted mb-4">
+                    Contact information
+                  </h6>
+                  <div className="pl-lg-4">
+                    <Row>
+                      <Col md="12">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-address"
+                          >
+                            Address
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                            id="input-address"
+                            placeholder="Home Address"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg="4">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-city"
+                          >
+                            City
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue="New York"
+                            id="input-city"
+                            placeholder="City"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="4">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-country"
+                          >
+                            Country
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue="United States"
+                            id="input-country"
+                            placeholder="Country"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="4">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-country"
+                          >
+                            Postal code
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id="input-postal-code"
+                            placeholder="Postal code"
+                            type="number"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </div>
+                  <hr className="my-4" />
+                  {/* Description */}
+                  <h6 className="heading-small text-muted mb-4">About me</h6>
+                  <div className="pl-lg-4">
+                    <FormGroup>
+                      <label>About Me</label>
+                      <Input
+                        className="form-control-alternative"
+                        placeholder="A few words about you ..."
+                        rows="4"
+                        defaultValue="A beautiful Dashboard for Bootstrap 4. It is Free and
+                        Open Source."
+                        type="textarea"
+                      />
+                    </FormGroup>
+                  </div>
+                </Form>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };
 
-export default PharmacistDashboard;
+export default Profile;
