@@ -266,30 +266,31 @@ const Checkout = () => {
                                 ) : (
                                     <p>Loading cart data...</p>
                                 )}
-                                {addresses && addresses.length > 0 && (
-                                    <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
-                                        <DropdownToggle caret>
-                                            {selectedAddress
-                                                ? `Deliver to: ${selectedAddress.street}, ${selectedAddress.city}`
-                                                : "Select Delivery Address"}
-                                        </DropdownToggle>
-                                        <DropdownMenu>
-                                            {addresses.map((address, index) => (
-                                                <DropdownItem
-                                                    key={index}
-                                                    onClick={() => handleAddressSelect(address)}
-                                                >
-                                                    {`${address.street}, ${address.city}`}
-                                                </DropdownItem>
-                                            ))}
-                                            <DropdownItem divider />
-                                            <DropdownItem onClick={toggleModal}>
-                                                Add New Address
-                                            </DropdownItem>
-                                        </DropdownMenu>
-                                    </Dropdown>
-                                )}
-
+                                <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+                                    <DropdownToggle caret>
+                                        {selectedAddress
+                                            ? `Deliver to: ${selectedAddress.street}, ${selectedAddress.city}`
+                                            : "Select Delivery Address"}
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        {addresses && addresses.length > 0 && (
+                                            <>
+                                                {addresses.map((address, index) => (
+                                                    <DropdownItem
+                                                        key={index}
+                                                        onClick={() => handleAddressSelect(address)}
+                                                    >
+                                                        {`${address.street}, ${address.city}`}
+                                                    </DropdownItem>
+                                                ))}
+                                                <DropdownItem divider />
+                                            </>
+                                        )}
+                                        <DropdownItem onClick={toggleModal}>
+                                            Add New Address
+                                        </DropdownItem>
+                                    </DropdownMenu>
+                                </Dropdown>
                                 {/* Payment dropdown */}
                                 <Dropdown
                                     isOpen={paymentDropdownOpen}
