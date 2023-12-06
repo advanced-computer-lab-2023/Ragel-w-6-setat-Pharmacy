@@ -27,23 +27,12 @@ const createPatient = async (req, res) => {
         // FIXME: FIX THIS (patient gets added to patient, then checks if password is valid even tho he was added)
         const user = await User.create({ username, password, role });
 
-            name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact, addresses,
-            payment: {
-                method: 'cashOnDelivery',
-                walletBalance: 0
-            },
-            orders: []
-        })
-
-        const role = 'patient';
-        // FIXME: FIX THIS (patient gets added to patient, then checks if password is valid even tho he was added)
-        const user = await User.create({ username, password, role });
-
         res.status(200).json(patient)
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
 }
+
 
 
 // View a list of medicines (showing only the price, image, description) with archived attribute set to false
@@ -59,16 +48,7 @@ const getAllMedicines = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
-    try {
-        const medicine = await Medicine.find({ archived: false }, 'name image price description medicinalUse')
-            .sort({ createdAt: -1 });
-
-        res.status(200).json(medicine);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
+    
 
 
 // Search for medicine based on name

@@ -26,9 +26,7 @@ import HandlePharmReq from "views/AdminViews/HandlePharmReq";
 import Admins from "views/AdminViews/Admins";
 import SalesReport from "views/AdminViews/SalesReport";
 
-// Pharmacist Views
-import Admins from "views/AdminViews/Admins";
-import SalesReport from "views/AdminViews/SalesReport";
+
 
 // Pharmacist Views
 import UploadDocuments from "views/PharmacistViews/UploadDocuments";
