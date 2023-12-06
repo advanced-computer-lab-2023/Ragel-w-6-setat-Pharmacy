@@ -15,9 +15,14 @@ const GetAllMedicinesPharm = () => {
 
     const patientId = '654beffcf9d0ca04d098b0e3';
 
+    
+
+
+    const [shouldRefresh, setShouldRefresh] = useState(false);
+
     useEffect(() => {
         const fetchMedicines = async () => {
-            const response = await fetch('/api/patient/getAllMedicines');
+            const response = await fetch('/api/pharmacist/getAllMedicines');
             const json = await response.json();
 
             if (response.ok) {
@@ -26,7 +31,44 @@ const GetAllMedicinesPharm = () => {
         };
 
         fetchMedicines();
-    }, []);
+    }, [shouldRefresh]); // Add shouldRefresh as a dependency
+
+    const handleToggleArchive = async (medicinesId, isArchived) => {
+        try {
+            if (isArchived) {
+                await unarchiveMedicine(medicinesId);
+            } else {
+                await archiveMedicine(medicinesId);
+            }
+            setShouldRefresh(!shouldRefresh); // Trigger refresh after state change
+        } catch (error) {
+            console.error('Error toggling archive:', error.message);
+        }
+    };
+
+    const archiveMedicine = async (id) => {
+        try {
+            const response = await axios.put(`/api/pharmacist/archiveMedicine/${id}`);
+            if (response.status !== 200) {
+                throw new Error('Failed to archive medicine');
+            }
+        } catch (error) {
+            console.error('Error archiving medicine:', error.message);
+            throw error;
+        }
+    };
+
+    const unarchiveMedicine = async (id) => {
+        try {
+            const response = await axios.put(`/api/pharmacist/unarchiveMedicine/${id}`);
+            if (response.status !== 200) {
+                throw new Error('Failed to unarchive medicine');
+            }
+        } catch (error) {
+            console.error('Error unarchiving medicine:', error.message);
+            throw error;
+        }
+    };
 
     const handleSearch = async () => {
         if (searchTerm.trim() !== '') {
@@ -37,7 +79,7 @@ const GetAllMedicinesPharm = () => {
                 setMedicine(json);
             }
         } else {
-            const response = await fetch('/api/patient/getAllMedicines');
+            const response = await fetch('/api/pharmacist/getAllMedicines');
             const json = await response.json();
 
             if (response.ok) {
@@ -48,7 +90,7 @@ const GetAllMedicinesPharm = () => {
 
     const handleFilter = async () => {
         if (selectedMedicinalUse.trim() === '') {
-            const response = await fetch('/api/patient/getAllMedicines');
+            const response = await fetch('/api/pharmacist/getAllMedicines'); //retrieves all medicines
             const json = await response.json();
 
             if (response.ok) {
@@ -118,7 +160,10 @@ const GetAllMedicinesPharm = () => {
         {medicine &&
           medicine.map((medicines) => (
             <div key={medicines.name} className="col-md-4 mb-4">
-              <MedicineDetails medicines={medicines}  />
+              <MedicineDetails
+                medicines={medicines}
+                handleToggleArchive={(isArchived) => handleToggleArchive(medicines._id, isArchived)}
+                />
             </div>
             
             
@@ -132,7 +177,36 @@ const GetAllMedicinesPharm = () => {
 
 export default GetAllMedicinesPharm;
 
-const MedicineDetails = ({ medicines }) => {
+const MedicineDetails = ({ medicines,handleToggleArchive }) => {
+
+    const [isArchived, setIsArchived] = useState(medicines.archived);
+
+   
+
+    const archiveMedicine = async (id) => {
+        try {
+            const response = await axios.put(`/api/pharmacist/archiveMedicine/${id}`);
+            if (response.status !== 200) {
+                throw new Error('Failed to archive medicine');
+            }
+        } catch (error) {
+            console.error('Error archiving medicine:', error.message);
+            throw error;
+        }
+    };
+
+    const unarchiveMedicine = async (id) => {
+        try {
+            const response = await axios.put(`/api/pharmacist/unarchiveMedicine/${id}`);
+            if (response.status !== 200) {
+                throw new Error('Failed to unarchive medicine');
+            }
+        } catch (error) {
+            console.error('Error unarchiving medicine:', error.message);
+            throw error;
+        }
+    };
+    //TODO should we view out of stock or not status as well?
   
     return (
       <div className="card">
@@ -159,7 +233,13 @@ const MedicineDetails = ({ medicines }) => {
                 ))
               : medicines.medicinalUse}
           </p>
-         
+          <p className="card-text">
+                    <strong>Status: </strong>
+                    {medicines.archived ? 'Archived' : 'Unarchived'}
+                </p>
+                <button onClick={() => handleToggleArchive(medicines.archived)}>
+                    {medicines.archived ? 'Unarchive' : 'Archive'}
+                </button>
         </div>
       </div>
     );

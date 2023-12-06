@@ -30,9 +30,19 @@ import ForgotPassword from "views/examples/ForgotPassword.js";
 import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
 import HandlePharmReq from "views/AdminViews/HandlePharmReq";
-import UploadDocuments from "views/PharmacistViews/UploadDocuments";
 import Admins from "views/AdminViews/Admins";
+import SalesReport from "views/AdminViews/SalesReport";
 
+// Pharmacist Views
+import UploadDocuments from "views/PharmacistViews/UploadDocuments";
+import AddMedicine from "views/PharmacistViews/AddMedicine";
+import EditMedicine from "views/PharmacistViews/EditMedicine";
+import ViewAllMedicinePharmacist from "views/PharmacistViews/ViewAllMedicine";
+import ViewMedSales from "views/PharmacistViews/ViewMedSales";
+import SalesReportPharma from "views/PharmacistViews/SalesReportPharma";
+import FilterSalesReport from "views/PharmacistViews/FilterSalesReport";
+
+// Patient Views
 import Cart from "views/PatientViews/Cart";
 import Checkout from "views/PatientViews/Checkout";
 import Orders from "views/PatientViews/Orders";
@@ -40,16 +50,23 @@ import ViewAllMedicinePatient from "views/PatientViews/ViewAllMedicine";
 import ChangePassword from "views/PatientViews/ChangePassword";
 
 
-import AddMedicine from "views/PharmacistViews/AddMedicine";
-import EditMedicine from "views/PharmacistViews/EditMedicine";
-import ViewAllMedicinePharmacist from "views/PharmacistViews/ViewAllMedicine";
-import ViewMedSales from "views/PharmacistViews/ViewMedSales";
+// Authentication
+import PatientRegister from "views/Authentication/PatientRegister.js";
+import PharmacistRegister from "views/Authentication/PharmacistRegister.js";
+
+// Examples
+import Login from "views/examples/Login.js";
+import ForgotPassword from "views/examples/ForgotPassword.js";
+import Profile from "views/examples/Profile.js";
+import Tables from "views/examples/Tables.js";
+import Icons from "views/examples/Icons.js";
+import Maps from "views/examples/Maps.js";
+import Register from "views/examples/Register.js";
 
 
 
-
-//TODO fix this with the respective layout
-//TODO add menu levewls
+// TODO fix this with the respective layout
+// TODO add menu levewls
 var routes = [
 
   //admin
@@ -153,7 +170,7 @@ var routes = [
     component: <EditMedicine />,
     layout: "/pharmacist",
   },
-  
+
   {
     path: "/viewallmedicine",
     name: "View All Medicine - Pharmacist",
@@ -174,6 +191,21 @@ var routes = [
     icon: "ni ni-circle-08 text-pink",
     component: <UploadDocuments />,
     layout: "/pharmacist",
+
+  {
+    path: "/admins",
+    name: "Admins",
+    icon: "ni ni-tv-2 text-primary",
+    component: <Admins />,
+    layout: "/admin",
+  },
+
+  {
+    path: "/user-profile",
+    name: "User Profile",
+    icon: "ni ni-single-02 text-yellow",
+    component: <Profile />,
+    layout: "/admin",
   },
 
  
@@ -213,9 +245,36 @@ var routes = [
     component: <HandlePharmReq />,
     layout: "/admin",
   },
-//FIXME change layout to /pharmacist 
-//FIXME how to render profile info of that specific pharmacist
- 
-  
+  // FIXME change layout to /pharmacist 
+  // FIXME how to render profile info of that specific pharmacist
+  { //Handle Pharm Req in the layout Admin (will make a layout for every role)
+    path: "/UploadDocuments",
+    name: "Upload documents",
+    icon: "ni ni-circle-08 text-pink",
+    component: <UploadDocuments />,
+    layout: "/pharmacist",
+  },
+  {
+    path: "/SalesReport",
+    name: "Sales Report",
+    icon: "ni ni-tv-2 text-primary",
+    component: <SalesReport />,
+    layout: "/admin",
+  },
+  {
+    path: "/SalesReportPharma",
+    name: "Sales Report",
+    icon: "ni ni-tv-2 text-primary",
+    component: <SalesReportPharma />,
+    layout: "/pharmacist",
+  },
+  {
+    path: "/FilterSalesReport",
+    name: "Filter Sales Report",
+    icon: "ni ni-tv-2 text-primary",
+    component: <FilterSalesReport />,
+    layout: "/pharmacist",
+  },
 ];
+
 export default routes;

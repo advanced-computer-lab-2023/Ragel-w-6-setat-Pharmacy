@@ -8,27 +8,44 @@ const bcrypt = require('bcrypt')
 
 const mongoose = require('mongoose');
 
-
 // Register as a patient 
 const createPatient = async (req, res) => {
     const {
-        name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact
+        name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact, addresses
     } = req.body
     try {
         const patient = await Patient.create({
-            name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact
+            name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact, addresses,
+            payment: {
+                method: 'cashOnDelivery',
+                walletBalance: 0
+            },
+            orders: []
         })
+
+        const role = 'patient';
+        // FIXME: FIX THIS (patient gets added to patient, then checks if password is valid even tho he was added)
+        const user = await User.create({ username, password, role });
+
         res.status(200).json(patient)
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
 }
 
-// View a list of a medicine (showing only the price, image, description)
+
+// View a list of medicines (showing only the price, image, description) with archived attribute set to false
 const getAllMedicines = async (req, res) => {
-    const medicine = await Medicine.find({}, 'name image price description medicinalUse').sort({ createdAt: -1 });
-    res.status(200).json(medicine)
-}
+    try {
+        const medicine = await Medicine.find({ archived: false }, 'name image price description medicinalUse')
+            .sort({ createdAt: -1 });
+
+        res.status(200).json(medicine);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 // Search for medicine based on name
 const getMedicineByName = async (req, res) => {
@@ -66,6 +83,46 @@ const getMedicinesByMedicinalUse = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+const medAlternative =async (req,res)=>{
+    try {
+        const {medicineId} = req.params;
+
+        // Check if the requested medicine is out of stock
+        const medicine = await Medicine.findById(medicineId);
+        if (!medicine) {
+          return res.status(404).json({ message: 'Medicine not found' });
+        }
+
+        if (medicine.outOfStock) {
+          // If out of stock, suggest similar medicines based on active ingredient
+          const similarMedicines = await Medicine.find({
+            activeIngredient: medicine.activeIngredient,
+            outOfStock: false,
+          });
+
+          if (similarMedicines.length > 0) {
+            return res.status(200).json({
+              message: 'Medicine is out of stock. Here are some alternatives:',
+              alternatives: similarMedicines,
+            });
+          } else {
+            return res.status(404).json({
+              message: 'Medicine is out of stock, and no alternatives are available.',
+            });
+          }
+        } else {
+          // If not out of stock, return the medicine details
+          return res.status(200).json({
+            message: 'Medicine is in stock.',
+            medicineDetails: medicine,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+}
+
 
 // Add to cart  
 const addToCart = async (req, res) => {
@@ -113,9 +170,9 @@ const addToCart = async (req, res) => {
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 // Helper method to addToCart
 function validateMedicineObject(medicine) {
-
     if (medicine.quantity > 0) {
         return true;
     }
@@ -139,16 +196,12 @@ const viewCart = async (req, res) => {
 
         return res.status(200).json(patient.cart);
 
-
-
     } catch (error) {
         // Handle any errors that occur during the database operation
         return { error: 'Error retrieving cart details' };
     }
 
 };
-
-
 
 // Remove a medicine from cart 
 const removeFromCart = async (req, res) => {
@@ -188,7 +241,6 @@ const removeFromCart = async (req, res) => {
     }
 };
 
-
 // Update the quantity of medicine in cart 
 const changeQuantityInCart = async (req, res) => {
     const { patientId, medicineId } = req.params;
@@ -209,7 +261,6 @@ const changeQuantityInCart = async (req, res) => {
         if (cartItemIndex === -1) {
             return res.status(404).json({ message: 'Medicine not found in the cart' });
             console.log('here 2');
-
         }
 
         // Get the current quantity and price of the medicine in the cart
@@ -253,6 +304,7 @@ const changeQuantityInCart = async (req, res) => {
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 // Allows patients to add new addresses
 const addAddressToPatient = async (req, res) => {
     console.log('Received request:', req.body);
@@ -294,7 +346,6 @@ const getPatientAddresses = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
 
 const processCreditCardPayment = async (res, items) => {
     try {
@@ -361,6 +412,63 @@ const processPayment = async (req, res) => {
     }
 };
 
+// Get email addresses of all pharmacists
+const getPharmacistEmails = async () => {
+    try {
+        const pharmacistEmails = await Pharmacist.find({}, 'email').exec();
+        return pharmacistEmails.map(pharmacist => pharmacist.email);
+    } catch (error) {
+        console.error('Error fetching pharmacist emails:', error);
+        return [];
+    }
+};
+
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: '3projectalpha3@gmail.com',
+        pass: 'ncgo dehg lebs zazh'
+    }
+});
+
+const emailPharmacistOutOfStock = async (medicine) => {
+
+
+//TODO send email to all pharmacists
+//write  a method to call all pharmacist emails (bypass if null or empty) and send email
+
+try {
+    if (!medicine) {
+        console.log('No medicine provided.');
+        return;
+    }
+
+    const subject = 'Medicine Out of Stock Notification';
+    const text = `\n\nThe medicine ${medicine.name} is currently out of stock. Please take appropriate action.`;
+
+    const pharmacistEmails = await getPharmacistEmails();
+
+    if (!pharmacistEmails.length) {
+        console.log('No pharmacist emails available.');
+        return;
+    }
+
+    const mailOptions = {
+        from: '3projectalpha3@gmail.com',
+        to: pharmacistEmails.join(','), // Join the pharmacist emails with a comma
+        subject,
+        text,
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log('Email sent to pharmacists successfully.');
+} catch (error) {
+    console.error('Error sending email to pharmacists:', error);
+}
+
+}
 
 // Increase medicine's total sales and decrease available quantity
 const handleSuccessfulPayment = async (patient) => {
@@ -382,8 +490,17 @@ const handleSuccessfulPayment = async (patient) => {
                         medicine.quantity -= quantityToDecrease;
                         if (medicine.quantity<=0){
                             medicine.outOfStock=true;
+                            emailPharmacistOutOfStock(medicine);
+                            //TODO send email to all pharmacists
+                            //write  a method to call all pharmacist emails (bypass if null or empty) and send email
+
+
                         }
                         medicine.totalSales += cartItem.quantity; // Update based on the cart quantity
+                        medicine.sales.push({
+                            saleDate: new Date(),
+                            quantitySold: cartItem.quantity,
+                        });
                         await medicine.save();
                     }
                 })();
@@ -404,8 +521,7 @@ const handleSuccessfulPayment = async (patient) => {
             patient.cart.items = [];
             patient.cart.totalQty = 0;
             patient.cart.totalCost = 0;
-
-            // Save the changes to the patient document
+// Save the changes to the patient document
             await patient.save();
         }
     } catch (error) {
@@ -427,6 +543,7 @@ const checkoutOrder = async (req, res) => {
         // Get items in the cart (medicineId, quantity, price, total) without populating (assuming you have cart stored in patient object)
         const cartItems = patient.cart.items.map(item => {
             return {
+                name: item.name,
                 medicine: item.medicineId,
                 quantity: item.quantity,
                 price: item.price,
@@ -443,7 +560,6 @@ const checkoutOrder = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-
 
 const viewPatientOrders = async (req, res) => {
     const { id } = req.params;
@@ -495,6 +611,19 @@ const cancelOrder = async (req, res) => {
         // Refund the total cost to the patient's wallet balance
         patient.payment.walletBalance += canceledOrder.totalCost;
 
+        // Decrement the quantity sold for each item in the canceled order
+        for (const cartItem of canceledOrder.items) {
+            const medicine = await Medicine.findById(cartItem.medicineId);
+            if (medicine) {
+                const quantityToIncrement = Math.min(medicine.quantity, cartItem.quantity);
+                medicine.quantity += quantityToIncrement;
+                medicine.totalSales -= cartItem.quantity; // Decrement based on the canceled order quantity
+                // Remove the last sale entry corresponding to the canceled order
+                medicine.sales.pop();
+                await medicine.save();
+            }
+        }
+
         // Update order status to 'cancelled'
         canceledOrder.status = 'cancelled';
 
@@ -506,7 +635,6 @@ const cancelOrder = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-
 
 // Get wallet balance of a patient
 const getWalletBalance = async (req, res) => {
@@ -528,16 +656,15 @@ const getWalletBalance = async (req, res) => {
     }
 };
 
-
 // Change password for Patient
 const changePatientPassword = async (req, res) => {
     const { username, newPassword } = req.body;
 
     try {
         const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
-       if (!passwordPattern.test(newPassword)) {
-           return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' });
-       }
+        if (!passwordPattern.test(newPassword)) {
+            return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' });
+        }
         // Find the patient by username and update only the password
         const updatedPatient = await Patient.findOneAndUpdate(
             { username },
@@ -619,7 +746,8 @@ module.exports = {
     getPatientAddresses,
     processPayment,
     changePatientPassword,
-    medAlternative  
+    medAlternative,
+
 }
 
 // update a patient ****

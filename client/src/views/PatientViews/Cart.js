@@ -6,14 +6,13 @@ import AdminHeader from '../../components/Headers/AdminHeader';
 import { Container } from 'reactstrap';
 
 import { UserContext } from "../../contexts/UserContext";
-const Cart = ({}) => {
+const Cart = ({ }) => {
   const { user } = useContext(UserContext);
   const [cart, setCart] = useState(null);
   const [medicineId, setMedicineId] = useState('');
   const [quantityChanges, setQuantityChanges] = useState({}); // State to track quantity changes for each item
   const patientId = user._id;
   const navigate = useNavigate();
-
 
   useEffect(() => {
     // Fetch cart details when the component mounts
@@ -37,7 +36,7 @@ const Cart = ({}) => {
       const response = await axios.get(`/api/patient/checkoutOrder/${patientId}`);
       setCart(response.data);
 
-     
+
     } catch (error) {
       console.error('Error removing from cart:', error);
     }
@@ -49,20 +48,20 @@ const Cart = ({}) => {
       [itemMedicineId]: newQuantityChange,
     }));
   };
-  
+
   const updateQuantity = async (medicineId) => {
     try {
       const change = quantityChanges[medicineId] || 0;
       console.log('Updating quantity:', change);
-  
+
       await axios.patch(`/api/patient/changeQuantityInCart/${patientId}/${medicineId}`, { quantityChange: change });
-  
+
       // Reset the quantity change state for this item
       setQuantityChanges((prevChanges) => ({
         ...prevChanges,
         [medicineId]: undefined,
       }));
-  
+
       // Refresh cart after updating quantity
       const response = await axios.get(`/api/patient/checkoutOrder/${patientId}`);
       setCart(response.data);
@@ -70,7 +69,6 @@ const Cart = ({}) => {
       console.error('Error updating quantity:', error);
     }
   };
-  
 
   return (
     <>
@@ -136,7 +134,6 @@ const Cart = ({}) => {
     </Container>
     
     </>
-   
   );
 };
 

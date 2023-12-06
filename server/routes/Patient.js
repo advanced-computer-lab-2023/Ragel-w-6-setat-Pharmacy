@@ -18,6 +18,8 @@ const {
     processPayment,
     changePatientPassword,
     medAlternative
+    changePatientPassword,
+    medAlternative
 } = require('../controllers/PatientControllers')
 
 const router = express.Router();
@@ -66,6 +68,7 @@ router.get("/getPatientAddresses/:id", getPatientAddresses);
 // Pay with wallet
 router.post("/processPayment/:id", processPayment);
 
+// Change patient's password
 router.post('/changePatientPassword', changePatientPassword);
 
 // Get medicine alternatives

@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.3
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import { useState } from "react";
 // node.js library that concatenates classes (strings)
 import classnames from "classnames";
@@ -96,6 +79,28 @@ const PharmacistDashboard = (props) => {
         setSuccess(true);
       }
     };
+
+    const [medicinesOutOfStock, setMedicinesOutOfStock] = useState([]);
+
+  useEffect(() => {
+    const fetchMedicinesOutOfStock = async () => {
+      try {
+        const response = await fetch('/api/pharmacist/getAllMedicinesOutOfStock');
+        const json = await response.json();
+
+        if (response.ok) {
+          setMedicinesOutOfStock(json);
+        } else {
+          console.error('Failed to fetch medicines out of stock:', json.error);
+        }
+      } catch (error) {
+        console.error('Error fetching medicines out of stock:', error.message);
+      }
+    };
+
+    fetchMedicinesOutOfStock();
+  }, []); // empty array means it will only run once
+
   return (
     <>
       <AdminHeader />
@@ -132,6 +137,25 @@ const PharmacistDashboard = (props) => {
         )}
       </form>
     </div>
+    <div className="container mt-5">
+          <h3>Notifications</h3>
+          <Table>
+            <thead>
+              <tr>
+                <th>Medicine Name</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {medicinesOutOfStock.map((medicine) => (
+                <tr key={medicine._id}>
+                  <td>{medicine.name}</td>
+                  <td>Out of Stock</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
   
 
 
