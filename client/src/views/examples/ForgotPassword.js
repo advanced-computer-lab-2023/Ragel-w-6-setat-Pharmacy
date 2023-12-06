@@ -21,6 +21,7 @@ import {useState} from "react";
 import {toast} from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import {
+  Container,
   Button,
   Card,
   CardHeader,
@@ -98,13 +99,16 @@ const ForgotPassword = () => {
 
   return (
     <>
+     <Container>
+      <Row className="justify-content-center">
       <Col lg="5" md="7">
-        <Card className="bg-secondary shadow border-0">
+        <Card className="">
           
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small>Send OTP via Email</small>
+              <h4>Send OTP via Email</h4>
             </div>
+            <small>Please enter your username and a valid email address</small>
             <Form role="form" onSubmit={sendOTP}>
               <FormGroup className="mb-3">
                 <InputGroup className="input-group-alternative">
@@ -136,17 +140,17 @@ const ForgotPassword = () => {
               </FormGroup>
               
               <div className="text-center">
-                <Button className="my-4" color="primary" type="submit">
+                <Button className="btn btn-success"  type="submit">
                   Send OTP to email
                 </Button>
               </div>
             </Form>
           </CardBody>
         </Card>
-        <Row className="mt-3">
-          
-        </Row>
+       
       </Col>
+      </Row>
+    </Container>
     </>
   );
 };

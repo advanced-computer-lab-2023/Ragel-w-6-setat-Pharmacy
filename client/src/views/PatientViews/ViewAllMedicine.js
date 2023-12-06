@@ -14,6 +14,7 @@ const GetAllMedicines = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedMedicinalUse, setSelectedMedicinalUse] = useState('');
     const [cart, setCart] = useState([]);
+    const [successMessage, setSuccessMessage] = useState('');
 
     
 
@@ -77,6 +78,7 @@ const GetAllMedicines = () => {
             // Refresh cart after adding an item
             const response = await axios.get(`/api/patient/viewCart/${patientId}`);
             setCart(response.data);
+            setSuccessMessage('Added to cart successfully!');
           } catch (error) {
             console.error('Error adding to cart:', error);
           }
@@ -95,7 +97,7 @@ const GetAllMedicines = () => {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                          <button onClick={handleSearch}>Search</button>
+                          <button className="btn btn-success" onClick={handleSearch}>Search</button>
                     </div>
                 </div>
                 <div className="col-md-6">
@@ -113,7 +115,8 @@ const GetAllMedicines = () => {
                                     </option>
                                 ))}
                         </select>
-                        <button onClick={handleFilter}>Filter</button>
+                        <div>   </div>
+                        <button className="btn btn-success" onClick={handleFilter}>Filter</button>
 
                     </div>
                 </div>
@@ -126,9 +129,11 @@ const GetAllMedicines = () => {
               <MedicineDetails medicines={medicines} handleAddToCart={handleAddToCart} />
             </div>
             
-            
                     ))}
+
+                    
             </div>
+          
         </div>
     );
 };
@@ -174,7 +179,7 @@ const MedicineDetails = ({ medicines, handleAddToCart }) => {
                 ))
               : medicines.medicinalUse}
           </p>
-          <button onClick={handleAddToCartClick} className="btn btn-primary">
+          <button onClick={handleAddToCartClick} className="btn btn-success">
             Add to Cart
           </button>
         </div>

@@ -34,6 +34,9 @@ const createPatient = async (req, res) => {
 }
 
 
+
+// View a list of medicines (showing only the price, image, description) with archived attribute set to false
+
 // View a list of medicines (showing only the price, image, description) with archived attribute set to false
 const getAllMedicines = async (req, res) => {
     try {
@@ -45,6 +48,7 @@ const getAllMedicines = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 
 // Search for medicine based on name
@@ -83,45 +87,7 @@ const getMedicinesByMedicinalUse = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-const medAlternative = async (req, res) => {
-    try {
-        const { medicineId } = req.params;
 
-        // Check if the requested medicine is out of stock
-        const medicine = await Medicine.findById(medicineId);
-        if (!medicine) {
-            return res.status(404).json({ message: 'Medicine not found' });
-        }
-
-        if (medicine.outOfStock) {
-            // If out of stock, suggest similar medicines based on active ingredient
-            const similarMedicines = await Medicine.find({
-                activeIngredient: medicine.activeIngredient,
-                outOfStock: false,
-            });
-
-            if (similarMedicines.length > 0) {
-                return res.status(200).json({
-                    message: 'Medicine is out of stock. Here are some alternatives:',
-                    alternatives: similarMedicines,
-                });
-            } else {
-                return res.status(404).json({
-                    message: 'Medicine is out of stock, and no alternatives are available.',
-                });
-            }
-        } else {
-            // If not out of stock, return the medicine details
-            return res.status(200).json({
-                message: 'Medicine is in stock.',
-                medicineDetails: medicine,
-            });
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-}
 
 
 // Add to cart  
@@ -170,6 +136,7 @@ const addToCart = async (req, res) => {
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 
 // Helper method to addToCart
 function validateMedicineObject(medicine) {
@@ -685,6 +652,49 @@ const changePatientPassword = async (req, res) => {
         return res.status(500).json({ error: "Server error" });
     }
 };
+
+// View Alternative Medicine based on active ingredient 
+const medAlternative = async (req, res) => {
+    try {
+        const { medicineId } = req.params;
+
+        // Check if the requested medicine is out of stock
+        const medicine = await Medicine.findById(medicineId);
+        if (!medicine) {
+            return res.status(404).json({ message: 'Medicine not found' });
+        }
+
+        if (medicine.outOfStock) {
+            // If out of stock, suggest similar medicines based on active ingredient
+            const similarMedicines = await Medicine.find({
+                activeIngredient: medicine.activeIngredient,
+                outOfStock: false,
+            });
+
+            if (similarMedicines.length > 0) {
+                return res.status(200).json({
+                    message: 'Medicine is out of stock. Here are some alternatives:',
+                    alternatives: similarMedicines,
+                });
+            } else {
+                return res.status(404).json({
+                    message: 'Medicine is out of stock, and no alternatives are available.',
+                });
+            }
+        } else {
+            // If not out of stock, return the medicine details
+            return res.status(200).json({
+                message: 'Medicine is in stock.',
+                medicineDetails: medicine,
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+//helper view alternatives (it checks if quanitity )
 
 module.exports = {
     createPatient,
