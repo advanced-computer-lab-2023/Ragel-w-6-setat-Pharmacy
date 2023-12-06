@@ -230,10 +230,11 @@ const Checkout = () => {
 
     return (
         <>
-            <AdminHeader />
+        <div className="d-flex align-items-center justify-content-center" style={{ minHeight: '80vh' }}>
+
             <Container className="mt--7" fluid>
                 <Row>
-                    <div className="col">
+                <div className="col-md-8">
                         <Card className="shadow">
                             <CardHeader className="border-0">
                                 <h3 className="mb-0">Cart Information</h3>
@@ -268,26 +269,30 @@ const Checkout = () => {
                                 )}
                                 {addresses && addresses.length > 0 && (
                                     <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
-                                        <DropdownToggle caret>
-                                            {selectedAddress
-                                                ? `Deliver to: ${selectedAddress.street}, ${selectedAddress.city}`
-                                                : "Select Delivery Address"}
-                                        </DropdownToggle>
-                                        <DropdownMenu>
-                                            {addresses.map((address, index) => (
-                                                <DropdownItem
-                                                    key={index}
-                                                    onClick={() => handleAddressSelect(address)}
-                                                >
-                                                    {`${address.street}, ${address.city}`}
-                                                </DropdownItem>
-                                            ))}
-                                            <DropdownItem divider />
-                                            <DropdownItem onClick={toggleModal}>
-                                                Add New Address
-                                            </DropdownItem>
-                                        </DropdownMenu>
-                                    </Dropdown>
+                                    <DropdownToggle caret>
+                                        {selectedAddress
+                                            ? `Deliver to: ${selectedAddress.street}, ${selectedAddress.city}`
+                                            : "Select Delivery Address"}
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        {addresses && addresses.length > 0 && (
+                                            <>
+                                                {addresses.map((address, index) => (
+                                                    <DropdownItem
+                                                        key={index}
+                                                        onClick={() => handleAddressSelect(address)}
+                                                    >
+                                                        {`${address.street}, ${address.city}`}
+                                                    </DropdownItem>
+                                                ))}
+                                                <DropdownItem divider />
+                                            </>
+                                        )}
+                                        <DropdownItem onClick={toggleModal}>
+                                            Add New Address
+                                        </DropdownItem>
+                                    </DropdownMenu>
+                                </Dropdown>
                                 )}
 
                                 {/* Payment dropdown */}
@@ -384,9 +389,10 @@ const Checkout = () => {
                 </ModalFooter>
             </Modal>
             {/* Display wallet balance on the right side */}
-            <div style={{ position: 'fixed', top: '10%', right: '5%', padding: '20px', backgroundColor: '#3498db', color: '#fff', textAlign: 'center', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
-                <h4 style={{ margin: 0, marginBottom: '10px' }}>Wallet Balance</h4>
+            <div style={{ position: 'fixed', top: '15%', right: '10%', padding: '20px', backgroundColor: '#009688', color: '#fff', textAlign: 'center', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+                <h4 style={{ margin: 0, marginBottom: '10px' ,color:'#fff'}}>Wallet Balance</h4>
                 <p style={{ fontSize: '1.5em', fontWeight: 'bold' }}>${walletBalance}</p>
+            </div>
             </div>
         </>
     );

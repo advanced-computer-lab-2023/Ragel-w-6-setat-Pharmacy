@@ -108,7 +108,7 @@ import {
         <div className="container">
       <div className="row justify-content-center">
         <div className="col-md-6">
-          <Card className="bg-secondary shadow border-0">
+          <Card className="">
             <CardBody>
               <form className="mt-5" onSubmit={handleSubmit} encType="multipart/form-data">
                 <h2 className="text-center">Sign Up as Pharmacist</h2>
@@ -234,7 +234,7 @@ import {
           />
       </div>
       {!success?(
-         <Button type="submit">Register</Button>
+         <Button  className="my-4" color="primary" type="submit">Register</Button>
        ):<Link to ="/Login">
        <Button type="submit">Login now</Button></Link>}
   

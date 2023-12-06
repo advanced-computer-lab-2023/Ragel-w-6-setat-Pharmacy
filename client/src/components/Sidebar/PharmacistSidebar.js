@@ -71,20 +71,22 @@ const PharmacistSidebar = (props) => {
   // creates the links that appear in the left menu / PharmacistSidebar
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
-      if(prop.layout === "/pharmacist" || prop.layout === "/auth")
-      {
-      return (
-        <NavItem key={key}>
-          <NavLink
-            to={prop.layout + prop.path}
-            tag={NavLinkRRD}
-            onClick={closeCollapse}
-          >
-            <i className={prop.icon} />
-            {prop.name}
-          </NavLink>
-        </NavItem>
-      );}
+      if (prop.layout === "/pharmacist") {
+        // || prop.layout === "/auth"
+        return (
+          <NavItem key={key}>
+            <NavLink
+              to={prop.layout + prop.path}
+              tag={NavLinkRRD}
+              onClick={closeCollapse}
+              style={{ color: 'white' }} // Set the text color to white
+            >
+              <i className={prop.icon} />
+              {prop.name}
+            </NavLink>
+          </NavItem>
+        );
+      }
     });
   };
 
@@ -104,11 +106,19 @@ const PharmacistSidebar = (props) => {
 
   return (
     <Navbar
-      className="navbar-vertical fixed-left navbar-light bg-white"
+      className="navbar-vertical fixed-left navbar-light "
+      style={{
+        backgroundColor: "#009688",}}
       expand="md"
       id="sidenav-main"
     >
-      <Container fluid>
+      <Container
+      style={{
+        backgroundColor: "#009688",
+        display: "flex",
+        justifyContent: "space-between",
+       
+      }} fluid>
         {/* Toggler */}
         <button
           className="navbar-toggler"
@@ -123,13 +133,17 @@ const PharmacistSidebar = (props) => {
             <img
               alt={logo.imgAlt}
               className="navbar-brand-img"
-              src={logo.imgSrc}
+              src={require("../../assets/img/brand/acl_pharma.png")}
+              style={{
+                height: 400,
+                width: 350,
+              }}
             />
           </NavbarBrand>
         ) : null}
         {/* User */}
         <Nav className="align-items-center d-md-none">
-          <UncontrolledDropdown nav>
+          {/* <UncontrolledDropdown nav>
             <DropdownToggle nav className="nav-link-icon">
               <i className="ni ni-bell-55" />
             </DropdownToggle>
@@ -143,8 +157,8 @@ const PharmacistSidebar = (props) => {
               <DropdownItem divider />
               <DropdownItem>Something else here</DropdownItem>
             </DropdownMenu>
-          </UncontrolledDropdown>
-          <UncontrolledDropdown nav>
+          </UncontrolledDropdown> */}
+          {/* <UncontrolledDropdown nav>
             <DropdownToggle nav>
               <Media className="align-items-center">
                 <span className="avatar avatar-sm rounded-circle">
@@ -181,7 +195,7 @@ const PharmacistSidebar = (props) => {
                 <span>Logout</span>
               </DropdownItem>
             </DropdownMenu>
-          </UncontrolledDropdown>
+          </UncontrolledDropdown> */}
         </Nav>
         {/* Collapse */}
         <Collapse navbar isOpen={collapseOpen}>
@@ -214,7 +228,7 @@ const PharmacistSidebar = (props) => {
             </Row>
           </div>
           {/* Form */}
-          <Form className="mt-4 mb-3 d-md-none">
+          {/* <Form className="mt-4 mb-3 d-md-none">
             <InputGroup className="input-group-rounded input-group-merge">
               <Input
                 aria-label="Search"
@@ -228,15 +242,16 @@ const PharmacistSidebar = (props) => {
                 </InputGroupText>
               </InputGroupAddon>
             </InputGroup>
-          </Form>
-          {/* Navigation */} //TODO PharmacistSidebar has diff stuff in the routes
-          <Nav navbar>{createLinks(routes)}</Nav>
+          </Form> */}
+          {/* Navigation //TODO PatientSidebar has diff stuff in the routes */}
+          <Nav navbar style={{ textDecoration:{color: '#f4f5f7' }}}>{createLinks(routes)}</Nav>
+
           {/* Divider */}
-          <hr className="my-3" />
+          {/* <hr className="my-3" /> */}
           {/* Heading */}
-          <h6 className="navbar-heading text-muted">Documentation</h6>
+          {/* <h6 className="navbar-heading text-muted">Documentation</h6> */}
           {/* Navigation */}
-          <Nav className="mb-md-3" navbar>
+          {/* <Nav className="mb-md-3" navbar>
             <NavItem>
               <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/overview?ref=adr-admin-sidebar">
                 <i className="ni ni-spaceship" />
@@ -255,15 +270,15 @@ const PharmacistSidebar = (props) => {
                 Components
               </NavLink>
             </NavItem>
-          </Nav>
-          <Nav className="mb-md-3" navbar>
+          </Nav> */}
+          {/* <Nav className="mb-md-3" navbar>
             <NavItem className="active-pro active">
               <NavLink href="https://www.creative-tim.com/product/argon-dashboard-pro-react?ref=adr-admin-sidebar">
                 <i className="ni ni-spaceship" />
                 Upgrade to PRO
               </NavLink>
             </NavItem>
-          </Nav>
+          </Nav> */}
         </Collapse>
       </Container>
     </Navbar>

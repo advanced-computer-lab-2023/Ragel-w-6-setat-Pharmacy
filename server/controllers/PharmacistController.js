@@ -9,6 +9,7 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
 // Request to become a pharmacist
+// Request to become a pharmacist
 const createPharmacistRequest = async (req, res) => {
     const { status = false,
         name, username, email, password, dateOfBirth, hourlyRate, affiliation, educationalBackground
@@ -179,13 +180,13 @@ const addMedicine = async (req, res) => {
         const {
             totalSales = 0,
             archived=false,
+            outOfStock=false,
             name,
             price,
             description,
             activeIngredient,
             quantity,
             medicinalUse,
-            outOfStock=false
           } = req.body;
   
         let imageData;
