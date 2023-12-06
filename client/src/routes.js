@@ -24,6 +24,7 @@ import Cart from "views/PatientViews/Cart";
 import Checkout from "views/PatientViews/Checkout";
 import Orders from "views/PatientViews/Orders";
 import ViewAllMedicinePatient from "views/PatientViews/ViewAllMedicine";
+import ChatWithPharmacist from "views/PatientViews/ChatWithPharmacist";
 
 // Authentication
 import PatientRegister from "views/Authentication/PatientRegister.js";
@@ -95,6 +96,13 @@ var routes = [
     name: "View All Medicine - Patient",
     icon: "ni ni-tv-2 text-primary",
     component: <ViewAllMedicinePatient />,
+    layout: "/patient",
+  },
+  {
+    path: "/chatwithpharmacist",
+    name: "Chat With Pharmacist",
+    icon: "ni ni-tv-2 text-primary",
+    component: <ChatWithPharmacist />,
     layout: "/patient",
   },
 

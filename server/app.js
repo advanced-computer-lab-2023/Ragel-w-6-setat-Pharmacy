@@ -1,4 +1,6 @@
 // import modules
+const http= require('http');
+const path = require('path');
 const multer = require('multer');
 const express = require("express");
 const mongoose = require("mongoose");
@@ -7,13 +9,35 @@ const morgan = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
 
-
 // const {createUser,getUsers, updateUser, deleteUser} = require("./Routes/userController");
 const MongoURI = process.env.MONGO_URI;
 
 // app
 const app = express();
 
+const httpServer = http.createServer(app);  
+const {Server} = require('socket.io');
+const io = new Server(httpServer);
+
+
+io.on('connection', (socket) => {
+  console.log('User connected:', socket.id);
+
+  // Handle chat messages
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg); // Broadcast the message to all connected clients
+  });
+
+  // Handle disconnection
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
+
+httpServer.listen(8080, () => {
+
+  console.log('listening on *:8080');
+});
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -56,7 +80,8 @@ app.use(express.urlencoded({ extended: false }));
 const patientRoutes = require('./routes/Patient')
 const pharmacistRoutes = require('./routes/Pharmacist')
 const adminRoutes = require('./routes/Admin')
-const userRoutes = require('./routes/User')
+const userRoutes = require('./routes/User');
+const { fileURLToPath } = require('url');
 
 
 app.use('/api/patient', patientRoutes)
@@ -68,3 +93,9 @@ app.use('/api/user', userRoutes)
 const port = process.env.PORT || "8000";
 
 // listeners  tyetstst
+
+//const __dirname = path.dirname(_filename);
+const _filename= fileURLToPath;
+app.get("/chatWithPharmacist", (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+})
