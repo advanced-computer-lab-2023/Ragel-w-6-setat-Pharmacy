@@ -227,6 +227,7 @@ var routes = [
     icon: "ni ni-folder-17 text-white",
     component: <FilterSalesReport />,
     layout: "/pharmacist",
+    
   },
  
   {
