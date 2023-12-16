@@ -1,3 +1,4 @@
+
 # Pharma Space (Virtual Pharmacy)
 ![App Screenshot](https://media.discordapp.net/attachments/1157430089181577291/1159866558466773182/acl_pharma_2.png?ex=658edde8&is=657c68e8&hm=9b3bdb983cb4ac24d9e1109498ab29fadca90711c7767fd0214dbd73ef95089a&=&format=webp&quality=lossless&width=1307&height=482)
 Pharma space is a comprehensive and innovative platform designed to enhance the efficiency and accessibility of healthcare services. The system caters to the needs of patients, pharmacists, and administrators, providing a seamless experience for managing medical information, prescriptions, and medication inventory.
@@ -9,7 +10,9 @@ The motivation behind this project stems from a deep commitment to enhancing hea
 TODO
 
 ## Code Style
-TODO
+This project follows a specific code style to ensure consistency and readability across the codebase. Adopting a consistent coding style is important for collaboration and maintenance.
+
+We adhere to the [Standart Code Style Guide](https://standardjs.com/) for this project. Please review the guide before contributing to ensure that your code aligns with our established conventions.
 
 ## Screenshots
 TODO
