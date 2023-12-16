@@ -3,23 +3,23 @@
 
 Pharma space is a comprehensive and innovative platform designed to enhance the efficiency and accessibility of healthcare services. The system caters to the needs of patients, pharmacists, and administrators, providing a seamless experience for managing medical information, prescriptions, and medication inventory.
 
-### Motivation
+## Motivation
 The motivation behind this project stems from a deep commitment to enhancing healthcare accessibility. By creating a centralized platform, the goal is to make healthcare services readily available to a wider audience, ensuring patients can easily connect with pharmacists and access vital medical information.
 
-### Build Status
+## Build Status
 TODO
 
-### Code Style
+## Code Style
 TODO
 
-### Screenshots
+## Screenshots
 TODO
 
-### Tech/Framework used
+## Tech/Framework used
 - MERN Stack (MongoDB, Express.js, React.js, Node.js)
 - JavaScript
 
-### Key Features
+## Key Features
 **1. User Registration and Authentication:**
 * Guests can register as patients, providing essential details such as username, name, email, password, date of birth, gender, and emergency contact information. 
 * Pharmacists can submit requests for registration, including details like username, name, email, and professional qualifications.
@@ -63,10 +63,10 @@ TODO
 * Patients can view current and past orders, search for medicines, and explore alternatives for out-of-stock items.
 * Pharmacists have the ability to archive and unarchive medicines, ensuring sales information is preserved.
 
-### Code Examples
+## Code Examples
 TODO
 
-### Installation
+## Installation
 These instructions will help you get a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 1. Click on `code` -> `Download ZIP`
 2. Extract the zip file and open it in visual studio code.
@@ -77,7 +77,7 @@ These instructions will help you get a copy of the project up and running on you
         
         npm install
 
-### How To Use
+## How To Use
 To launch the project locally, follow these steps:
 
 Navigate to the `server` folder using the terminal and run the following command:
@@ -88,13 +88,13 @@ Next, navigate to the `client` folder in the terminal and run the following comm
 
         npm start
 
-### API Reference
+## API Reference
 TODO
 
-### Tests
+## Tests
 TODO
 
-### Contribute
+## Contribute
 We welcome contributions from the community! If you'd like to contribute to the development of this project, follow these guidelines:
 
 1. **Fork the Repository**: Click on the "Fork" button on the top right corner of this repository's page.
@@ -123,7 +123,7 @@ We welcome contributions from the community! If you'd like to contribute to the 
 
 Thank you for contributing to our project! 🚀
 
-### Credits
+## Credits
 - [@02omar](https://github.com/02omar)
 - [@Hauna9](https://github.com/Hauna9)
 - [@shahdamerr](https://github.com/shahdamerr)
@@ -132,6 +132,6 @@ Thank you for contributing to our project! 🚀
 - [@mariamelgendy](https://github.com/mariamelgendy)
 - [@sara2413](https://github.com/sara2413)
 
-### License
+## License
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
