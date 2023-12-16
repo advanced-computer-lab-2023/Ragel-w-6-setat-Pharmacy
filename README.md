@@ -1,6 +1,6 @@
 
 # Pharma Space (Virtual Pharmacy)
-![App Screenshot]([https://media.discordapp.net/attachments/1157430089181577291/1159866558466773182/acl_pharma_2.png?ex=658edde8&is=657c68e8&hm=9b3bdb983cb4ac24d9e1109498ab29fadca90711c7767fd0214dbd73ef95089a&=&format=webp&quality=lossless&width=1307&height=482](https://media.discordapp.net/attachments/1157430089181577291/1159866558227693578/acl_clinic_6.png?ex=658edde8&is=657c68e8&hm=0cc036be1a1d14a84bf64aed1a7287c39bd700488a84e6a29f3b483e6d61aebc&=&format=webp&quality=lossless&width=625&height=625))
+![App Screenshot](https://media.discordapp.net/attachments/1157430089181577291/1159866558466773182/acl_pharma_2.png?ex=658edde8&is=657c68e8&hm=9b3bdb983cb4ac24d9e1109498ab29fadca90711c7767fd0214dbd73ef95089a&=&format=webp&quality=lossless&width=1307&height=482)
 Pharma space is a comprehensive and innovative platform designed to enhance the efficiency and accessibility of healthcare services. The system caters to the needs of patients, pharmacists, and administrators, providing a seamless experience for managing medical information, prescriptions, and medication inventory.
 
 ## Motivation
