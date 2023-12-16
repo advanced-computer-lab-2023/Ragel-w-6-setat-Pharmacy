@@ -33,7 +33,31 @@ const createPatient = async (req, res) => {
     }
 }
 
-
+//get one patient's info using his ID
+const getPatientInfo= async(req,res)=>{
+    try {
+        const { patientId } = req.params;
+    
+        // Validate patientId
+        if (!patientId) {
+          return res.status(400).json({ message: 'Patient ID is required' });
+        }
+    
+        // Fetch patient details from the database
+        const patientDetails = await Patient.find(patientId);
+    
+        // Check if the patient with the given ID exists
+        if (!patientDetails) {
+          return res.status(404).json({ message: 'Patient not found' });
+        }
+    
+        // If patient details are found, send them in the response
+        res.status(200).json({ patient: patientDetails });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+};
 
 // View a list of medicines (showing only the price, image, description) with archived attribute set to false
 
@@ -714,6 +738,7 @@ module.exports = {
     processPayment,
     changePatientPassword,
     medAlternative,
+    getPatientInfo
 
 }
 

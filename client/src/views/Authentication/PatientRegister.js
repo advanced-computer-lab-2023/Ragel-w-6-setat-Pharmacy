@@ -174,24 +174,24 @@ const PatientRegister = () => {
                   />
                 </InputGroup>
               </FormGroup>
-              <FormGroup>
-<InputGroup className="input-group-alternative">
-  <InputGroupAddon addonType="prepend">
-    <InputGroupText>
-      <i className="ni ni-calendar-grid-58" />
-    </InputGroupText>
-  </InputGroupAddon>
-  <ReactDatetime
-    inputProps={{
-      placeholder: 'Date of Birth',
-      required: true,
-    }}
-    value={dateOfBirth}
-    onChange={(value) => setDateOfBirth(value)}
-    timeFormat={true}
-  />
-</InputGroup>
-</FormGroup>
+                <FormGroup>
+                  <InputGroup className="input-group-alternative">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="ni ni-calendar-grid-58" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <ReactDatetime
+                      inputProps={{
+                        placeholder: 'Date of Birth',
+                        required: true,
+                      }}
+                      value={dateOfBirth}
+                      onChange={(value) => setDateOfBirth(value)}
+                      timeFormat={true}
+                    />
+                  </InputGroup>
+              </FormGroup>
 
 <FormGroup>
       <InputGroup>

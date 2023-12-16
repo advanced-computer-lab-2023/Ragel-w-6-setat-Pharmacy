@@ -167,14 +167,7 @@ var routes = [
     component: <ChangePassword />,
     layout: "/patient",
   },
-  {
-    path: "/forgotPassword",
-    name: "Forgot Password",
-    icon: "ni ni-settings-gear-65  text-white",
-    component: <ForgotPassword />,
-    layout: "/patient",
-  },
-  
+ 
 
  
 
@@ -230,15 +223,6 @@ var routes = [
     
   },
  
-  {
-    path: "/ChangePassword",
-    name: "Change Password",
-    icon: "ni ni-settings-gear-65  text-white",
-    component: <ChangePassword />,
-    layout: "/pharmacist",
-  },
- 
- 
   { //Handle Pharm Req in the layout Admin (will make a layout for every role)
     path: "/UploadDocuments",
     name: "Upload documents",
@@ -272,6 +256,14 @@ var routes = [
     component: <PharmacistRegister />,
     layout: "/auth",
   },
+  {
+    path: "/forgotPassword",
+    name: "Forgot Password",
+    icon: "ni ni-settings-gear-65  text-white",
+    component: <ForgotPassword />,
+    layout: "/auth",
+  },
+  
  
  
 ];

@@ -27,7 +27,8 @@ const GetAllMedicines = () => {
             const json = await response.json();
 
             if (response.ok) {
-                setMedicine(json);
+                const activeMedicines = json.filter((med) => !med.archived);
+                setMedicine(activeMedicines);
             }
         };
 
@@ -85,8 +86,9 @@ const GetAllMedicines = () => {
             console.error('Error adding to cart:', error);
           }
       };
-      
-      const toggleModal = () => {
+    
+    
+    const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
     };
     return (
@@ -103,7 +105,9 @@ const GetAllMedicines = () => {
                             style={{ width: '1070px' }} 
                         />
                          </div>
-                          <button className="ni ni-zoom-split-in text-white" style={{ backgroundColor: "#009688" ,width:"200px",height:"40px",border:"none"}} onClick={handleSearch}></button>
+                          <button className="ni ni-zoom-split-in text-white" 
+                          style={{ backgroundColor: "#009688" ,width:"200px",height:"40px",border:"none",borderRadius: '4px',}} 
+                          onClick={handleSearch}></button>
                    
                 </div>
                 <div className="col-md-5 d-flex ">
@@ -125,12 +129,12 @@ const GetAllMedicines = () => {
                                 ))}
                         </select>
                         </div>
-                        <button className="ni ni-ui-04 text-white" style={{ backgroundColor: "#009688",border:"none",height:"36px"}} onClick={handleFilter}></button>
+                        <button className="ni ni-ui-04 text-white" style={{ backgroundColor: "#009688",border:"none",height:"36px",borderRadius: '4px'}} onClick={handleFilter}></button>
                         </div>
             </div>
 
             <div className="row">
-        {medicine &&
+        {medicine && 
           medicine.map((medicines) => (
             <div key={medicines.name} className="col-md-4 mb-4">
               <MedicineDetails medicines={medicines} handleAddToCart={handleAddToCart} />

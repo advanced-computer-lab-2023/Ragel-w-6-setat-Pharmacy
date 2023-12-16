@@ -136,7 +136,7 @@ const Cart = ({}) => {
               </Table>
               <div className="text-right">
                 <h3>Total Quantity: {cart.totalQty}</h3>
-                <h3>Total Cost: ${cart.totalCost.toFixed(2)}</h3>
+                <h3>Total Cost: ${cart.totalCost.toFixed(1)}</h3>
                 <Button  style={{ background: "#009688" }} onClick={() => navigate('/patient/checkout')}>
                   Checkout
                 </Button>
@@ -146,6 +146,7 @@ const Cart = ({}) => {
             <p>Loading cart...</p>
           )}
         </div>
+        
       </Container>
     </>
   );
