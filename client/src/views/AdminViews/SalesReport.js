@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Bar } from 'react-chartjs-2';
 
 const SalesReport = () => {
     const [month, setMonth] = useState('');
@@ -26,7 +27,27 @@ const SalesReport = () => {
         'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
     ];
 
-    const years = Array.from({ length: 10 }, (_, index) => new Date().getFullYear() - index); // Adjust the range as needed
+    const years = Array.from({ length: 10 }, (_, index) => new Date().getFullYear() - index);
+
+    const getChartData = () => {
+        const labels = salesReport.medicines.map((medicine) => medicine.medicineName);
+        const data = salesReport.medicines.map((medicine) => medicine.totalSales);
+
+        return {
+            labels,
+            datasets: [
+                {
+                    label: 'Total Sales',
+                    backgroundColor: 'rgba(75,192,192,0.2)',
+                    borderColor: 'rgba(75,192,192,1)',
+                    borderWidth: 1,
+                    hoverBackgroundColor: 'rgba(75,192,192,0.4)',
+                    hoverBorderColor: 'rgba(75,192,192,1)',
+                    data,
+                },
+            ],
+        };
+    };
 
     return (
         <Container>
@@ -66,6 +87,7 @@ const SalesReport = () => {
                         color="primary"
                         onClick={handleGenerateReport}
                         disabled={isGenerateReportDisabled}
+                        style={{ backgroundColor: '#009688', borderColor: '#009688' }}
                     >
                         Generate Report
                     </Button>
@@ -74,16 +96,22 @@ const SalesReport = () => {
                 {salesReport ? (
                     <div>
                         {salesReport.totalSales !== undefined ? (
-                            <>
-                                <h3>Total Sales: {salesReport.totalSales}</h3>
-                                <ul className="list-group mt-4">
-                                    {salesReport.medicines.map((medicine, index) => (
-                                        <li key={index} className="list-group-item">
-                                            {medicine.medicineName} - Total Sales: {medicine.totalSales}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </>
+                            <div>
+                                <Bar
+                                    data={getChartData()}
+                                    options={{
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    beginAtZero: true,
+                                                    stepSize: 1,
+                                                },
+                                            }],
+                                        },
+                                    }}
+                                />
+                                <p>Total Sales: {salesReport.totalSales}</p>
+                            </div>
                         ) : (
                             <p>No sales found for the specified month.</p>
                         )}
