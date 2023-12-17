@@ -228,4 +228,4 @@ Thank you for contributing to our project! 🚀
 
 ## License
 
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) & [Apache License](http://www.apache.org/licenses/)
