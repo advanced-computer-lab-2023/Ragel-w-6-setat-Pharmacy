@@ -733,7 +733,11 @@ module.exports = {
     processPayment,
     changePatientPassword,
     medAlternative,
+
     getPatientInfo
+=======
+    
+
 
 }
 

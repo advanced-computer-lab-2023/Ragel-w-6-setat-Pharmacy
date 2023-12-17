@@ -36,7 +36,10 @@ import axios from 'axios'; // Import Axios for making API calls
 import { UserContext } from "../../contexts/UserContext";
 
 
+import { useState, useContext } from "react";
+
 const PatientDashBoard = () => {
+
  // const user= JSON.parse(localStorage.getItem('user'));
   //console.log(user);
  // const { user } = useContext(UserContext);
@@ -74,6 +77,10 @@ const PatientDashBoard = () => {
 //         return 0; // Return a default value in case of an error
 //     }
 // };
+
+=======
+  const user= JSON.parse(localStorage.getItem('user'));
+  console.log(user);
 
   return (
     <>
