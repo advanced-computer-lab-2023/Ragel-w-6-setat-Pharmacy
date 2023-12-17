@@ -1,5 +1,6 @@
 
-import "./Conversation.css"
+
+import "components/conversations/Conversation.css"
 import { useEffect, useState } from "react"
 
 export default function Conversation({ conversation, currentUser }) {

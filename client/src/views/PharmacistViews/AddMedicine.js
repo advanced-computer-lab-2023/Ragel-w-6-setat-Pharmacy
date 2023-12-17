@@ -51,10 +51,6 @@ const AddNewMedicine = () => {
       <AdminHeader />
       {/* Page content */}
      <Container>
-     
-    
-    
-     
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-md-6">
@@ -137,11 +133,15 @@ const AddNewMedicine = () => {
             </div>
 
             {!success ? (
-              <button type="submit" className="btn btn-primary btn-block">
+              <button type="submit" className="btn btn-primary btn-block"
+              style={{ backgroundColor: "#009688"}}>
+
                 Add
               </button>
             ) : (
-              <Link to="/pharmacist/ViewMedicine" className="btn btn-success btn-block">
+              <Link to="/pharmacist/ViewMedicine" 
+              style={{ backgroundColor: "#009688"}}
+              className="btn btn-success btn-block">
                 Go back to home
               </Link>
             )}

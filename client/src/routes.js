@@ -149,13 +149,13 @@ var routes = [
     component: <ChangePassword />,
     layout: "/patient",
   },
-  {
-    path: "/forgotPassword",
-    name: "Forgot Password",
-    icon: "ni ni-settings-gear-65  text-white",
-    component: <ForgotPassword />,
-    layout: "/patient",
-  },
+  // {
+  //   path: "/forgotPassword",
+  //   name: "Forgot Password",
+  //   icon: "ni ni-settings-gear-65  text-white",
+  //   component: <ForgotPassword />,
+  //   layout: "/patient",
+  // },
 
   {
     path: "/chatwithpharmacist",
@@ -164,6 +164,19 @@ var routes = [
     component: <ChatWithPharmacist />,
     layout: "/patient",
   },
+
+
+// pharmacist
+=======
+
+  {
+    path: "/chatwithpharmacist",
+    name: "Chat With Pharmacist",
+    icon: "ni ni-tv-2 text-primary",
+    component: <ChatWithPharmacist />,
+    layout: "/patient",
+  },
+
 
 
   {
@@ -190,7 +203,7 @@ var routes = [
   {
     path: "/editMedicine",
     name: "Edit Medicine",
-    icon: "ni ni-curved-next  text-white",
+    icon: "ni ni-ruler-pencil  text-white",
     component: <EditMedicine />,
     layout: "/pharmacist",
   },
@@ -267,6 +280,18 @@ var routes = [
     component: <PharmacistRegister />,
     layout: "/auth",
   },
+
+  {
+    path: "/forgotPassword",
+    name: "Forgot Password",
+    icon: "ni ni-settings-gear-65  text-white",
+    component: <ForgotPassword />,
+    layout: "/auth",
+  },
+  
+ 
+ 
+=======
 
 
 ];

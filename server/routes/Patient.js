@@ -18,12 +18,19 @@ const {
     processPayment,
     changePatientPassword,
     medAlternative,
+
+    getPatientInfo
+=======
+
 } = require('../controllers/PatientControllers')
 
 const router = express.Router();
 
 // Register as a patient
 router.post('/', createPatient)
+
+// Get a Patient's info
+router.get("/getPatientInfo/:id",getPatientInfo)
 
 // View a list of all medicines
 router.get("/getAllMedicines", getAllMedicines)

@@ -202,17 +202,16 @@ const PatientRegister = () => {
                   />
                 </InputGroup>
               </FormGroup>
-
               <FormGroup>
                 <InputGroup>
                   <Dropdown isOpen={genderDropdownOpen} toggle={toggleGenderDropdown} >
-                    <DropdownToggle caret>{gender || 'Select Gender'}</DropdownToggle>
+                    <DropdownToggle style={{ backgroundColor: "#009688" }} caret>{gender || 'Select Gender'}</DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem value="Male" active={gender === 'Male'} onClick={() => setGender('male')}>
+                      <DropdownItem value="Male" active={gender === 'Male'} onClick={() => setGender('Male')}>
                         <i className="ni ni-single-02" />
                         <span>Male</span>
                       </DropdownItem>
-                      <DropdownItem value="Female" active={gender === 'Female'} onClick={() => setGender('female')}>
+                      <DropdownItem value="Female" active={gender === 'Female'} onClick={() => setGender('Female')}>
                         <i className="ni ni-single-02" />
                         <span>Female</span>
                       </DropdownItem>
@@ -301,9 +300,14 @@ const PatientRegister = () => {
                 </Col>
               </Row>
               {!success ? (
-                <Button className="my-4" color="primary" type="submit">Register</Button>
+                <div className="text-center">
+                  <Button className="my-4" style={{ backgroundColor: "#009688" }} type="submit">Register</Button>
+                </div>
               ) : <Link to="/Login">
-                <Button type="submit">Login now</Button></Link>}
+                <div className="text-center">
+                  <Button style={{ backgroundColor: "#009688", }} type="submit">Login now</Button>
+                </div>
+              </Link>}
 
               {error && <div className="error">
                 {error}    </div>}

@@ -58,22 +58,25 @@ const Auth = (props) => {
   return (
     <>
   
-      <div className="main-content" ref={mainContent}>
+      <div className="main-content" ref={mainContent}
+      style={{
+        background: "linear-gradient(80deg, #00796B 0, #B2DFDB 100%)",
+       }}>
         <AuthNavbar />
-        <div className="header bg-gradient-info py-7 py-lg-8">
+        <div className="header bg-gradient py-7 py-lg-6"
+           >
           <Container>
-            <div className="header-body text-center mb-7">
+            <div className="header-body text-center mb-7" >
               <Row className="justify-content-center">
                 <Col lg="5" md="6">
                   <h1 className="text-white">Welcome!</h1>
                   <p className="text-lead text-light">
-                    
                   </p>
                 </Col>
               </Row>
             </div>
           </Container>
-          <div className="separator separator-bottom separator-skew zindex-100">
+          {/* <div className="separator separator-bottom separator-skew zindex-100">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               preserveAspectRatio="none"
@@ -83,23 +86,33 @@ const Auth = (props) => {
               y="0"
             >
               <polygon
-                className="fill-default"
+                className="py-7 py-lg-8"
+                style={{
+                  background: "#009688",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
                 points="2560 0 2560 100 0 100"
+               
+            
               />
             </svg>
-          </div>
+          </div> */}
         </div>
         {/* Page content */}
-        <Container className="mt--8 pb-5">
+        <div className="header bg-gradient py-5 py-lg-6">
+         <Container className="mt--8 pb-5" >
           <Row className="justify-content-center">
             <Routes>
               {getRoutes(routes)}
               <Route path="*" element={<Navigate to="/auth/login" replace />} />
+              
             </Routes>
           </Row>
-        </Container>
+          </Container>
+        </div>
       </div>
-      <AuthFooter />
+      {/* <AuthFooter /> */}
     </>
   );
 };

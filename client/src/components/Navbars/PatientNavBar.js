@@ -1,4 +1,8 @@
 import React, { useContext, useState } from "react";
+
+import { Link } from 'react-router-dom';
+
+
 import {
     Collapse,
     Navbar,
@@ -68,13 +72,13 @@ const PatientNavBar = (props) => {
                 </span>
               </NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink className="rounded-circle text-white">
-                <span className="nav-link-icon d-block">
-                  <i className="fa-solid fa-video"></i>
-                </span>
-              </NavLink>
-            </NavItem>
+              {/* <NavItem>
+                <NavLink className="rounded-circle text-white">
+                  <span className="nav-link-icon d-block">
+                    <i className="fa-solid fa-video"></i>
+                  </span>
+                </NavLink>
+              </NavItem> */}
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
               <span className="nav-link-icon d-block text-white">

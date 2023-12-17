@@ -4,21 +4,17 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AdminHeader from '../../components/Headers/AdminHeader';
 import { Container } from 'reactstrap';
+import { Link } from 'react-router-dom';
+
  
 const GetAllMedicinesPharm = () => {
     const [medicine, setMedicine] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedMedicinalUse, setSelectedMedicinalUse] = useState('');
     const [cart, setCart] = useState([]);
-
-    
-
-    const patientId = '654beffcf9d0ca04d098b0e3';
-
-    
-
-
+    //const patientId = '654beffcf9d0ca04d098b0e3';
     const [shouldRefresh, setShouldRefresh] = useState(false);
+   
 
     useEffect(() => {
         const fetchMedicines = async () => {
@@ -110,38 +106,41 @@ const GetAllMedicinesPharm = () => {
     };
 
    
+   
       
 
     return (
         <>
-      <AdminHeader />
-      {/* Page content */}
+     
      <Container>
-     
-    
-    
-     
         <div className="container mt-5">
             <div className="row">
-                <div className="col-md-6">
-                    <div className="form-group">
-                        <input
+                <div className="col-md-8 d-flex">
+                    <div className="form-group flex-grow-1">
+                    <input
                             type="text"
                             className="form-control"
                             placeholder="Search medicine..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
+                            style={{ width: '1070px' }} 
                         />
-                          <button onClick={handleSearch}>Search</button>
-                    </div>
+                         </div>
+                          <button className="ni ni-zoom-split-in text-white" 
+                          style={{ backgroundColor: "#009688" ,width:"200px",height:"40px",border:"none",borderRadius: '4px',}} 
+                          onClick={handleSearch}></button>
+                   
                 </div>
-                <div className="col-md-6">
-                    <div className="form-group">
+                <div className="col-md-5 d-flex ">
+                    <div className="form-group ">
                         <select
                             className="form-control"
                             value={selectedMedicinalUse}
                             onChange={(e) => setSelectedMedicinalUse(e.target.value)}
+                            style={{ width: '120px',}} 
+                            
                         >
+                            
                             <option value="">No filter</option>
                             {medicine &&
                                 Array.from(new Set(medicine.flatMap((med) => med.medicinalUse))).map((use) => (
@@ -150,10 +149,9 @@ const GetAllMedicinesPharm = () => {
                                     </option>
                                 ))}
                         </select>
-                        <button onClick={handleFilter}>Filter</button>
-
-                    </div>
-                </div>
+                        </div>
+                        <button className="ni ni-ui-04 text-white" style={{ backgroundColor: "#009688",border:"none",height:"36px",borderRadius: '4px'}} onClick={handleFilter}></button>
+                        </div>
             </div>
 
             <div className="row">
@@ -165,7 +163,7 @@ const GetAllMedicinesPharm = () => {
                 handleToggleArchive={(isArchived) => handleToggleArchive(medicines._id, isArchived)}
                 />
             </div>
-            
+
             
                     ))}
             </div>
@@ -237,9 +235,16 @@ const MedicineDetails = ({ medicines,handleToggleArchive }) => {
                     <strong>Status: </strong>
                     {medicines.archived ? 'Archived' : 'Unarchived'}
                 </p>
-                <button onClick={() => handleToggleArchive(medicines.archived)}>
+                <button  className="btn btn-success"style={{ backgroundColor: "#009688" }}onClick={() => handleToggleArchive(medicines.archived)}>
                     {medicines.archived ? 'Unarchive' : 'Archive'}
                 </button>
+                <Link  to="/pharmacist/EditMedicine"
+                            className="btn btn-success"
+                            style={{ backgroundColor: "#00796B" }}
+                            onClick={() =>{}}
+                >
+                  Edit
+                </Link>
         </div>
       </div>
     );
