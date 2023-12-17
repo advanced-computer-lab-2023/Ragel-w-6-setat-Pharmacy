@@ -14,7 +14,7 @@ This project follows a specific code style to ensure consistency and readability
 We adhere to the [Standard Code Style Guide](https://standardjs.com/) for this project. Please review the guide before contributing to ensure that your code aligns with our established conventions.
 
 ## Screenshots
-![Screenshot1](https://mail.google.com/mail/u/0?ui=2&ik=6ae79bc92d&attid=0.1&permmsgid=msg-f:1785467382354526288&th=18c7411fdb49c050&view=att&disp=safe&realattid=f_lq8fzjme0)
+![Screenshot1](https://cdn.discordapp.com/attachments/1159865308102799441/1185783409600106629/Screenshot_2023-12-17_051232.png?ex=6590dddb&is=657e68db&hm=71edaceebecb50b8d41b01d3bb66398990c7bab32098bd17cc8fff173ea3fe60&)
 
 ![Screenshot2](https://mail.google.com/mail/u/0?ui=2&ik=6ae79bc92d&attid=0.3&permmsgid=msg-f:1785467382354526288&th=18c7411fdb49c050&view=att&disp=safe&realattid=f_lq8fzjmw2)
 
