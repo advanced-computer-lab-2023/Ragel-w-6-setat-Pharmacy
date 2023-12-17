@@ -90,55 +90,55 @@ Next, navigate to the `client` folder in the terminal and run the following comm
         npm start
 
 ## API References
-1. **Express.js(`express`)**
+**1. Express.js(`express`)**
 * **Description:** Web application framework for Node.js, used for building the backend server and handling HTTP requests.
 * **Documentation:** [Express.js Documentation](https://expressjs.com/)
 
-2. **Mongoose(`mongoose`)**
+**2. Mongoose(`mongoose`)**
 * **Description:** Elegant Object Data Modeling (ODM) library for MongoDB and Node.js, streamlining interaction with MongoDB.
 * **Documentation:** [Mongoose Documentation](https://mongoosejs.com/)
 
-3. **Axios(`axios`)**
+**3. Axios(`axios`)**
 * **Description:** Promise-based HTTP client for making HTTP requests, facilitating seamless communication with external APIs.
 * **Documentation:** [Axios Documentation](https://axios-http.com/)
 
-4. **Bcrypt(`bcrypt`)**
+**4. Bcrypt(`bcrypt`)**
 * **Description:** Library for hashing and salting passwords, fortifying the project's password security.
 * **Documentation:** [Bcrypt Documentation](https://www.npmjs.com/package/bcrypt)
 
-5. **Cors(`cors`)**
+**5. Cors(`cors`)**
 * **Description:** Middleware for Express.js enabling Cross-Origin Resource Sharing (CORS), granting controlled access to server resources.
 * **Documentation:** [Cors Documentation](https://www.npmjs.com/package/cors/)
 
-6. **Dotenv(`dotenv`)**
+**6. Dotenv(`dotenv`)**
 * **Description:** Zero-dependency module seamlessly loading environment variables from a `.env` file into `process.env`.
 * **Documentation:** [Dotenv Documentation](https://www.npmjs.com/package/dotenv)
 
-7. **Jsonwebtokens(`jsonwebtoken`)**
+**7. Jsonwebtokens(`jsonwebtoken`)**
 * **Description:** Robust library for creating and verifying JSON Web Tokens (JWT), a cornerstone for user authentication.
 * **Documentation:** [Jsonwebtoken Documentation](https://www.npmjs.com/package/jsonwebtoken)
 
-8. **Morgan(`morgan`)**
+**8. Morgan(`morgan`)**
 * **Description:** Express.js middleware providing an HTTP request logger, capturing essential information about incoming requests.
 * **Documentation:** [Morgan Documentation](https://www.npmjs.com/package/morgan)
 
-9. **Multer(`multer`)**
+**9. Multer(`multer`)**
 * **Description:** Middleware tailored for handling multipart/form-data, an essential tool for efficient file uploads.
 * **Documentation:** [Multer Documentation](https://www.npmjs.com/package/multer)
 
-10. **Nodemailer(`nodemailer`)**
+**10. Nodemailer(`nodemailer`)**
 * **Description:** Powerful module for sending emails, often utilized for tasks like dispatching confirmation emails.
 * **Documentation:** [Nodemailer Documentation](https://nodemailer.com/about/)
 
-11. **Nodemon(`nodemon`)**
+**11. Nodemon(`nodemon`)**
 * **Description:** Intelligent utility monitoring changes in source code and autonomously restarting the server.
 * **Documentation:** [Nodemon Documentation](https://nodemon.io/)
 
-12. **Socket.io(`^4.7.2`)**
+**12. Socket.io(`^4.7.2`)**
 * **Description:** Real-time bidirectional event-based communication library for Node.js. Facilitates real-time communication between web clients and servers.
 * **Documentation:** [Socket.IO Documentation](https://socket.io/docs/v4/)
 
-13. **Stripe(`@stripe/stripe-js` and `stripe`)**
+**13. Stripe(`@stripe/stripe-js` and `stripe`)**
 * **Description:** Libraries dedicated to handling Stripe payments, a leading payment processing platform.
 * **Documentation:** 
   - [Stripe.js Documentation](https://stripe.com/docs/payments/elements)
