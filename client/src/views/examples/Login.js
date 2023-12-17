@@ -37,6 +37,7 @@ import {
 } from "reactstrap";
 
 import { UserContext } from "../../contexts/UserContext";
+import {AuthContext} from "../../contexts/AuthContext";
 
 const Login = () => {
 
@@ -52,6 +53,7 @@ const Login = () => {
   })
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const {dispatch}=useContext(UserContext);
   
   const  loginUser = async(e) =>
   {
@@ -76,12 +78,18 @@ const Login = () => {
     setSuccess(true)
      setError('Thank you for logging ')
      console.log("Login successful", data);
+     console.log("User logged in", json.user._id.toString());
+
      setMessage({ type: "success", text: "Login successful" });
       //navigate('/auth/login') 
       //FIXME check this is the correct syntax to navigate
       //FIXME route based on user role to the correct dashboard ; swithc case
       // Navigate based on user role
       setUser({ _id: json.user._id.toString() });
+        // save user to local storage
+        localStorage.setItem('user', JSON.stringify(json.user));
+        //update context
+      //  dispatch({type:"LOGIN",payload:json})
       switch (json.userType) {
         case "patient":
           navigate("/patient");
@@ -94,7 +102,7 @@ const Login = () => {
           break;
         // Add other roles as needed
         default:
-          navigate("/auth/login"); // Default route if the role is not recognized
+          navigate("/auth/admin"); // Default route if the role is not recognized
       }
   } 
     }

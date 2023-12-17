@@ -81,6 +81,8 @@ const patientRoutes = require('./routes/Patient')
 const pharmacistRoutes = require('./routes/Pharmacist')
 const adminRoutes = require('./routes/Admin')
 const userRoutes = require('./routes/User');
+const conversationRoutes = require('./routes/Conversation');
+const messageRoutes = require('./routes/Message');
 const { fileURLToPath } = require('url');
 
 
@@ -88,6 +90,10 @@ app.use('/api/patient', patientRoutes)
 app.use('/api/pharmacist', pharmacistRoutes)
 app.use('/api/admin', adminRoutes)
 app.use('/api/user', userRoutes)
+app.use('/api/conversation',conversationRoutes)
+app.use('/api/message',messageRoutes)
+
+
 
 // port
 const port = process.env.PORT || "8000";

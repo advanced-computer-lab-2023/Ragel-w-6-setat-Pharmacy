@@ -45,6 +45,8 @@ import ViewAllMedicinePatient from "views/PatientViews/ViewAllMedicine";
 import ChangePassword from "views/PatientViews/ChangePassword";
 
 import ChatWithPharmacist from "views/PatientViews/ChatWithPharmacist";
+import ChatWithPatients from "views/PharmacistViews/ChatWithPatients";
+
 
 // Authentication
 import PatientRegister from "views/Authentication/PatientRegister.js";
@@ -238,6 +240,14 @@ var routes = [
     name: "Change Password",
     icon: "ni ni-settings-gear-65  text-white",
     component: <ChangePassword />,
+    layout: "/pharmacist",
+  },
+
+  {
+    path: "/chatwithpatient",
+    name: "Chat With Patient",
+    icon: "ni ni-tv-2 text-primary",
+    component: <ChatWithPatients />,
     layout: "/pharmacist",
   },
  

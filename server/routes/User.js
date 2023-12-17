@@ -24,7 +24,9 @@ const {
   login,
   registerPatient,
   registerPharmacist,
-  resetPasswordOTP
+  resetPasswordOTP,
+  getUserById,
+  getUserByUsername
 } = require('../controllers/UserController')
 
 // Login
@@ -38,5 +40,11 @@ router.post("/registerPharmacist", upload.fields([{ name: 'ID', maxCount: 1 }, {
 
 // Reset password (OTP)
 router.post('/resetPasswordOTP', resetPasswordOTP);
+
+// Get user by id
+router.get('/getUserById/:id', getUserById);
+
+// Get user by username
+router.get('/getUserByUsername/:username', getUserByUsername);
 
 module.exports = router

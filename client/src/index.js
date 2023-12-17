@@ -13,11 +13,12 @@ import Auth from "layouts/Auth.js";
 import PatientLayout from "layouts/Patient.js";
 import PharmacistLayout from "layouts/Pharmacist.js";
 import UserContextProvider from "contexts/UserContext";
-
+import { AuthContextProvider } from "contexts/AuthContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <BrowserRouter>
+  <AuthContextProvider>
     <UserContextProvider>
       <Routes>
         <Route path="/admin/*" element={<AdminLayout />} />
@@ -26,6 +27,7 @@ root.render(
         <Route path="/pharmacist/*" element={<PharmacistLayout />} />
         <Route path="*" element={<Navigate to="/auth/login" replace />} />
       </Routes>
-    </UserContextProvider>
+     </UserContextProvider>
+    </AuthContextProvider>
   </BrowserRouter>
 );
