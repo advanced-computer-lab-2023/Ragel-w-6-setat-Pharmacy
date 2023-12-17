@@ -35,11 +35,19 @@ io.on("connection", (socket) => {
     socket.on("sendMessage", ({ senderId, receiverId, text }) => {
         const user = getUser(receiverId);
         console.log("user", user);
-        io.to(user.socketId).emit("getMessage", {
+        io.to(user?.socketId).emit("getMessage", {
             senderId,
             text,
         });
     });
+
+//listen to new conversation
+socket.on("newConversation", (data) => {
+    // Check if patientId is not null before emitting the event
+    if (data && data.patientId) {
+      io.to(data.patientId).emit("newConversation", data.conversation);
+    }
+  });
 
 
     // when disconnect
