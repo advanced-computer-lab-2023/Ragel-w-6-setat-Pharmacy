@@ -167,7 +167,7 @@ var routes = [
 
 
 // pharmacist
-=======
+
 
   {
     path: "/chatwithpharmacist",
@@ -291,7 +291,7 @@ var routes = [
   
  
  
-=======
+
 
 
 ];

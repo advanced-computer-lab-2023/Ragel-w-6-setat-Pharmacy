@@ -36,7 +36,7 @@ import axios from 'axios'; // Import Axios for making API calls
 import { UserContext } from "../../contexts/UserContext";
 
 
-import { useState, useContext } from "react";
+
 
 const PatientDashBoard = () => {
 
@@ -78,7 +78,7 @@ const PatientDashBoard = () => {
 //     }
 // };
 
-=======
+
   const user= JSON.parse(localStorage.getItem('user'));
   console.log(user);
 
