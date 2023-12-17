@@ -149,13 +149,13 @@ var routes = [
     component: <ChangePassword />,
     layout: "/patient",
   },
-  {
-    path: "/forgotPassword",
-    name: "Forgot Password",
-    icon: "ni ni-settings-gear-65  text-white",
-    component: <ForgotPassword />,
-    layout: "/patient",
-  },
+  // {
+  //   path: "/forgotPassword",
+  //   name: "Forgot Password",
+  //   icon: "ni ni-settings-gear-65  text-white",
+  //   component: <ForgotPassword />,
+  //   layout: "/patient",
+  // },
 
   {
     path: "/chatwithpharmacist",
@@ -165,7 +165,7 @@ var routes = [
     layout: "/patient",
   },
 
-
+// pharmacist
   {
     path: "/",
     name: "Home",

@@ -32,50 +32,48 @@ import {
 // core components
 import React, { useState, useEffect,useContext } from 'react';
 import UserHeader from "components/Headers/UserHeader.js";
-
-import { useState, useContext } from "react";
 import axios from 'axios'; // Import Axios for making API calls
 import { UserContext } from "../../contexts/UserContext";
 
 
 const PatientDashBoard = () => {
-  const user= JSON.parse(localStorage.getItem('user'));
-  console.log(user);
-  const { user } = useContext(UserContext);
+ // const user= JSON.parse(localStorage.getItem('user'));
+  //console.log(user);
+ // const { user } = useContext(UserContext);
   const [patientDetails, setPatientDetails] = useState(null);
   const [walletBalance, setWalletBalance] = useState(0);
 
-  const patientId = user._id;
+  //const patientId = user._id;
 
-  useEffect(() => {
-    const fetchPatientDetails = async () => {
-      try {
-        // Replace 'YOUR_API_ENDPOINT' with the actual endpoint to fetch patient details
-        const response = await axios.get(`/api/patient/getPatientDetails/${patientId}`); // Provide the correct endpoint
-        setPatientDetails(response.data.patient);
-      } catch (error) {
-        console.error('Error fetching patient details:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchPatientDetails = async () => {
+  //     try {
+  //       // Replace 'YOUR_API_ENDPOINT' with the actual endpoint to fetch patient details
+  //       const response = await axios.get(`/api/patient/getPatientDetails/${patientId}`); // Provide the correct endpoint
+  //       setPatientDetails(response.data.patient);
+  //     } catch (error) {
+  //       console.error('Error fetching patient details:', error);
+  //     }
+  //   };
 
-    // Call the function to fetch patient details
-    fetchPatientDetails();
-  }, []);
-  const getWalletBalance = async () => {
-    try {
-        const response = await fetch(`/api/patient/getWalletBalance/${patientId}`);
-        if (response.ok) {
-            const data = await response.json();
-            return data.walletBalance;
-        } else {
-            console.error("Error fetching wallet balance:", response.statusText);
-            return 0; // Return a default value in case of an error
-        }
-    } catch (error) {
-        console.error("Error fetching wallet balance:", error);
-        return 0; // Return a default value in case of an error
-    }
-};
+  //   // Call the function to fetch patient details
+  //   fetchPatientDetails();
+  // }, []);
+//   const getWalletBalance = async () => {
+//     try {
+//         const response = await fetch(`/api/patient/getWalletBalance/${patientId}`);
+//         if (response.ok) {
+//             const data = await response.json();
+//             return data.walletBalance;
+//         } else {
+//             console.error("Error fetching wallet balance:", response.statusText);
+//             return 0; // Return a default value in case of an error
+//         }
+//     } catch (error) {
+//         console.error("Error fetching wallet balance:", error);
+//         return 0; // Return a default value in case of an error
+//     }
+// };
 
   return (
     <>
