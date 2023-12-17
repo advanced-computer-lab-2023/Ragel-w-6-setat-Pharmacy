@@ -166,8 +166,8 @@ var routes = [
   },
 
 
-// pharmacist
-=======
+  // pharmacist
+
 
   {
     path: "/chatwithpharmacist",
@@ -245,7 +245,7 @@ var routes = [
     component: <ChatWithPatients />,
     layout: "/pharmacist",
   },
- 
+
 
   { //Handle Pharm Req in the layout Admin (will make a layout for every role)
     path: "/UploadDocuments",
@@ -288,10 +288,8 @@ var routes = [
     component: <ForgotPassword />,
     layout: "/auth",
   },
-  
- 
- 
-=======
+
+
 
 
 ];

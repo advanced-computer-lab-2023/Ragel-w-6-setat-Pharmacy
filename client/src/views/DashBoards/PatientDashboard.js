@@ -30,19 +30,18 @@ import {
   Col,
 } from "reactstrap";
 // core components
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import UserHeader from "components/Headers/UserHeader.js";
 import axios from 'axios'; // Import Axios for making API calls
 import { UserContext } from "../../contexts/UserContext";
 
 
-import { useState, useContext } from "react";
 
 const PatientDashBoard = () => {
 
- // const user= JSON.parse(localStorage.getItem('user'));
+  // const user= JSON.parse(localStorage.getItem('user'));
   //console.log(user);
- // const { user } = useContext(UserContext);
+  // const { user } = useContext(UserContext);
   const [patientDetails, setPatientDetails] = useState(null);
   const [walletBalance, setWalletBalance] = useState(0);
 
@@ -62,24 +61,24 @@ const PatientDashBoard = () => {
   //   // Call the function to fetch patient details
   //   fetchPatientDetails();
   // }, []);
-//   const getWalletBalance = async () => {
-//     try {
-//         const response = await fetch(`/api/patient/getWalletBalance/${patientId}`);
-//         if (response.ok) {
-//             const data = await response.json();
-//             return data.walletBalance;
-//         } else {
-//             console.error("Error fetching wallet balance:", response.statusText);
-//             return 0; // Return a default value in case of an error
-//         }
-//     } catch (error) {
-//         console.error("Error fetching wallet balance:", error);
-//         return 0; // Return a default value in case of an error
-//     }
-// };
+  //   const getWalletBalance = async () => {
+  //     try {
+  //         const response = await fetch(`/api/patient/getWalletBalance/${patientId}`);
+  //         if (response.ok) {
+  //             const data = await response.json();
+  //             return data.walletBalance;
+  //         } else {
+  //             console.error("Error fetching wallet balance:", response.statusText);
+  //             return 0; // Return a default value in case of an error
+  //         }
+  //     } catch (error) {
+  //         console.error("Error fetching wallet balance:", error);
+  //         return 0; // Return a default value in case of an error
+  //     }
+  // };
 
-=======
-  const user= JSON.parse(localStorage.getItem('user'));
+
+  const user = JSON.parse(localStorage.getItem('user'));
   console.log(user);
 
   return (
@@ -109,7 +108,7 @@ const PatientDashBoard = () => {
                 <Row>
                   <div className="col">
                     <div className="card-profile-stats d-flex justify-content-center mt-md-5">
-                     
+
                     </div>
                   </div>
                 </Row>
