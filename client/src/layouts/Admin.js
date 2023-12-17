@@ -64,8 +64,8 @@ const Admin = (props) => {
 
   return (
     <>
-    <AdminNavbar />
-    
+      <AdminNavbar />
+
       <AdminSidebar
         {...props}
         routes={routes}
@@ -76,7 +76,7 @@ const Admin = (props) => {
         }}
       />
       <div className="main-content" ref={mainContent}>
- 
+
         <Routes>
           {getRoutes(routes)}
           <Route path="*" element={<Navigate to="/admin/index" replace />} />

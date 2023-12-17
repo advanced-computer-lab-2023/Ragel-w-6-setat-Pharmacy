@@ -32,11 +32,15 @@ import {
 // core components
 import React, { useState, useEffect,useContext } from 'react';
 import UserHeader from "components/Headers/UserHeader.js";
+
+import { useState, useContext } from "react";
 import axios from 'axios'; // Import Axios for making API calls
 import { UserContext } from "../../contexts/UserContext";
 
 
 const PatientDashBoard = () => {
+  const user= JSON.parse(localStorage.getItem('user'));
+  console.log(user);
   const { user } = useContext(UserContext);
   const [patientDetails, setPatientDetails] = useState(null);
   const [walletBalance, setWalletBalance] = useState(0);

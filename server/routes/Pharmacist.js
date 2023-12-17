@@ -35,7 +35,8 @@ const {
   getFilteredSalesReport,
     archiveMedicine,
     unarchiveMedicine,
-    getAllMedicinesOutOfStock
+    getAllMedicinesOutOfStock,
+    
 } = require('../controllers/PharmacistController')
 
 // Make a pharmacist Request 

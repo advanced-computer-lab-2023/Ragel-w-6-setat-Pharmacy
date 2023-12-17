@@ -39,7 +39,8 @@ import ReactDatetime from "react-datetime";
   import { useState } from "react";
   import { Link } from "react-router-dom";
   import { useNavigate } from "react-router-dom";
-
+  import { useContext } from "react";
+  import { AuthContext } from "../../contexts/AuthContext";
 
 const PatientRegister = () => {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ const PatientRegister = () => {
   //const [emergencyContactMobile, setEmergencyContactMobile] = useState('')
   //const [emergencyContactRelation, setEmergencyContactRelation] = useState('')
   const [error, setError] = useState(null)
- 
+  const {dispatch}=useContext(AuthContext)
 
   const handleSubmit=async (e)=>{
     e.preventDefault()
@@ -91,10 +92,16 @@ const PatientRegister = () => {
         setSuccess(false)
     }
     else{ 
+      // save user to local storage
+      localStorage.setItem('user', JSON.stringify(json));
+      //update context
+      dispatch({type:"LOGIN",payload:json})
+
         setSuccess(true)
        setError('Thank you for registering ')
-        navigate('/auth/login')
+        navigate('/patient')
         //FIXME check this is the correct syntax to navigate
+        //FIXME let it navigate to the patient page since he registered
         
     } }
 

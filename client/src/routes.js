@@ -16,17 +16,12 @@
 
 */
 //import AdminDashboard from "views/Dashboards/AdminDashboard.js";
-import PatientAdmin from "views/AdminViews/Patient.js";
-import PharmacistAdmin from "views/AdminViews/Pharmacists.js";
+import SystemUsers from "views/AdminViews/SystemUsers.js";
 import PatientDashboard from "views/DashBoards/PatientDashboard.js";
 import PharmacistDashboard from "views/DashBoards/PharmacistDashboard.js";
 import AdminDashboard from "views/DashBoards/AdminDashboard.js"
-
 import HandlePharmReq from "views/AdminViews/HandlePharmReq";
-import Admins from "views/AdminViews/Admins";
 import SalesReport from "views/AdminViews/SalesReport";
-
-
 
 // Pharmacist Views
 import UploadDocuments from "views/PharmacistViews/UploadDocuments";
@@ -43,6 +38,9 @@ import Checkout from "views/PatientViews/Checkout";
 import Orders from "views/PatientViews/Orders";
 import ViewAllMedicinePatient from "views/PatientViews/ViewAllMedicine";
 import ChangePassword from "views/PatientViews/ChangePassword";
+
+import ChatWithPharmacist from "views/PatientViews/ChatWithPharmacist";
+import ChatWithPatients from "views/PharmacistViews/ChatWithPatients";
 
 
 // Authentication
@@ -72,44 +70,28 @@ var routes = [
     component: <AdminDashboard />,
     layout: "/admin",
   },
+  {
+    path: "/SystemUsers",
+    name: "System Users",
+    icon: "ni ni-single-copy-04 text-white",
+    component: <SystemUsers />,
+    layout: "/admin",
+  },
   { //Handle Pharm Req in the layout Admin (will make a layout for every role)
     path: "/HandlePharmReq",
-    name: "HandlePharmReq",
+    name: "Handle Pharmacist Requests",
     icon: "ni ni-paper-diploma text-white",
     component: <HandlePharmReq />,
     layout: "/admin",
   },
-    // FIXME change layout to /pharmacist 
+  // FIXME change layout to /pharmacist 
   // FIXME how to render profile info of that specific pharmacist
- 
+
   {
     path: "/SalesReport",
     name: "Sales Report",
     icon: "ni ni-folder-17 text-white",
     component: <SalesReport />,
-    layout: "/admin",
-  },
-  
-  {
-    path: "/patients",
-    name: "Patients",
-    icon: "ni ni-single-copy-04 text-white",
-    component: <PatientAdmin />,
-    layout: "/admin",
-  },
-
-  {
-    path: "/pharmacists",
-    name: "Pharmacists",
-    icon: "ni ni-single-copy-04 text-white",
-    component: <PharmacistAdmin />,
-    layout: "/admin",
-  },
-  {
-    path: "/admins",
-    name: "Admins",
-    icon: "ni ni-single-copy-04 text-white",
-    component: <Admins />,
     layout: "/admin",
   },
   {
@@ -119,8 +101,8 @@ var routes = [
     component: <ChangePassword />,
     layout: "/admin",
   },
-  
- 
+
+
 
   //Patient
   {
@@ -159,7 +141,7 @@ var routes = [
     component: <Orders />,
     layout: "/patient",
   },
-  
+
   {
     path: "/ChangePassword",
     name: "Change Password",
@@ -167,11 +149,23 @@ var routes = [
     component: <ChangePassword />,
     layout: "/patient",
   },
- 
+  {
+    path: "/forgotPassword",
+    name: "Forgot Password",
+    icon: "ni ni-settings-gear-65  text-white",
+    component: <ForgotPassword />,
+    layout: "/patient",
+  },
 
- 
+  {
+    path: "/chatwithpharmacist",
+    name: "Chat With Pharmacist",
+    icon: "ni ni-tv-2 text-primary",
+    component: <ChatWithPharmacist />,
+    layout: "/patient",
+  },
 
-  //Pharmacist
+
   {
     path: "/",
     name: "Home",
@@ -220,9 +214,26 @@ var routes = [
     icon: "ni ni-folder-17 text-white",
     component: <FilterSalesReport />,
     layout: "/pharmacist",
-    
+  },
+
+  {
+    path: "/ChangePassword",
+    name: "Change Password",
+    icon: "ni ni-settings-gear-65  text-white",
+    component: <ChangePassword />,
+    layout: "/pharmacist",
+  },
+
+
+  {
+    path: "/chatwithpatient",
+    name: "Chat With Patient",
+    icon: "ni ni-tv-2 text-primary",
+    component: <ChatWithPatients />,
+    layout: "/pharmacist",
   },
  
+
   { //Handle Pharm Req in the layout Admin (will make a layout for every role)
     path: "/UploadDocuments",
     name: "Upload documents",
@@ -230,10 +241,10 @@ var routes = [
     component: <UploadDocuments />,
     layout: "/pharmacist",
   },
-  
-  
 
-//auth
+
+
+  //auth
   {
     path: "/login",
     name: "Login",
@@ -241,7 +252,7 @@ var routes = [
     component: <Login />,
     layout: "/auth",
   },
-  
+
   {
     path: "/patientRegister",
     name: "PatientRegister",
@@ -249,7 +260,7 @@ var routes = [
     component: <PatientRegister />,
     layout: "/auth",
   },
-   {
+  {
     path: "/pharmacistRegister",
     name: "PharmacistRegister",
     icon: "ni ni-circle-08 text-pink",

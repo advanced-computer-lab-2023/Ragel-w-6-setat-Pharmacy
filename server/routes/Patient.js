@@ -76,4 +76,6 @@ router.post('/changePatientPassword', changePatientPassword);
 // Get medicine alternatives
 router.post('/medAlternatives/:medicineId',medAlternative)
 
+
+
 module.exports = router
