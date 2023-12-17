@@ -14,7 +14,19 @@ This project follows a specific code style to ensure consistency and readability
 We adhere to the [Standard Code Style Guide](https://standardjs.com/) for this project. Please review the guide before contributing to ensure that your code aligns with our established conventions.
 
 ## Screenshots
-TODO
+![Screenshot1](https://mail.google.com/mail/u/0?ui=2&ik=6ae79bc92d&attid=0.1&permmsgid=msg-f:1785467382354526288&th=18c7411fdb49c050&view=att&disp=safe&realattid=f_lq8fzjme0)
+
+![Screenshot2](https://mail.google.com/mail/u/0?ui=2&ik=6ae79bc92d&attid=0.3&permmsgid=msg-f:1785467382354526288&th=18c7411fdb49c050&view=att&disp=safe&realattid=f_lq8fzjmw2)
+
+![Screenshot3](https://mail.google.com/mail/u/0?ui=2&ik=6ae79bc92d&attid=0.4&permmsgid=msg-f:1785467382354526288&th=18c7411fdb49c050&view=att&disp=safe&realattid=f_lq8fzjn03)
+
+![Screenshot4](https://mail.google.com/mail/u/0?ui=2&ik=6ae79bc92d&attid=0.5&permmsgid=msg-f:1785467382354526288&th=18c7411fdb49c050&view=att&disp=safe&realattid=f_lq8fzjn44)
+
+![Screenshot5](https://mail.google.com/mail/u/0?ui=2&ik=6ae79bc92d&attid=0.6&permmsgid=msg-f:1785467382354526288&th=18c7411fdb49c050&view=att&disp=safe&realattid=f_lq8fzjn85)
+
+![Screenshot6](https://mail.google.com/mail/u/0?ui=2&ik=6ae79bc92d&attid=0.6&permmsgid=msg-f:1785497124882478045&th=18c75c2cd419f3dd&view=att&disp=safe&realattid=f_lq8wvcoz5)
+
+![Screenshot7](https://mail.google.com/mail/u/0?ui=2&ik=6ae79bc92d&attid=0.3&permmsgid=msg-f:1785497200897582744&th=18c75c3e86f46698&view=att&disp=safe&realattid=f_lq8wx18v0)
 
 ## Tech/Framework used
 - MERN Stack (MongoDB, Express.js, React.js, Node.js)
@@ -65,7 +77,15 @@ TODO
 * Pharmacists have the ability to archive and unarchive medicines, ensuring sales information is preserved.
 
 ## Code Examples
-TODO
+![Ex1](https://cdn.discordapp.com/attachments/1159865308102799441/1185780457913200640/image.png?ex=6590db1b&is=657e661b&hm=3d280f0be75961b6b37c6eb7743c58054e11cae034d2d9ea602f6c44b639c6c9&)
+
+![Ex2](https://cdn.discordapp.com/attachments/1159865308102799441/1185780535730122782/image.png?ex=6590db2e&is=657e662e&hm=523f631585670f09b5241cd54d3c38a1574ef1e7542b51d6c40a22dbcd6ce970&)
+
+![Ex3](https://cdn.discordapp.com/attachments/1159865308102799441/1185780606689362101/image.png?ex=6590db3f&is=657e663f&hm=01e125b3d9b4ae44a7958e33a9276cae5bbc72981e23e30224390ccbd17796b1&)
+
+![Ex4](https://cdn.discordapp.com/attachments/1159865308102799441/1185780688834797588/image.png?ex=6590db52&is=657e6652&hm=ad2b65825d06ae1b7162ee0ebb7a5f83696ece330e4d1db072cf40d52b146bd2&)
+
+![Ex5](https://cdn.discordapp.com/attachments/1159865308102799441/1185780760934883420/image.png?ex=6590db64&is=657e6664&hm=1ffab31ac590313012974918b8f7d3b45ba831fd505ab03c30b4b62b555cc729&)
 
 ## Installation
 These instructions will help you get a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -148,7 +168,18 @@ Next, navigate to the `client` folder in the terminal and run the following comm
 ***For detailed information and usage instructions, refer to the official documentation linked above for each API.***
 
 ## Tests
-TODO
+To ensure the proper functioning of this project, you can perform various tests using tools like Postman. Below are some examples demonstrating how to test different aspects of the code.
+
+***Prerequisites***
+  - Before running the tests, make sure you have [Postman](https://www.postman.com/downloads/) installed on your machine.
+
+![Ex1](https://cdn.discordapp.com/attachments/1159865308102799441/1185781458556702770/image.png?ex=6590dc0a&is=657e670a&hm=3c8f5b6849f52e70edafee868dc781b68079360474d001d849db7d86d339a9a4&)
+
+![Ex2](https://cdn.discordapp.com/attachments/1159865308102799441/1185781507093184592/image.png?ex=6590dc16&is=657e6716&hm=39573f52ade0b3c1db3cdf6e7b981a3c9d98490293c2f8bbe6f92cb10dbe51ab&)
+
+![Ex3](https://cdn.discordapp.com/attachments/1159865308102799441/1185781556950859846/image.png?ex=6590dc21&is=657e6721&hm=3ec87aaf1896c543524be3ae8269b72e73c1d889c564f60462765958e6ce5ee5&)
+
+![Ex4](https://cdn.discordapp.com/attachments/1159865308102799441/1185781609773932594/image.png?ex=6590dc2e&is=657e672e&hm=a65e9ef8c99987ef371feb202da26fd4b05ded4b5f0ac861947026349c11c1f0&)
 
 ## Contribute
 We welcome contributions from the community! If you'd like to contribute to the development of this project, follow these guidelines:
