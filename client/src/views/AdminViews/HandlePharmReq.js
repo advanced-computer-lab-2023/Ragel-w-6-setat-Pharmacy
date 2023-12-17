@@ -24,46 +24,26 @@ import {
 import AdminHeader from "components/Headers/AdminHeader.js";
 import { useEffect, useState } from "react";
 
-// TODO Model boxes with confirmation and result dialog boxes
-
 const HandlePharmReq = () => {
-  const [pharmacistRequests, setPharmacistRequests] = useState(null)
+  const [pharmacistRequests, setPharmacistRequests] = useState(null);
+  const [acceptFeedback, setAcceptFeedback] = useState('');
+  const [rejectFeedback, setRejectFeedback] = useState('');
 
   useEffect(() => {
     const fetchPharmacistRequests = async () => {
-      const response = await fetch('/api/admin/getPharmacistsRequestsInfo')
-      const json = await response.json() //array of objects where each represents an admin
-      console.log(json)
+      const response = await fetch('/api/admin/getPharmacistsRequestsInfo');
+      const json = await response.json();
       if (response.ok) {
-        setPharmacistRequests(json)
+        setPharmacistRequests(json);
       }
-    }
+    };
 
-    fetchPharmacistRequests()
+    fetchPharmacistRequests();
+  }, []);
 
-    fetch('/api/admin/getPharmacistsRequestsInfo')
-      .then((response) => response.json())
-      .then((data) => console.log('Received API response:', data))
-      .catch((error) => console.error('API request error:', error));
-  }, [])
-
-  const [name, setName] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [email, setEmail] = useState('')
-  const [dateOfBirth, setDateOfBirth] = useState('')
-  const [hourlyRate, setHourlyRate] = useState('')
-  const [affiliation, setAffiliation] = useState('')
-  const [educationalBackground, setEducationalBackground] = useState('')
-
-  // FIXME make it async??
-  // FIXME dialog box for each rejection and approval and remove it from table
-  const [acceptFeedback, setAcceptFeedback] = useState('');
-  // Function to approve a pharmacist request
   const handleApprove = (request) => {
     setAcceptFeedback(request.name + " is being created...");
-    /*console.log(request + " trying to print the fucking request ffs"); */
-    console.log('Request Data:', request);
+
     const name = request.name;
     const username = request.username;
     const password = request.password;
@@ -78,9 +58,8 @@ const HandlePharmReq = () => {
 
     const newPharmacist = {
       name, username, password, email, dateOfBirth, hourlyRate, affiliation, educationalBackground, ID, workingLicense, pharmacyDegree
-    }
+    };
 
-    // Call the API to create a new pharmacist
     fetch('/api/admin/createPharmacist', {
       method: 'POST',
       headers: {
@@ -89,22 +68,19 @@ const HandlePharmReq = () => {
       body: JSON.stringify(newPharmacist),
     }).then((response) => {
       if (response.ok) {
-        // Remove the approved request from the UI
         setPharmacistRequests((prevRequests) =>
           prevRequests.filter((req) => req._id !== request._id)
         );
-        // Handle success (e.g., update the UI)
-        setAcceptFeedback(`Pharmacist request with ID ${request.name} has been rejected.`);
+        setAcceptFeedback(`Pharmacist request with ID ${request.name} has been approved.`);
       } else {
-        // Handle errors
-        setAcceptFeedback(`Error accepting pharmacist request with ID ${response.name}`);
+        setAcceptFeedback(`Error approving pharmacist request with ID ${request.name}`);
       }
     })
       .catch((error) => {
         console.error('API request error:', error);
         setAcceptFeedback('API request error');
-      }).
-      finally(() => {
+      })
+      .finally(() => {
         fetch(`/api/admin/rejectPharmacistRequest/${request._id}`, {
           method: 'DELETE',
           headers: {
@@ -114,12 +90,9 @@ const HandlePharmReq = () => {
         })
           .then((response) => {
             if (response.ok) {
-
-              // Handle success (e.g., update the UI)
               setAcceptFeedback(`Pharmacist request with ID ${request._id} has been successfully removed.`);
             }
             else {
-              // Handle errors
               setAcceptFeedback(`Error removing pharmacist request with ID ${request._id} after accepting it.`);
             }
           })
@@ -127,17 +100,10 @@ const HandlePharmReq = () => {
             console.error('API request error:', error);
             setAcceptFeedback('API request error');
           });
-      })
+      });
   };
 
-  //FIXME remove pagination 1 2 3 4 and check it works when needed
-
-  // handleReject(request._id) //deletes pharmacist req from table
-
-  const [rejectFeedback, setRejectFeedback] = useState(''); // State for feedback message
-  // Function to reject a pharmacist request
   const handleReject = (id) => {
-    // Update the feedback message to indicate the action is in progress
     setRejectFeedback('Rejecting...');
 
     fetch(`/api/admin/rejectPharmacistRequest/${id}`, {
@@ -149,13 +115,10 @@ const HandlePharmReq = () => {
     })
       .then((response) => {
         if (response.ok) {
-          // Remove the rejected request from the UI
           setPharmacistRequests((prevRequests) =>
             prevRequests.filter((req) => req._id !== id));
-          // Handle success (e.g., update the UI)
           setRejectFeedback(`Pharmacist request with ID ${id} has been rejected.`);
         } else {
-          // Handle errors
           setRejectFeedback(`Error rejecting pharmacist request with ID ${id}`);
         }
       })
@@ -164,86 +127,37 @@ const HandlePharmReq = () => {
         setRejectFeedback('API request error');
       });
   };
-  /* const showDocument = async (path) => {
-    window.open(`http://localhost:8000/uploads/` + path);
-  }; */
-  /*    const getFilenameForDocument = (documentID,request) => {
-       // Implement logic to retrieve the filename based on the documentID
-       // For example, you might have a mapping or lookup
-       // Return the filename if found and not empty, otherwise return null
-       // This function needs to be adapted based on your actual implementation
-       switch (documentID) {
-         case 'ID':
-           return (
-             request.ID &&
-             request.ID[0] &&
-             request.ID[0].filename &&
-             request.ID[0].filename.trim() !== ''
-               ? request.ID[0].filename
-               : null
-           );
-         case 'workingLicense':
-           return (
-             request.medicalLicense &&
-             request.medicalLicense[0] &&
-             request.medicalLicense[0].filename &&
-             request.medicalLicense[0].filename.trim() !== ''
-               ? request.medicalLicense[0].filename
-               : null
-           );
-         case 'pharmacyDegree':
-           return (
-             request.pharmacyDegree &&
-             request.pharmacyDegree[0] &&
-             request.pharmacyDegree[0].filename &&
-             request.pharmacyDegree[0].filename.trim() !== ''
-               ? request.pharmacyDegree[0].filename
-               : null
-           );
-         default:
-           return null;
-       }
-     }; */
 
   const showDocument = (documentID, request) => {
     const filename = getFilenameForDocument(documentID, request);
-    console.log(request.workingLicense)
     if (filename) {
       window.open(`http://localhost:8000/uploads/${filename}`);
     } else {
-      alert('No document available' + request.ID[0].filename);
+      alert('No document available');
     }
   };
 
   const getFilenameForDocument = (documentID, request) => {
-    // Implement logic to retrieve the filename based on the documentID
-    // For example, you might have a mapping or lookup
-    // Return the filename if found, otherwise return null
-    // This function needs to be adapted based on your actual implementation
     switch (documentID) {
       case 'ID':
-        return request.ID == null ? null : request.ID
+        return request.ID == null ? null : request.ID;
       case 'workingLicense':
-        return request.workingLicense == null ? null : request.workingLicense
+        return request.workingLicense == null ? null : request.workingLicense;
       case 'pharmacyDegree':
-        return request.pharmacyDegree == null ? null : request.pharmacyDegree
+        return request.pharmacyDegree == null ? null : request.pharmacyDegree;
       default:
         return null;
     }
   };
 
-  //FIXME need to fix the calls of the function to incorporate user, and updating the status to approved from here, and also deleting user from the database
-
   return (
     <>
       <AdminHeader />
-      {/* Page content */}
-      <Container className="mt--7" fluid>
-        {/* Table */}
+      <Container className="mt--7 mt-4" fluid>
         <Row>
           <div className="col">
             <Card className="shadow">
-              <CardHeader className="border-0">
+              <CardHeader className="border-0 mb-4">
                 <h3 className="mb-0">Handle Pharmacist Requests</h3>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
@@ -262,7 +176,6 @@ const HandlePharmReq = () => {
                     <th scope="col">Pharmacy Degree</th>
                     <th scope="col">Actions</th>
                     <th scope="col"></th>
-                    {/* Add other table headers here */}
                   </tr>
                 </thead>
                 {pharmacistRequests !== null ? (
@@ -279,7 +192,7 @@ const HandlePharmReq = () => {
                         <td>{request.status ? "Handled" : "Not Handled"}</td>
                         <td>
                           <Button
-                            color="info"
+                            style={{ backgroundColor: '#009688', borderColor: '#009688', color: '#fff' }}
                             href="#pablo"
                             size="sm"
                             onClick={() => showDocument('ID', request)}
@@ -290,7 +203,7 @@ const HandlePharmReq = () => {
                         </td>
                         <td>
                           <Button
-                            color="info"
+                            style={{ backgroundColor: '#009688', borderColor: '#009688', color: '#fff' }}
                             href="#pablo"
                             size="sm"
                             onClick={() => showDocument('workingLicense', request)}
@@ -301,7 +214,7 @@ const HandlePharmReq = () => {
                         </td>
                         <td>
                           <Button
-                            color="info"
+                            style={{ backgroundColor: '#009688', borderColor: '#009688', color: '#fff' }}
                             href="#pablo"
                             size="sm"
                             onClick={() => showDocument('pharmacyDegree', request)}
@@ -311,22 +224,28 @@ const HandlePharmReq = () => {
                           </Button>
                         </td>
                         <td>
-                          <Button
-                            color="info"
-                            href="#pablo"
-                            size="sm"
-                            onClick={() => handleApprove(request)}
-                          >
-                            Approve
-                          </Button>
-                          <Button
-                            color="info"
-                            href="#pablo"
-                            size="sm"
-                            onClick={() => handleReject(request._id)}
-                          >
-                            Reject
-                          </Button>
+                          <div className="d-flex">
+                            <div>
+                              <Button
+                                style={{ backgroundColor: '#009688', borderColor: '#009688', color: '#fff' }}
+                                href="#pablo"
+                                size="sm"
+                                onClick={() => handleApprove(request)}
+                              >
+                                Approve
+                              </Button>
+                            </div>
+                            <div className="ml-2">
+                              <Button
+                                style={{ backgroundColor: '#c41e3a', borderColor: '#c41e3a', color: '#fff' }}
+                                href="#pablo"
+                                size="sm"
+                                onClick={() => handleReject(request._id)}
+                              >
+                                Reject
+                              </Button>
+                            </div>
+                          </div>
                         </td>
                         <td>{acceptFeedback}</td>
                         <td>{rejectFeedback}</td>
@@ -347,6 +266,7 @@ const HandlePharmReq = () => {
                     className="pagination justify-content-end mb-0"
                     listClassName="justify-content-end mb-0"
                   >
+                    {/* ... (pagination components) */}
                   </Pagination>
                 </nav>
               </CardFooter>
