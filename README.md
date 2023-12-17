@@ -6,7 +6,16 @@ Pharma space is a comprehensive and innovative platform designed to enhance the 
 The motivation behind this project stems from a deep commitment to enhancing healthcare accessibility. By creating a centralized platform, the goal is to make healthcare services readily available to a wider audience, ensuring patients can easily connect with pharmacists and access vital medical information.
 
 ## Build Status
-TODO
+
+The project is currently in the development stage, progressing through milestones with continuous improvements in code implementation and execution. Notable learning curves were experienced during sprints 2 and 3, particularly in the areas of authentication and user login.
+
+### Challenges Faced
+
+One prominent issue encountered was the slowness in fetching data from the backend to the frontend. Despite this challenge, the frontend functionality remains robust, albeit with some organizational improvements needed.
+
+### Future Considerations
+
+Looking ahead, the project will require deployment, likely through platforms such as Google Cloud or similar services, to ensure accessibility and scalability in the near future.
 
 ## Code Style
 This project follows a specific code style to ensure consistency and readability across the codebase. Adopting a consistent coding style is important for collaboration and maintenance.
