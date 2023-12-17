@@ -35,32 +35,32 @@ const MedicineSales = () => {
 const MedDetails2 = ({ medicine }) => {
     return (
         <>
-      <AdminHeader />
-      {/* Page content */}
-     <Container>
-     
-    
-    
-    
-        <div className="card">
-            <div className="card-body">
-                <h5 className="card-title">{medicine.name}</h5>
-                <table className="table">
-                    <tbody>
-                        <tr>
-                            <td>Medicine Quantity:</td>
-                            <td>{medicine.quantity}</td>
-                        </tr>
-                        <tr>
-                            <td>Medicine Sales:</td>
-                            <td>{medicine.sales}</td>
-                        </tr>
-                    </tbody>
-                </table>
-               
-            </div>
-        </div>
-        </Container>    
+            <AdminHeader />
+            {/* Page content */}
+            <Container>
+
+
+
+
+                <div className="card">
+                    <div className="card-body">
+                        <h5 className="card-title">{medicine.name}</h5>
+                        <table className="table">
+                            <tbody>
+                                <tr>
+                                    <td>Medicine Quantity:</td>
+                                    <td>{medicine.quantity}</td>
+                                </tr>
+                                <tr>
+                                    <td>Medicine Sales:</td>
+                                    <td>{medicine.sales}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </Container>
         </>
     );
 };

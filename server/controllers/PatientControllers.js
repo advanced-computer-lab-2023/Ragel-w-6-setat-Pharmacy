@@ -33,8 +33,6 @@ const createPatient = async (req, res) => {
     }
 }
 
-
-
 // View a list of medicines (showing only the price, image, description) with archived attribute set to false
 
 // View a list of medicines (showing only the price, image, description) with archived attribute set to false
