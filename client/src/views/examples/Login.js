@@ -183,9 +183,10 @@ const Login = () => {
                 </label>
               </div>
               <div className="text-center">
-                <Button className="my-4" color="primary" type="submit">
-                 Login
-                </Button>
+              <Button className="my-4" style={{ backgroundColor: "#009688" }} type="submit">
+                  Login
+              </Button>
+
               </div>
             </Form>
           </CardBody>

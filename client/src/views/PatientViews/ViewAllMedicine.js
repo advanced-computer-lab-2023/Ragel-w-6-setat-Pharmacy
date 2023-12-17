@@ -3,13 +3,14 @@ import React, { useEffect, useState, useContext } from 'react';
 //import '../css/GetAllMedicine.css';
 import axios from 'axios';
 import AdminHeader from '../../components/Headers/AdminHeader';
-import { Container } from 'reactstrap';
-
+import { Container, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import IconButton from '@mui/material/IconButton';
 import { UserContext } from "../../contexts/UserContext";
+
 
 const GetAllMedicines = () => {
     const { user } = useContext(UserContext);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [medicine, setMedicine] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedMedicinalUse, setSelectedMedicinalUse] = useState('');
@@ -26,7 +27,8 @@ const GetAllMedicines = () => {
             const json = await response.json();
 
             if (response.ok) {
-                setMedicine(json);
+                const activeMedicines = json.filter((med) => !med.archived);
+                setMedicine(activeMedicines);
             }
         };
 
@@ -79,34 +81,45 @@ const GetAllMedicines = () => {
             const response = await axios.get(`/api/patient/viewCart/${patientId}`);
             setCart(response.data);
             setSuccessMessage('Added to cart successfully!');
+            setIsModalOpen(true);
           } catch (error) {
             console.error('Error adding to cart:', error);
           }
       };
-      
-
+    
+    
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen);
+    };
     return (
         <div className="container mt-5">
             <div className="row">
-                <div className="col-md-6">
-                    <div className="form-group">
+                <div  className="col-md-8 d-flex">
+                    <div  className="form-group flex-grow-1">
                         <input
                             type="text"
                             className="form-control"
                             placeholder="Search medicine..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
+                            style={{ width: '1070px' }} 
                         />
-                          <button className="btn btn-success" onClick={handleSearch}>Search</button>
-                    </div>
+                         </div>
+                          <button className="ni ni-zoom-split-in text-white" 
+                          style={{ backgroundColor: "#009688" ,width:"200px",height:"40px",border:"none",borderRadius: '4px',}} 
+                          onClick={handleSearch}></button>
+                   
                 </div>
-                <div className="col-md-6">
-                    <div className="form-group">
+                <div className="col-md-5 d-flex ">
+                    <div className="form-group ">
                         <select
                             className="form-control"
                             value={selectedMedicinalUse}
                             onChange={(e) => setSelectedMedicinalUse(e.target.value)}
+                            style={{ width: '120px',}} 
+                            
                         >
+                            
                             <option value="">No filter</option>
                             {medicine &&
                                 Array.from(new Set(medicine.flatMap((med) => med.medicinalUse))).map((use) => (
@@ -115,25 +128,32 @@ const GetAllMedicines = () => {
                                     </option>
                                 ))}
                         </select>
-                        <div>   </div>
-                        <button className="btn btn-success" onClick={handleFilter}>Filter</button>
-
-                    </div>
-                </div>
+                        </div>
+                        <button className="ni ni-ui-04 text-white" style={{ backgroundColor: "#009688",border:"none",height:"36px",borderRadius: '4px'}} onClick={handleFilter}></button>
+                        </div>
             </div>
 
             <div className="row">
-        {medicine &&
+        {medicine && 
           medicine.map((medicines) => (
             <div key={medicines.name} className="col-md-4 mb-4">
               <MedicineDetails medicines={medicines} handleAddToCart={handleAddToCart} />
             </div>
             
                     ))}
-
-                    
             </div>
-          
+           {/* Modal for success message */}
+           <Modal isOpen={isModalOpen} toggle={toggleModal}>
+                <ModalHeader toggle={toggleModal}>Success</ModalHeader>
+                <ModalBody>
+                    <p>{successMessage}</p>
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="secondary"style={{ backgroundColor: "#009688"}} onClick={toggleModal}>
+                        Close
+                    </Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
 };
@@ -179,7 +199,7 @@ const MedicineDetails = ({ medicines, handleAddToCart }) => {
                 ))
               : medicines.medicinalUse}
           </p>
-          <button onClick={handleAddToCartClick} className="btn btn-success">
+          <button onClick={handleAddToCartClick} className="btn btn-success"style={{ backgroundColor: "#009688" }} >
             Add to Cart
           </button>
         </div>

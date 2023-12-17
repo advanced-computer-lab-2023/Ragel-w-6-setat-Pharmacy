@@ -181,29 +181,28 @@ const PatientRegister = () => {
                   />
                 </InputGroup>
               </FormGroup>
-              <FormGroup>
-<InputGroup className="input-group-alternative">
-  <InputGroupAddon addonType="prepend">
-    <InputGroupText>
-      <i className="ni ni-calendar-grid-58" />
-    </InputGroupText>
-  </InputGroupAddon>
-  <ReactDatetime
-    inputProps={{
-      placeholder: 'Date of Birth',
-      required: true,
-    }}
-    value={dateOfBirth}
-    onChange={(value) => setDateOfBirth(value)}
-    timeFormat={true}
-  />
-</InputGroup>
-</FormGroup>
-
+                <FormGroup>
+                  <InputGroup className="input-group-alternative">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="ni ni-calendar-grid-58" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <ReactDatetime
+                      inputProps={{
+                        placeholder: 'Date of Birth',
+                        required: true,
+                      }}
+                      value={dateOfBirth}
+                      onChange={(value) => setDateOfBirth(value)}
+                      timeFormat={true}
+                    />
+                  </InputGroup>
+              </FormGroup>
 <FormGroup>
       <InputGroup>
         <Dropdown isOpen={genderDropdownOpen} toggle={toggleGenderDropdown} >
-          <DropdownToggle caret>{gender || 'Select Gender'}</DropdownToggle>
+          <DropdownToggle  style={{ backgroundColor: "#009688" }} caret>{gender || 'Select Gender'}</DropdownToggle>
           <DropdownMenu right>
             <DropdownItem value="Male" active={gender === 'Male'} onClick={() => setGender('Male')}>
               <i className="ni ni-single-02" />
@@ -298,9 +297,14 @@ const PatientRegister = () => {
                 </Col>
               </Row>
               {!success?(
-       <Button className="my-4" color="primary" type="submit">Register</Button>
+                <div className="text-center">
+       <Button className="my-4" style={{ backgroundColor: "#009688" }} type="submit">Register</Button>
+       </div>
      ):<Link to ="/Login">
-     <Button type="submit">Login now</Button></Link>}
+        <div className="text-center">
+     <Button style={{ backgroundColor: "#009688", }}type="submit">Login now</Button>
+     </div>
+     </Link>}
      
        {error && <div className="error">
       {error}    </div>}
