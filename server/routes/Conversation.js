@@ -1,53 +1,63 @@
 const router = require("express").Router();
 const Conversation = require("../models/Conversation");
 
-//new conv
-
+// New conversation
 router.post("/", async (req, res) => {
-  const newConversation = new Conversation({
-    members: [req.body.senderId, req.body.receiverId],
-  });
+  const { senderId, receiverId } = req.body;
 
   try {
-    const savedConversation = await newConversation.save();
-    res.status(200).json(savedConversation);
+    // Check if a conversation already exists for these two users
+    const existingConversation = await Conversation.findOne({
+      members: { $all: [senderId, receiverId] },
+    });
+
+    if (existingConversation) {
+      // Conversation already exists, return it
+      res.status(200).json(existingConversation);
+    } else {
+      // Conversation does not exist, create a new one
+      const newConversation = new Conversation({
+        members: [senderId, receiverId],
+      });
+
+      const savedConversation = await newConversation.save();
+      res.status(200).json(savedConversation);
+    }
   } catch (err) {
     res.status(500).json(err);
-    console.log(err)
+    console.log(err);
   }
 });
 
-//get all conversations
+// Get all conversations
 router.get("/", async (req, res) => {
   try {
-    const conversation = await Conversation.find();
-    res.status(200).json(conversation);
+    const conversations = await Conversation.find();
+    res.status(200).json(conversations);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-//get conv of a user
-
+// Get conversations of a user
 router.get("/:userId", async (req, res) => {
   try {
-    const conversation = await Conversation.find({
+    const conversations = await Conversation.find({
       members: { $in: [req.params.userId] },
     });
-    res.status(200).json(conversation);
+    res.status(200).json(conversations);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-// get conv includes two userId
-
+// Get conversation including two userIds
 router.get("/find/:firstUserId/:secondUserId", async (req, res) => {
   try {
     const conversation = await Conversation.findOne({
       members: { $all: [req.params.firstUserId, req.params.secondUserId] },
     });
-    res.status(200).json(conversation)
+    res.status(200).json(conversation);
   } catch (err) {
     res.status(500).json(err);
   }

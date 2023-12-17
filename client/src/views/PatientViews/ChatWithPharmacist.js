@@ -143,43 +143,43 @@ const ChatWithPharmacist = () => {
           const pharmacistsResponse = await fetch('/api/admin/getPharmacistsInfo');
           const pharmacistsData = await pharmacistsResponse.json();
   
-          // For each pharmacist, check if a conversation exists, if not, create one
-          pharmacistsData.forEach(async (pharmacist) => {
-            const existingConversation = conversations.find(
-              (conversation) =>
-                conversation.members.includes(patientId) &&
-                conversation.members.includes(pharmacist._id)
+          // Filter out the pharmacists with whom the patient already has a conversation
+          const pharmacistsWithoutConversation = pharmacistsData.filter((pharmacist) => {
+            return !conversations.some((conversation) =>
+              conversation.members.includes(patientId) &&
+              conversation.members.includes(pharmacist._id)
             );
-  
-            if (!existingConversation) {
-              // If no conversation exists, create a new one
-              const newConversationResponse = await fetch("/api/conversation", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  senderId: patientId,
-                  receiverId: pharmacist._id,
-                }),
-              });
-  
-              const newConversation = await newConversationResponse.json();
-              setConversations((prevConversations) => [...prevConversations, newConversation]);
-              forceUpdate();
-            }
           });
+  
+          // Create conversations for pharmacists without existing conversations
+          for (const pharmacist of pharmacistsWithoutConversation) {
+            const newConversationResponse = await fetch("/api/conversation", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                senderId: patientId,
+                receiverId: pharmacist._id,
+              }),
+            });
+  
+            const newConversation = await newConversationResponse.json();
+  
+            // Emit the new conversation event to the server
+            socket.current.emit('newConversation', newConversation);
+  
+            setConversations((prevConversations) => [...prevConversations, newConversation]);
+            forceUpdate();
+          }
         } catch (err) {
           console.error(err);
         }
       };
   
-      // Only trigger the logic when conversations are fetched
-      if (conversations) {
-        fetchAndCreateConversations();
-        forceUpdate();
-      }
-    }, [conversations, patientId]);
+      fetchAndCreateConversations();
+    }, [conversations, forceUpdate, patientId]);
+  
 
     console.log(currentChat)
 
@@ -237,7 +237,9 @@ const ChatWithPharmacist = () => {
 
     };
 
-      
+    
+
+    
 
     useEffect(() => {
       scrollRef.current?.scrollIntoView({ behavior: "smooth" });

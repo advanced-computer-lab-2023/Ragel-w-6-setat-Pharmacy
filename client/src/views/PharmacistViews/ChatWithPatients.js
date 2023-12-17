@@ -23,9 +23,9 @@ const ChatWithPatients = () => {
 
 
   // Parse user from localStorage and merge with defaultUser
-  const _id = JSON.parse(localStorage.getItem('user'))._id;
-  const username = JSON.parse(localStorage.getItem('user')).username;
-  const user = {_id: _id,username: username };
+  const userData = JSON.parse(localStorage.getItem('user'));
+const user = userData ? { _id: userData._id, username: userData.username } : null;
+
   console.log(JSON.stringify(user) + " check user");
   const userString = JSON.stringify(user);
   
@@ -43,7 +43,24 @@ const ChatWithPatients = () => {
    // const pharmacistId = user2._id;
     console.log("Patienttt ID:", patientId);
     //console.log("Pharmacist ID:", pharmacistId);
+  const [forceRerender, setForceRerender] = useState(0); // State to force re-render
 
+
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+
+    // Set up an interval to trigger a re-render every 0.05 seconds
+    const interval = setInterval(() => {
+      setForceRerender((prev) => prev + 1);
+    }, 50);
+
+    // Clear the interval and socket on component unmount
+    return () => {
+      clearInterval(interval);
+      socket.current.disconnect();
+    };
+  }, []); 
 
     useEffect(() => {
       socket.current = io("ws://localhost:8900");
@@ -59,6 +76,21 @@ const ChatWithPatients = () => {
         
       });
     },[]);
+
+    useEffect(() => {
+      const getMessages = async () => {
+        try {
+          if (currentChat) {
+            const response = await fetch(`/api/message/${currentChat._id}`);
+            const data = await response.json();
+            setMessages(data);
+          }
+        } catch (error) {
+          console.error("Error fetching messages:", error);
+        }
+      };
+      getMessages();
+    }, [currentChat, forceRerender]);
 
   useEffect(() => {
     console.log("arrivalMessage:", arrivalMessage);
@@ -108,6 +140,16 @@ const ChatWithPatients = () => {
     }, [patientId,forceUpdate]);
 
     console.log(currentChat)
+
+    // Handle new conversation creation
+  // Add this useEffect to your ChatWithPatients component
+useEffect(() => {
+  socket.current.on('newConversation', (newConversation) => {
+    // Update state with the new conversation
+    setConversations((prevConversations) => [...prevConversations, newConversation]);
+  });
+}, []);
+
 
     useEffect(() => { 
 
