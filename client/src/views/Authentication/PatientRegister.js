@@ -192,7 +192,6 @@ const PatientRegister = () => {
                     />
                   </InputGroup>
               </FormGroup>
-
 <FormGroup>
       <InputGroup>
         <Dropdown isOpen={genderDropdownOpen} toggle={toggleGenderDropdown} >

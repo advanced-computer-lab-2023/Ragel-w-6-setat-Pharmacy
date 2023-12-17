@@ -84,8 +84,11 @@ const FilterSalesReport = () => {
                         />
                     </FormGroup>
                     <div className="mb-3">
-                        <Button color="primary" onClick={handleFilterMedicines}>Filter Medicines</Button>{' '}
-                        <Button color="secondary" onClick={handleClearFilter}>Clear Filter</Button>
+                        <Button color="primary"   style={{ backgroundColor: "#009688"}}
+                        onClick={handleFilterMedicines}>Filter Medicines</Button>{' '}
+                        <Button color="secondary" 
+                        
+                        onClick={handleClearFilter}>Clear Filter</Button>
                     </div>
                 </Form>
 

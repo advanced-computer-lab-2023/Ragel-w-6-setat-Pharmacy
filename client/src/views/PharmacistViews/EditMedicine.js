@@ -39,11 +39,11 @@ const EditMedicineForm = () => {
       <AdminHeader />
       {/* Page content */}
      <Container>
-     
-    
-    
-     
-    <form onSubmit={handleSubmit}>
+     <div className="container">
+      <div className="row justify-content-center">
+       <div className="col-md-6">
+    <form  className="mt-5"onSubmit={handleSubmit}>
+    <h2 className="text-center">Edit Medicine</h2>
       <div className="form-group">
         <label htmlFor="name">Name:</label>
         <input
@@ -78,17 +78,20 @@ const EditMedicineForm = () => {
         />
       </div>
       {!success ? (
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" style={{ backgroundColor: "#009688"}} className="btn btn-primary">
           Edit
         </button>
       ) : (
-        <Link to="/pharmacist/ViewMedicine" className="btn btn-secondary">
+        <Link to="/pharmacist/ViewMedicine" style={{ backgroundColor: "#009688"}} className="btn btn-secondary">
           Go back to home
         </Link>
       )}
 
       {error && <div className="text-danger mt-3">{error}</div>}
     </form>
+    </div>
+      </div>
+    </div>
     </Container>
     </>
   );

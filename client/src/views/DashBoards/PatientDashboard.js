@@ -39,6 +39,8 @@ import { UserContext } from "../../contexts/UserContext";
 const PatientDashBoard = () => {
   const { user } = useContext(UserContext);
   const [patientDetails, setPatientDetails] = useState(null);
+  const [walletBalance, setWalletBalance] = useState(0);
+
   const patientId = user._id;
 
   useEffect(() => {
@@ -55,7 +57,22 @@ const PatientDashBoard = () => {
     // Call the function to fetch patient details
     fetchPatientDetails();
   }, []);
-  
+  const getWalletBalance = async () => {
+    try {
+        const response = await fetch(`/api/patient/getWalletBalance/${patientId}`);
+        if (response.ok) {
+            const data = await response.json();
+            return data.walletBalance;
+        } else {
+            console.error("Error fetching wallet balance:", response.statusText);
+            return 0; // Return a default value in case of an error
+        }
+    } catch (error) {
+        console.error("Error fetching wallet balance:", error);
+        return 0; // Return a default value in case of an error
+    }
+};
+
   return (
     <>
       <UserHeader />

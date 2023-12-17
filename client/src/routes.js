@@ -196,7 +196,7 @@ var routes = [
   {
     path: "/editMedicine",
     name: "Edit Medicine",
-    icon: "ni ni-curved-next  text-white",
+    icon: "ni ni-ruler-pencil  text-white",
     component: <EditMedicine />,
     layout: "/pharmacist",
   },

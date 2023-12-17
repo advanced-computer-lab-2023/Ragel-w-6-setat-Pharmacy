@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Container, Row, Col } from 'reactstrap';
+import { Bar } from 'react-chartjs-2';
 import AdminHeader from '../../components/Headers/AdminHeader';
-import { Container } from 'reactstrap';
 
 const MedicineSales = () => {
     const [medicines, setMedicine] = useState(null);
@@ -17,50 +17,57 @@ const MedicineSales = () => {
         fetchMedicine();
     }, []);
 
-    return (
-        <div className="container mt-5">
-            <h2>Medicine Details</h2>
-            <div className="row">
-                {medicines &&
-                    medicines.map((medicine) => (
-                        <div key={medicine.id} className="col-md-6 mb-4">
-                            <MedDetails2 medicine={medicine} />
-                        </div>
-                    ))}
-            </div>
-        </div>
-    );
-};
+    const chartData = {
+        labels: medicines ? medicines.map(medicine => medicine.name) : [],
+        datasets: [
+            {
+                label: 'Medicine Sales',
+                data: medicines ? medicines.map(medicine => medicine.sales) : [],
+                backgroundColor: 'rgba(75,192,192,0.6)',
+                borderColor: 'rgba(75,192,192,1)',
+                borderWidth: 1,
+            },
+        ],
+    };
 
-const MedDetails2 = ({ medicine }) => {
+    const chartOptions = {
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Medicine Name',
+                },
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Sales Quantity',
+                },
+                beginAtZero: true,
+            },
+        },
+    };
+
     return (
         <>
-      <AdminHeader />
-      {/* Page content */}
-     <Container>
-     
-    
-    
-    
-        <div className="card">
-            <div className="card-body">
-                <h5 className="card-title">{medicine.name}</h5>
-                <table className="table">
-                    <tbody>
-                        <tr>
-                            <td>Medicine Quantity:</td>
-                            <td>{medicine.quantity}</td>
-                        </tr>
-                        <tr>
-                            <td>Medicine Sales:</td>
-                            <td>{medicine.sales}</td>
-                        </tr>
-                    </tbody>
-                </table>
-               
-            </div>
-        </div>
-        </Container>    
+            <AdminHeader />
+            <Container className="mt-5">
+                <h2 className="mb-4">Medicine Sales</h2>
+                <Row>
+                    <Col md="12">
+                        <div className="card">
+                            <div className="card-body">
+                                <Bar
+                                    data={chartData}
+                                    options={chartOptions}
+                                    height={400}
+                                    width={600}
+                                />
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
         </>
     );
 };
