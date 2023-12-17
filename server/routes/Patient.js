@@ -20,7 +20,7 @@ const {
     medAlternative,
 
     getPatientInfo
-=======
+
 
 } = require('../controllers/PatientControllers')
 

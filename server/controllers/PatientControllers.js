@@ -735,7 +735,7 @@ module.exports = {
     medAlternative,
 
     getPatientInfo
-=======
+
     
 
 
