@@ -18,15 +18,13 @@ We adhere to the [Standard Code Style Guide](https://standardjs.com/) for this p
 
 ![Screenshot2](https://cdn.discordapp.com/attachments/1159865308102799441/1185783411105874023/Screenshot_2023-12-16_211708.png?ex=6590dddb&is=657e68db&hm=46126c195bdf38fa7b9efed13566d0094aa2653ee98296cb5d8d3590b68f3fb1&)
 
-![Screenshot3](https://cdn.discordapp.com/attachments/1159865308102799441/1185783411105874023/Screenshot_2023-12-16_211708.png?ex=6590dddb&is=657e68db&hm=46126c195bdf38fa7b9efed13566d0094aa2653ee98296cb5d8d3590b68f3fb1&)
+![Screenshot3](https://cdn.discordapp.com/attachments/1159865308102799441/1185783410736771142/Screenshot_2023-12-16_211733.png?ex=6590dddb&is=657e68db&hm=9c8890b7e24bcff92d8c4b5b92a19b8d94addc9d38a49c78fddd8eec8376522c&)
 
-![Screenshot4](https://cdn.discordapp.com/attachments/1159865308102799441/1185783410736771142/Screenshot_2023-12-16_211733.png?ex=6590dddb&is=657e68db&hm=9c8890b7e24bcff92d8c4b5b92a19b8d94addc9d38a49c78fddd8eec8376522c&)
+![Screenshot4](https://cdn.discordapp.com/attachments/1159865308102799441/1185783410350886932/Screenshot_2023-12-16_211806.png?ex=6590dddb&is=657e68db&hm=cd269e1c4bdf9702d6eb81c9496b0c460af43105fa8f38a5f0dd08afe1228e93&)
 
-![Screenshot5](https://cdn.discordapp.com/attachments/1159865308102799441/1185783410350886932/Screenshot_2023-12-16_211806.png?ex=6590dddb&is=657e68db&hm=cd269e1c4bdf9702d6eb81c9496b0c460af43105fa8f38a5f0dd08afe1228e93&)
+![Screenshot5](https://cdn.discordapp.com/attachments/1159865308102799441/1185783409939857469/Screenshot_2023-12-17_051048.png?ex=6590dddb&is=657e68db&hm=bba77bde590b8ec177c0033bcbdf900985535a7bd0d51b06ced08ea0dd661e8c&)
 
-![Screenshot6](https://cdn.discordapp.com/attachments/1159865308102799441/1185783409939857469/Screenshot_2023-12-17_051048.png?ex=6590dddb&is=657e68db&hm=bba77bde590b8ec177c0033bcbdf900985535a7bd0d51b06ced08ea0dd661e8c&)
-
-![Screenshot7](https://cdn.discordapp.com/attachments/1159865308102799441/1185783409600106629/Screenshot_2023-12-17_051232.png?ex=6590dddb&is=657e68db&hm=71edaceebecb50b8d41b01d3bb66398990c7bab32098bd17cc8fff173ea3fe60&)
+![Screenshot6](https://cdn.discordapp.com/attachments/1159865308102799441/1185783409600106629/Screenshot_2023-12-17_051232.png?ex=6590dddb&is=657e68db&hm=71edaceebecb50b8d41b01d3bb66398990c7bab32098bd17cc8fff173ea3fe60&)
 
 ## Tech/Framework used
 - MERN Stack (MongoDB, Express.js, React.js, Node.js)
