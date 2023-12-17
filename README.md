@@ -1,4 +1,3 @@
-
 # Pharma Space (Virtual Pharmacy)
 ![App Screenshot](https://media.discordapp.net/attachments/1157430089181577291/1159866558466773182/acl_pharma_2.png?ex=658edde8&is=657c68e8&hm=9b3bdb983cb4ac24d9e1109498ab29fadca90711c7767fd0214dbd73ef95089a&=&format=webp&quality=lossless&width=1307&height=482)
 Pharma space is a comprehensive and innovative platform designed to enhance the efficiency and accessibility of healthcare services. The system caters to the needs of patients, pharmacists, and administrators, providing a seamless experience for managing medical information, prescriptions, and medication inventory.
@@ -12,7 +11,7 @@ TODO
 ## Code Style
 This project follows a specific code style to ensure consistency and readability across the codebase. Adopting a consistent coding style is important for collaboration and maintenance.
 
-We adhere to the [Standart Code Style Guide](https://standardjs.com/) for this project. Please review the guide before contributing to ensure that your code aligns with our established conventions.
+We adhere to the [Standard Code Style Guide](https://standardjs.com/) for this project. Please review the guide before contributing to ensure that your code aligns with our established conventions.
 
 ## Screenshots
 TODO
@@ -69,7 +68,7 @@ TODO
 TODO
 
 ## Installation
-These instructions will help you get a copy of the project up and running on your local machine for development and testing purposes. See `How To Use` for notes on how to deploy the project on a live system.
+These instructions will help you get a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 1. Click on `code` -> `Download ZIP`
 2. Extract the zip file and open it in visual studio code.
 3. Navigate to the `server` folder using the terminal and run the following command:
@@ -78,7 +77,6 @@ These instructions will help you get a copy of the project up and running on you
 4. Next, navigate to the `client` folder in the terminal and run the following command:
         
         npm install
-
 
 ### How To Use
 To launch the project locally, follow these steps:
@@ -91,8 +89,63 @@ Next, navigate to the `client` folder in the terminal and run the following comm
 
         npm start
 
-## API Reference
-TODO
+## API References
+1. **Express.js(`express`)**
+* **Description:** Web application framework for Node.js, used for building the backend server and handling HTTP requests.
+* **Documentation:** [Express.js Documentation](https://expressjs.com/)
+
+2. **Mongoose(`mongoose`)**
+* **Description:** Elegant Object Data Modeling (ODM) library for MongoDB and Node.js, streamlining interaction with MongoDB.
+* **Documentation:** [Mongoose Documentation](https://mongoosejs.com/)
+
+3. **Axios(`axios`)**
+* **Description:** Promise-based HTTP client for making HTTP requests, facilitating seamless communication with external APIs.
+* **Documentation:** [Axios Documentation](https://axios-http.com/)
+
+4. **Bcrypt(`bcrypt`)**
+* **Description:** Library for hashing and salting passwords, fortifying the project's password security.
+* **Documentation:** [Bcrypt Documentation](https://www.npmjs.com/package/bcrypt)
+
+5. **Cors(`cors`)**
+* **Description:** Middleware for Express.js enabling Cross-Origin Resource Sharing (CORS), granting controlled access to server resources.
+* **Documentation:** [Cors Documentation](https://www.npmjs.com/package/cors/)
+
+6. **Dotenv(`dotenv`)**
+* **Description:** Zero-dependency module seamlessly loading environment variables from a `.env` file into `process.env`.
+* **Documentation:** [Dotenv Documentation](https://www.npmjs.com/package/dotenv)
+
+7. **Jsonwebtokens(`jsonwebtoken`)**
+* **Description:** Robust library for creating and verifying JSON Web Tokens (JWT), a cornerstone for user authentication.
+* **Documentation:** [Jsonwebtoken Documentation](https://www.npmjs.com/package/jsonwebtoken)
+
+8. **Morgan(`morgan`)**
+* **Description:** Express.js middleware providing an HTTP request logger, capturing essential information about incoming requests.
+* **Documentation:** [Morgan Documentation](https://www.npmjs.com/package/morgan)
+
+9. **Multer(`multer`)**
+* **Description:** Middleware tailored for handling multipart/form-data, an essential tool for efficient file uploads.
+* **Documentation:** [Multer Documentation](https://www.npmjs.com/package/multer)
+
+10. **Nodemailer(`nodemailer`)**
+* **Description:** Powerful module for sending emails, often utilized for tasks like dispatching confirmation emails.
+* **Documentation:** [Nodemailer Documentation](https://nodemailer.com/about/)
+
+11. **Nodemon(`nodemon`)**
+* **Description:** Intelligent utility monitoring changes in source code and autonomously restarting the server.
+* **Documentation:** [Nodemon Documentation](https://nodemon.io/)
+
+12. **Socket.io(`^4.7.2`)**
+* **Description:** Real-time bidirectional event-based communication library for Node.js. Facilitates real-time communication between web clients and servers.
+* **Documentation:** [Socket.IO Documentation](https://socket.io/docs/v4/)
+
+13. **Stripe(`@stripe/stripe-js` and `stripe`)**
+* **Description:** Libraries dedicated to handling Stripe payments, a leading payment processing platform.
+* **Documentation:** 
+  - [Stripe.js Documentation](https://stripe.com/docs/payments/elements)
+  - [Stripe Node.js Documentation](https://stripe.com/docs/payments/elements)
+
+
+***For detailed information and usage instructions, refer to the official documentation linked above for each API.***
 
 ## Tests
 TODO
