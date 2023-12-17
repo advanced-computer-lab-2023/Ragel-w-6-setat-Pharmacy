@@ -251,7 +251,7 @@
                                                     Total Quantity: {cartData.totalQty}
                                                 </CardTitle>
                                                 <CardTitle tag="h5">
-                                                    Total Cost: {cartData.totalCost}
+                                                    Total Cost: {cartData.totalCost.toFixed(1)}
                                                 </CardTitle>
                                                 <CardText>
                                                     <strong>Items:</strong>

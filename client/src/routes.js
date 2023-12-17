@@ -142,13 +142,13 @@ var routes = [
     layout: "/patient",
   },
 
-  {
-    path: "/ChangePassword",
-    name: "Change Password",
-    icon: "ni ni-settings-gear-65  text-white",
-    component: <ChangePassword />,
-    layout: "/patient",
-  },
+  // {
+  //   path: "/ChangePassword",
+  //   name: "Change Password",
+  //   icon: "ni ni-settings-gear-65  text-white",
+  //   component: <ChangePassword />,
+  //   layout: "/patient",
+  // },
   // {
   //   path: "/forgotPassword",
   //   name: "Forgot Password",
@@ -160,24 +160,12 @@ var routes = [
   {
     path: "/chatwithpharmacist",
     name: "Chat With Pharmacist",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-chat-round text-white",
     component: <ChatWithPharmacist />,
     layout: "/patient",
   },
 
-
-// pharmacist
-
-
-  {
-    path: "/chatwithpharmacist",
-    name: "Chat With Pharmacist",
-    icon: "ni ni-tv-2 text-primary",
-    component: <ChatWithPharmacist />,
-    layout: "/patient",
-  },
-
-
+//pharmacist
 
   {
     path: "/",

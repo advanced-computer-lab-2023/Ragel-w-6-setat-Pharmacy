@@ -17,9 +17,25 @@
 */
 
 // reactstrap components
-import { Button, Container, Row, Col } from "reactstrap";
+import {
+  Button,
+  Container,
+  Row,
+  Col,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  FormGroup,
+  Label,
+  Input
+} from "reactstrap";
+import { useState } from "react";
+import AdminHeader from "components/Headers/AdminHeader.js";
 
 const UserHeader = () => {
+  const [modal, setModal] = useState(false);
+
+  const toggle = () => setModal(!modal);
   return (
     <>
       <div
@@ -38,26 +54,109 @@ const UserHeader = () => {
         <Container className="d-flex align-items-center" fluid>
           <Row>
             <Col lg="7" md="10">
-              <h2 className="display-2 text-white">Hello Jesse</h2>
+              <h2 className="display-2 text-white">Welcome Back!</h2>
               <p className="text-white mt-0 mb-5">
                 This is your home page. You can see all your account's details.
                 You can chat with our pharmacists if you need help with your prescription.
                 Don't hesitate to ask !
               </p>
-              <Button
-                className="btn btn-success"
-
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                Edit profile
+              <Button className="btn btn-success"
+                      style={{ background: "#009688" }}
+                      onClick={toggle}>
+                Change password
               </Button>
             </Col>
           </Row>
         </Container>
+
+        {/* Change Password Modal */}
+        <Modal isOpen={modal} toggle={toggle}>
+          <ModalHeader toggle={toggle}>Change Password</ModalHeader>
+          <ModalBody>
+            <ChangePassword closeModal={toggle} />
+          </ModalBody>
+        </Modal>
       </div>
     </>
   );
 };
 
 export default UserHeader;
+const ChangePassword = ({closeModal} ) => {
+  /* const [admins, setAdmins] = useState(null);
+
+  useEffect(() => {
+    const fetchAdmins = async () => {
+      const response = await fetch('/api/admin/getAdmins');
+      const json = await response.json(); // array of objects where each represents an admin
+      console.log(json);
+      if (response.ok) {
+        setAdmins(json);
+      }
+    };
+
+    fetchAdmins();
+  }, []); // empty array means it will only run once */
+    const [username, setUsername] = useState('');
+    const [newPassword, setPassword] = useState('');
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(false);
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+  
+      const admin = { username, newPassword };
+  
+      const response = await fetch('/api/patient/changePatientPassword', {
+        method: 'POST',
+        body: JSON.stringify(admin),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      const json = await response.json();
+  
+      if (!response.ok) {
+        setError(json.error);
+        setSuccess(false);
+      } else {
+        setUsername('');
+        setPassword('');
+        setError(null);
+        setSuccess(true);
+      }
+      closeModal();
+    };
+    return (
+      <form onSubmit={handleSubmit}>
+        <FormGroup>
+          <Label for="username">Username</Label>
+          <Input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="newPassword">New Password</Label>
+          <Input
+            type="password"
+            id="newPassword"
+            value={newPassword}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </FormGroup>
+        <Button type="submit" 
+        style={{ background: "#009688" }}
+        color="success">
+          Change Password
+        </Button>
+        {error && <div className="text-danger mt-3">{error}</div>}
+        {success && (
+          <div className="text-success mt-3">Password changed successfully!</div>
+        )}
+      </form>
+    );
+};

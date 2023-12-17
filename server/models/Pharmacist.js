@@ -36,6 +36,10 @@ const pharmSchema = new Schema({
         type: String,
         required: true
     },
+    wallet:{
+        type: Number,
+        default: 0
+    },
     ID: {
         type: String,
         required: true
