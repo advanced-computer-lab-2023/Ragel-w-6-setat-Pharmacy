@@ -20,7 +20,8 @@ const {
     changeAdminPassword,
     createPharmacist,
     rejectPharmacistRequest,
-    getTotalSalesReport
+    getTotalSalesReport,
+    
 } = require('../controllers/AdminController')
 
 const router = express.Router();
