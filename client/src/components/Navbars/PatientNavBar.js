@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
     Collapse,
     Navbar,
@@ -14,13 +14,19 @@ import {
     DropdownItem,
     Media
 } from "reactstrap";
+import { AuthContext } from "../../contexts/AuthContext";
 
 
 const PatientNavBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const {dispatch}=useContext(AuthContext);
   const toggle = () => setIsOpen(!isOpen);
   const handleLogOut = async (e) => {
+    //remove user from storage
+    localStorage.removeItem("user");
+
+    //dispatch logout function
+    dispatch({type:'LOGOUT'})
     window.location.href = "http://localhost:3000/auth/login";
   };
 

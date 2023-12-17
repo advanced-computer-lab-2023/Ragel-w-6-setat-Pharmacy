@@ -32,7 +32,11 @@ import {
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
 
+import { useState, useContext } from "react";
+
 const PatientDashBoard = () => {
+  const user= JSON.parse(localStorage.getItem('user'));
+  console.log(user);
   return (
     <>
       <UserHeader />

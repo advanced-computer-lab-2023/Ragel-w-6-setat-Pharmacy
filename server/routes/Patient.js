@@ -17,7 +17,7 @@ const {
     getPatientAddresses,
     processPayment,
     changePatientPassword,
-    medAlternative
+    medAlternative,
 } = require('../controllers/PatientControllers')
 
 const router = express.Router();
@@ -71,5 +71,7 @@ router.post('/changePatientPassword', changePatientPassword);
 
 // Get medicine alternatives
 router.post('/medAlternatives/:medicineId',medAlternative)
+
+
 
 module.exports = router

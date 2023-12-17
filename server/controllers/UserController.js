@@ -10,6 +10,14 @@ const express = require("express");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+
+const createToken= (_id) => {
+
+    return jwt.sign({_id},'secret',{expiresIn:'3d'})
+
+
+}
+
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
@@ -98,13 +106,13 @@ const registerPatient = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const role = 'patient';
         const user = await User.create({ username, email, password: hashedPassword, role });
-        // const token = createToken(user.username);
-
+         const token = createToken(user._id);
+//FIXME so when he signs up he logs in automatically?
         // res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-        console.log("tewst before callig");
+       // console.log("tewst before callig");
 
 
-        res.status(200).json({ user, patient });
+        res.status(200).json({ user, patient, token });
     } catch (error) {
         res.status(400).json({ error: error.message + "here" });
     }
@@ -184,25 +192,32 @@ const registerPharmacist = async (req, res) => {
 
 const login = async (req, res) => {
     try {
+        
         const { username, password } = req.body;
         // Check Pharmacist database
         const pharmacist = await Pharmacist.findOne({ username, password }).exec();
         if (pharmacist) {
-            return res.json({ success: true, userType: 'pharmacist', user: pharmacist });
+            const token=createToken(pharmacist._id);
+            return res.json({ success: true, userType: 'pharmacist', user: pharmacist,token });
         }
 
         // Check Patient database
         const patient = await Patient.findOne({ username, password }).exec();
         if (patient) {
-            return res.json({ success: true, userType: 'patient', user: patient });
+            const token=createToken(patient._id);
+
+            return res.json({ success: true, userType: 'patient', user: patient,token });
         }
 
         // Check Admin database
         const admin = await Admin.findOne({ username, password }).exec();
         if (admin) {
-            return res.json({ success: true, userType: 'admin', user: admin });
+            const token=createToken(admin._id);
+
+            return res.json({ success: true, userType: 'admin', user: admin ,token});
         }
 
+        
         // If no user is found
         return res.status(401).json({ success: false, message: 'Invalid credentials' });
     } catch (error) {
@@ -290,9 +305,63 @@ const resetPasswordOTP = async (req, res) => {
     }
 };
 
+// get a user by id
+const getUserById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // Try to find the user in each collection
+        const patient = await Patient.findById(id);
+        if (patient) {
+            return res.status(200).json(patient);
+        }
+
+        const admin = await Admin.findById(id);
+        if (admin) {
+            return res.status(200).json(admin);
+        }
+
+        const pharmacist = await Pharmacist.findById(id);
+        if (pharmacist) {
+            return res.status(200).json(pharmacist);
+        }
+
+        // If none of the above, user not found
+        res.status(404).json({ error: 'User not found' });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
+const getUserByUsername = async (req, res) => {
+    const { username } = req.params;
+    try {
+        //FIXME should i check user role from the user db or overkill?>
+        const patient = await Patient.find({ username: username });
+        if(patient){
+            return res.status(200).json(patient);
+        }
+        const admin = await Admin.find({ username: username });
+        if(admin){
+            return res.status(200).json(admin);
+        }
+        const pharmacist = await Pharmacist.find({ username: username });
+        if(pharmacist){
+            return res.status(200).json(pharmacist);
+        }
+         // If none of the above, user not found
+         res.status(404).json({ error: 'User not found' });
+ 
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
 module.exports = {
     registerPatient,
     registerPharmacist,
     login,
-    resetPasswordOTP
+    resetPasswordOTP,
+    getUserById,
+    getUserByUsername
 };

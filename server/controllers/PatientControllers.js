@@ -1,4 +1,5 @@
 const Patient = require('../models/Patient')
+const Pharmacist = require('../models/Pharmacist')
 const Medicine = require('../models/Medicine')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 const User = require('../models/User')
@@ -379,16 +380,9 @@ const processPayment = async (req, res) => {
     }
 };
 
-// Get email addresses of all pharmacists
-const getPharmacistEmails = async () => {
-    try {
-        const pharmacistEmails = await Pharmacist.find({}, 'email').exec();
-        return pharmacistEmails.map(pharmacist => pharmacist.email);
-    } catch (error) {
-        console.error('Error fetching pharmacist emails:', error);
-        return [];
-    }
-};
+
+
+
 
 const nodemailer = require('nodemailer');
 
@@ -415,7 +409,8 @@ const emailPharmacistOutOfStock = async (medicine) => {
         const subject = 'Medicine Out of Stock Notification';
         const text = `\n\nThe medicine ${medicine.name} is currently out of stock. Please take appropriate action.`;
 
-        const pharmacistEmails = await getPharmacistEmails();
+    const pharmacistEmails = await Pharmacist.find({}, 'email').exec();
+
 
         if (!pharmacistEmails.length) {
             console.log('No pharmacist emails available.');
@@ -714,6 +709,7 @@ module.exports = {
     processPayment,
     changePatientPassword,
     medAlternative,
+    
 
 }
 
