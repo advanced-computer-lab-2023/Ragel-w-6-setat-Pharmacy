@@ -165,7 +165,20 @@ var routes = [
     layout: "/patient",
   },
 
+
 // pharmacist
+=======
+
+  {
+    path: "/chatwithpharmacist",
+    name: "Chat With Pharmacist",
+    icon: "ni ni-tv-2 text-primary",
+    component: <ChatWithPharmacist />,
+    layout: "/patient",
+  },
+
+
+
   {
     path: "/",
     name: "Home",
@@ -267,6 +280,7 @@ var routes = [
     component: <PharmacistRegister />,
     layout: "/auth",
   },
+
   {
     path: "/forgotPassword",
     name: "Forgot Password",
@@ -277,6 +291,9 @@ var routes = [
   
  
  
+=======
+
+
 ];
 
 export default routes;

@@ -18,7 +18,10 @@ const {
     processPayment,
     changePatientPassword,
     medAlternative,
+
     getPatientInfo
+=======
+
 } = require('../controllers/PatientControllers')
 
 const router = express.Router();
