@@ -226,14 +226,14 @@ Thank you for contributing to our project! 🚀
 - [@mariamelgendy](https://github.com/mariamelgendy)
 - [@sara2413](https://github.com/sara2413)
 
-- [YouTube Tutorial](https://www.youtube.com/watch?v=ENakkm58Uyw&t=354s): Used as a valuable source for online guidance and assistance.
+- [YouTube Tutorial](https://www.youtube.com/watch?v=ENakkm58Uyw&t=354s): Coding a video calling app with React
 
-- [Youtube Tutorial](https://m.youtube.com/playlist?list=PLillGF-RfqbbQeVSccR9PGKHzPJSWqcsm): Used as a valuable source for online guidance and assistance.
+- [Youtube Tutorial](https://m.youtube.com/playlist?list=PLillGF-RfqbbQeVSccR9PGKHzPJSWqcsm): Used to get an overview and understand the concepts of the MERN stack
 
-- [Youtube Tutorial](https://www.youtube.com/watch?v=yXEesONd_54&list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU&index=7): Used as a valuable source for online guidance and assistance.
+- [Youtube Tutorial](https://www.youtube.com/playlist?list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU): Used to learn Node.js
 
-- [Youtube Toturial](https://youtube.com/playlist?list=PL4cUxeGkcC9hNokByJilPg5g9m2APUePI&si=8n2xVADjHNtWnFbP):Used as a valuable source for online guidance and assistance.
+- [Youtube Tutorial](https://youtube.com/playlist?list=PL4cUxeGkcC9hNokByJilPg5g9m2APUePI&si=8n2xVADjHNtWnFbP): Used to learn react contexts and hooks
 
 ## License
 
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) & [Apache License](http://www.apache.org/licenses/)
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
