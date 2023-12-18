@@ -89,20 +89,14 @@ const registerPatient = async (req, res) => {
         if (!passwordPattern.test(password)) {
             return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' });
         }
-
-        const patient = await Patient.create(
-            {
-                name,
-                username,
-                email,
-                mobileNumber,
-                password,
-                dateOfBirth,
-                gender,
-                emergencyContact
-            }
-        );
-
+        const patient = await Patient.create({
+            name, username, email, mobileNumber, password, dateOfBirth, gender, emergencyContact,
+            payment: {
+                method: 'cashOnDelivery',
+                walletBalance: 0
+            },
+            orders: []
+        })      
         const hashedPassword = await bcrypt.hash(password, 10);
         const role = 'patient';
         const user = await User.create({ username, email, password: hashedPassword, role });

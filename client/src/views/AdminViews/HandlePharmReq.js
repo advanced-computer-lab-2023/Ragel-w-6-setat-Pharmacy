@@ -71,9 +71,9 @@ const HandlePharmReq = () => {
         setPharmacistRequests((prevRequests) =>
           prevRequests.filter((req) => req._id !== request._id)
         );
-        setAcceptFeedback(`Pharmacist request with ID ${request.name} has been approved.`);
+        setAcceptFeedback(`Pharmacist request with Name ${newPharmacist.name} has been approved.`);
       } else {
-        setAcceptFeedback(`Error approving pharmacist request with ID ${request.name}`);
+        setAcceptFeedback(`Error approving pharmacist request with Name ${newPharmacist.name}`);
       }
     })
       .catch((error) => {
@@ -90,10 +90,10 @@ const HandlePharmReq = () => {
         })
           .then((response) => {
             if (response.ok) {
-              setAcceptFeedback(`Pharmacist request with ID ${request._id} has been successfully removed.`);
+              setAcceptFeedback(`Pharmacist request with Name ${newPharmacist.name} has been successfully removed.`);
             }
             else {
-              setAcceptFeedback(`Error removing pharmacist request with ID ${request._id} after accepting it.`);
+              setAcceptFeedback(`Error removing pharmacist request with Name ${newPharmacist.name} after accepting it.`);
             }
           })
           .catch((error) => {
