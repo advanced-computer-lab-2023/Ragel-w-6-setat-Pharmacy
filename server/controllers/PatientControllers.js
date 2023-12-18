@@ -4,6 +4,8 @@ const Medicine = require('../models/Medicine')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
+const Prescription = require('../models/Prescription')
+
 
 //const EmergencyContact = require('../models/Patient') //it is stored there
 
@@ -729,7 +731,91 @@ const changePatientPassword = async (req, res) => {
 
 
 
+const viewPrescription = async (req, res) => {
+    const patientId = req.params.id;
+    const { exported } = req.query;
 
+    try {
+        const patient = await Patient.findById(patientId);
+
+        const filter = {
+            patient: patientId,
+            ...(exported === 'true' && { exported: true }),
+        };
+
+        const projection = {
+            _id: 1,
+            medication: 1,
+        };
+
+        const prescriptions = await Prescription.find(filter, projection);
+
+        res.status(200).json({
+            status: 'success',
+            prescriptions: prescriptions.map(({ _id, medication }) => ({ _id, medication })),
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message,
+        });
+    }
+};
+
+
+const addPrescriptionToCart = async (req, res) => {
+    const patientId = req.params.id;
+    const { prescriptionId } = req.body;
+
+    try {
+        const patient = await Patient.findById(patientId);
+
+        if (!patient) {
+            return res.status(404).json({ error: 'Patient not found' });
+        }
+
+        const prescription = await Prescription.findById(prescriptionId);
+
+        if (!prescription) {
+            return res.status(404).json({ error: 'Prescription not found' });
+        }
+
+        // Check if prescription.medication is iterable
+        if (!prescription.medication || !prescription.medication[Symbol.iterator]) {
+            return res.status(400).json({ error: 'Invalid prescription format' });
+        }
+
+        for (const prescriptionMedicine of prescription.medication) {
+            const medicine = await Medicine.findOne({ name: prescriptionMedicine.name });
+
+            if (medicine) {
+                if (medicine.quantity > 0) {
+                    patient.cart.items.push({
+                        medicineId: medicine._id,
+                        quantity: 1, // You may want to adjust this based on your requirements
+                        price: prescriptionMedicine.price,
+                        name: medicine.name,
+                    });
+                } else {
+                    console.log(`Medicine '${medicine.name}' is out of stock and not added to the cart.`);
+                }
+            }
+        }
+
+        // Set the prescription's exported field to false
+        prescription.exported = false;
+
+        // Alternatively, you can delete the prescription
+        // await prescription.remove();
+
+        await Promise.all([patient.save(), prescription.save()]);
+
+        res.status(200).json({ message: 'Prescription medicines added to the cart successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
 
 module.exports = {
     createPatient,
@@ -749,8 +835,9 @@ module.exports = {
     processPayment,
     changePatientPassword,
     medAlternative,
-
-    getPatientInfo
+    viewPrescription,
+    getPatientInfo,
+    addPrescriptionToCart
 
 
 

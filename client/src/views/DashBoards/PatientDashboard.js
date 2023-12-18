@@ -1,62 +1,52 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.3
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-// reactstrap components
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  FormGroup,
-  Form,
-  Input,
-  Container,
-  Row,
-  Col,
-} from "reactstrap";
-// core components
 import React, { useState, useEffect, useContext } from 'react';
+import { Button, Container, Row, Col, Card, CardHeader, CardBody } from 'reactstrap';
+import axios from 'axios';
+import { UserContext } from '../../contexts/UserContext';
 import PatientHeader from "components/Headers/PatientHeader.js";
-import axios from 'axios'; // Import Axios for making API calls
-import { UserContext } from "../../contexts/UserContext";
-
-
-
+import { useNavigate } from 'react-router-dom';
 
 const PatientDashBoard = () => {
   const { user } = useContext(UserContext);
   const [walletBalance, setWalletBalance] = useState(0);
+  const [prescriptions, setPrescriptions] = useState([]);
   const patientId = user._id;
-
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchWalletBalance = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/patient/getWalletBalance/${patientId}`);
-        const { walletBalance } = response.data;
+        // Fetch wallet balance
+        const walletResponse = await axios.get(`/api/patient/getWalletBalance/${patientId}`);
+        const { walletBalance } = walletResponse.data;
         setWalletBalance(walletBalance);
+
+        const prescriptionsResponse = await axios.get(`/api/patient/viewPrescription/${patientId}`);
+        console.log('Prescriptions Response:', prescriptionsResponse.data);
+
+        // Update this line to correctly access the nested 'prescriptions' array
+        setPrescriptions(prescriptionsResponse.data.prescriptions);
+
       } catch (error) {
-        console.error('Error fetching wallet balance:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    fetchWalletBalance();
-  }, [user._id]);
+    fetchData();
+  }, [patientId]);
+
+  const handleAddToCart = async (prescriptionId) => {
+    try {
+      console.log(prescriptionId)
+      await axios.post(`/api/patient/addPrescriptionToCart/${patientId}`, { prescriptionId: prescriptionId });
+
+      // Redirect to Checkout page
+      navigate('/patient/checkout');
+
+    } catch (error) {
+      console.error('Error adding prescription to cart:', error);
+    }
+  };
+
 
   return (
     <>
@@ -71,10 +61,40 @@ const PatientDashBoard = () => {
             </div>
           </Col>
         </Row>
+        <Row>
+          {prescriptions.map((prescription) => (
+            <Col key={prescription._id} xl="4">
+              <Card className="bg-secondary shadow">
+                <CardHeader className="bg-white border-0">
+                  <h3 className="mb-0">Prescription ID: {prescription._id}</h3>
+                </CardHeader>
+                <CardBody>
+                  <div>Prescription Date: {prescription.date}</div>
+                  <div>Notes: {prescription.notes}</div>
+
+                  {/* Display details about medicines */}
+                  <div>
+                    <h5>Medicines:</h5>
+                    <ul>
+                      {prescription.medication.map((medicine) => (
+                        <li key={medicine.medicineId}>
+                          {medicine.name} - Dosage: {medicine.dosage}, Price: {medicine.price}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <Button color="primary" onClick={() => handleAddToCart(prescription._id)}>
+                    Add Medicines to Cart
+                  </Button>
+                </CardBody>
+              </Card>
+            </Col>
+          ))}
+        </Row>
       </Container>
     </>
   );
 };
 
 export default PatientDashBoard;
-
