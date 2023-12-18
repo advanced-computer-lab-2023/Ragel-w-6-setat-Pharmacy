@@ -149,9 +149,9 @@ if (user) {
           const pharmacistsResponse = await fetch('/api/admin/getPharmacistsInfo');
           const pharmacistsData = await pharmacistsResponse.json();
 
-          //const uniquePharmacist=new Set(pharmacistsData);
+          const uniquePharmacist=new Set(pharmacistsData);
           // Filter out the pharmacists with whom the patient already has a conversation
-          const pharmacistsWithoutConversation = pharmacistsData.filter((pharmacist) => {
+          const pharmacistsWithoutConversation = uniquePharmacist.filter((pharmacist) => {
             return !conversations.some((conversation) =>
               conversation.members.includes(patientId) &&
               conversation.members.includes(pharmacist._id)

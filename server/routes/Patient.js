@@ -18,8 +18,9 @@ const {
     processPayment,
     changePatientPassword,
     medAlternative,
-
-    getPatientInfo
+    viewPrescription,
+    getPatientInfo,
+    addPrescriptionToCart
 
 } = require('../controllers/PatientControllers')
 
@@ -27,6 +28,13 @@ const router = express.Router();
 
 // Register as a patient
 router.post('/', createPatient)
+
+
+router.post('/addPrescriptionToCart/:id', addPrescriptionToCart);
+
+
+router.get('/viewPrescription/:id', viewPrescription);
+
 
 // Get a Patient's info
 router.get("/getPatientInfo/:id", getPatientInfo)
