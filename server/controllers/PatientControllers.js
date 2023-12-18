@@ -116,9 +116,9 @@ const getMedicinesByMedicinalUse = async (req, res) => {
 };
 
 // View Alternative Medicine based on active ingredient 
-const medAlternative = async (medicineId) => {
+const medAlternative = async (req, res) => {
     try {
-        //const { medicineId } = req.params;
+        const { medicineId } = req.params;
 
         // Check if the requested medicine is out of stock
         const medicine = await Medicine.findById(medicineId);
@@ -134,29 +134,27 @@ const medAlternative = async (medicineId) => {
             });
 
             if (similarMedicines.length > 0) {
-                return {
-                    alternatives: similarMedicines,
+                return res.status(200).json({
                     message: 'Medicine is out of stock. Here are some alternatives:',
-                };
+                    alternatives: similarMedicines,
+                });
             } else {
-                return {
+                return res.status(404).json({
                     message: 'Medicine is out of stock, and no alternatives are available.',
-                };
+                });
             }
         } else {
-            // // If not out of stock, return the medicine details
-            // return res.status(200).json({
-            //     message: 'Medicine is in stock.',
-            //     medicineDetails: medicine,
-            // });
+            // If not out of stock, return the medicine details
+            return res.status(200).json({
+                message: 'Medicine is in stock.',
+                medicineDetails: medicine,
+            });
         }
     } catch (error) {
         console.error(error);
-        // You might want to handle errors differently, such as logging or throwing a custom exception.
-        throw new Error('An error occurred in medAlternative');
+        res.status(500).json({ message: 'Internal server error' });
     }
 }
-
 // Add to cart  
 const addToCart = async (req, res) => {
     const { patientId, medicineId } = req.params;
@@ -177,18 +175,13 @@ const addToCart = async (req, res) => {
 
         // Check if the medicine is out of stock
         if (medicine.outOfStock) {
-            // If out of stock, call medAlternative and handle its response
-            const alternativeResponse = await medAlternative(medicineId);
-
-            if (alternativeResponse.alternatives && alternativeResponse.alternatives.length > 0) {
-                // If alternatives are available, you might want to inform the user or handle accordingly
-                return res.status(400).json(alternativeResponse);
-            } else {
-                // If no alternatives are available, handle accordingly (return a different response or throw an exception)
-                return res.status(404).json(alternativeResponse);
-            }
+            return res.status(400).json({ message: 'Medicine is out of stock' });
         }
 
+        // if(medicine.overTheCounter){
+        //     return res.status(400).json({ message: 'Medicine is over the counter' });
+
+        // }
         // Check if the medicine already exists in the patient's cart
         const cartItemIndex = patient.cart.items.findIndex(item => item.medicineId.toString() === medicineId);
         if (cartItemIndex !== -1) {
@@ -817,6 +810,8 @@ const addPrescriptionToCart = async (req, res) => {
     }
 };
 
+
+
 module.exports = {
     createPatient,
     getAllMedicines,
@@ -837,7 +832,8 @@ module.exports = {
     medAlternative,
     viewPrescription,
     getPatientInfo,
-    addPrescriptionToCart
+    addPrescriptionToCart,
+
 
 
 

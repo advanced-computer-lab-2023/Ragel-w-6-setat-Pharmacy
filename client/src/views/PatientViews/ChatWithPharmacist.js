@@ -151,7 +151,7 @@ if (user) {
 
           const uniquePharmacist=new Set(pharmacistsData);
           // Filter out the pharmacists with whom the patient already has a conversation
-          const pharmacistsWithoutConversation = uniquePharmacist.filter((pharmacist) => {
+          const pharmacistsWithoutConversation = pharmacistsData.filter((pharmacist) => {
             return !conversations.some((conversation) =>
               conversation.members.includes(patientId) &&
               conversation.members.includes(pharmacist._id)

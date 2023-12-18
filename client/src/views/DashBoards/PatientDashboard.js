@@ -84,7 +84,9 @@ const PatientDashBoard = () => {
                     </ul>
                   </div>
 
-                  <Button color="primary" onClick={() => handleAddToCart(prescription._id)}>
+                  <Button color="primary" 
+                  style={{backgroundColor: '#009688'}}
+                  onClick={() => handleAddToCart(prescription._id)}>
                     Add Medicines to Cart
                   </Button>
                 </CardBody>
@@ -98,3 +100,4 @@ const PatientDashBoard = () => {
 };
 
 export default PatientDashBoard;
+

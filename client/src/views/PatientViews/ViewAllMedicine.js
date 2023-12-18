@@ -3,9 +3,12 @@ import React, { useEffect, useState, useContext } from 'react';
 //import '../css/GetAllMedicine.css';
 import axios from 'axios';
 import AdminHeader from '../../components/Headers/AdminHeader';
+import MedicineAlternative from './MedicineAlternative';
 import { Container, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import IconButton from '@mui/material/IconButton';
 import { UserContext } from "../../contexts/UserContext";
+import { useNavigate } from 'react-router-dom';
+
 
 
 const GetAllMedicines = () => {
@@ -16,8 +19,8 @@ const GetAllMedicines = () => {
     const [selectedMedicinalUse, setSelectedMedicinalUse] = useState('');
     const [cart, setCart] = useState([]);
     const [successMessage, setSuccessMessage] = useState('');
-    const [medicineIdForAlternative, setMedicineIdForAlternative] = useState(null);
-    const [showMedicineAlternativeModal, setShowMedicineAlternativeModal] = useState(false);
+    const navigate = useNavigate();
+
 
     
 
@@ -78,28 +81,17 @@ const GetAllMedicines = () => {
 
     const handleAddToCart = async (medicineId) => {
         try {
-            const response = await axios.get(`/api/patient/addToCart/${patientId}/${medicineId}`);
-            const { success, message } = response.data;
-
-            if (success) {
-                // Refresh cart after adding an item
-                const cartResponse = await axios.get(`/api/patient/viewCart/${patientId}`);
-                setCart(cartResponse.data);
-                setSuccessMessage('Added to cart successfully!');
-                setShowMedicineAlternativeModal(false);  // Close the alternative modal if open
-                setIsModalOpen(true);
-            } else {
-                // If adding to cart is not successful, show alternative medicine modal
-                setMedicineIdForAlternative(medicineId);
-                setShowMedicineAlternativeModal(true);
-                setIsModalOpen(false);  // Close the success modal if open
-            }
-        } catch (error) {
+            await axios.get(`/api/patient/addToCart/${patientId}/${medicineId}`);
+            // Refresh cart after adding an item
+            const response = await axios.get(`/api/patient/viewCart/${patientId}`);
+            setCart(response.data);
+            setSuccessMessage('Added to cart successfully!');
+            setIsModalOpen(true);
+          } catch (error) {
             console.error('Error adding to cart:', error);
-        }
-    };
-    
-
+            //navigate('/MedicineAlternatives');
+          }
+      };
     
     
     const toggleModal = () => {
@@ -157,27 +149,17 @@ const GetAllMedicines = () => {
                     ))}
             </div>
            {/* Modal for success message */}
-           <Modal isOpen={isModalOpen && !showMedicineAlternativeModal} toggle={toggleModal}>
-    <ModalHeader toggle={toggleModal}>Success</ModalHeader>
-    <ModalBody>
-        <p>{successMessage}</p>
-    </ModalBody>
-    <ModalFooter>
-        <Button color="secondary" style={{ backgroundColor: "#009688" }} onClick={toggleModal}>
-            Close
-        </Button>
-    </ModalFooter>
-</Modal>
-
-               {/* MedicineAlternative modal */}
-          
-            {medicineIdForAlternative && (
-                <MedicineAlternative
-                    medicineId={medicineIdForAlternative}
-                    showModal={showMedicineAlternativeModal}
-                    setShowModal={setShowMedicineAlternativeModal}
-                />
-            )}
+           <Modal isOpen={isModalOpen} toggle={toggleModal}>
+                <ModalHeader toggle={toggleModal}>Success</ModalHeader>
+                <ModalBody>
+                    <p>{successMessage}</p>
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="secondary"style={{ backgroundColor: "#009688"}} onClick={toggleModal}>
+                        Close
+                    </Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
 };
@@ -232,58 +214,3 @@ const MedicineDetails = ({ medicines, handleAddToCart }) => {
       </>
     );
   };
-
-// ... (other imports)
-
-const MedicineAlternative = ({ medicineId, showModal, setShowModal }) => {
-    const [alternativeData, setAlternativeData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchMedicineAlternative = async () => {
-            try {
-                const response = await axios.get(`/api/patient/medAlternatives/${medicineId}`);
-                setAlternativeData(response.data);
-            } catch (error) {
-                setError(error.message || 'An error occurred');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchMedicineAlternative();
-    }, [medicineId]);
-
-    const handleCloseModal = () => {
-        setAlternativeData(null);
-        setShowModal(false);
-    };
-
-    return (
-        <Modal isOpen={showModal} toggle={handleCloseModal}>
-            <ModalHeader toggle={handleCloseModal}>Medicine Alternative Information</ModalHeader>
-            <ModalBody>
-                {loading && <p>Loading...</p>}
-                {error && <p>Error: {error}</p>}
-                {alternativeData && (
-                    <>
-                        <h2>{alternativeData.message}</h2>
-                        {/* Add more content based on alternativeData if needed */}
-                    </>
-                )}
-            </ModalBody>
-            <ModalFooter>
-                <Button color="secondary" style={{ backgroundColor: "#009688" }} onClick={handleCloseModal}>
-                    Close
-                </Button>
-            </ModalFooter>
-        </Modal>
-    );
-};
-
-
-
-
-
-  

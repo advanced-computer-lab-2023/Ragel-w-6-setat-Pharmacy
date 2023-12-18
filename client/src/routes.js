@@ -38,6 +38,8 @@ import Checkout from "views/PatientViews/Checkout";
 import Orders from "views/PatientViews/Orders";
 import ViewAllMedicinePatient from "views/PatientViews/ViewAllMedicine";
 import ChangePassword from "views/PatientViews/ChangePassword";
+import MedicineAlternative from 'views/PatientViews/MedicineAlternative';
+
 
 import ChatWithPharmacist from "views/PatientViews/ChatWithPharmacist";
 import ChatWithPatients from "views/PharmacistViews/ChatWithPatients";
@@ -141,7 +143,14 @@ var routes = [
     component: <Orders />,
     layout: "/patient",
   },
+{
+  path:"/MedicineAlternatives",
+  name:"Medicine Alternative",
+  icon: "ni ni-delivery-fast text-white",
+  component:<MedicineAlternative/>,
+  layout: "/patient",
 
+},
   // {
   //   path: "/ChangePassword",
   //   name: "Change Password",

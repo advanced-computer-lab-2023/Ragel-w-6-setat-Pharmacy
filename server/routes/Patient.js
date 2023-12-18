@@ -84,8 +84,9 @@ router.post("/processPayment/:id", processPayment);
 router.post('/changePatientPassword', changePatientPassword);
 
 // Get medicine alternatives
-router.post('/medAlternatives', medAlternative)
+router.post('/medAlternatives/:medicineId', medAlternative)
 
+router.get('/viewPrescription/:id', viewPrescription);
 
 
 module.exports = router
