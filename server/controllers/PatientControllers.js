@@ -133,6 +133,11 @@ const addToCart = async (req, res) => {
             return res.status(400).json({ message: 'Invalid medicine object' });
         }
 
+        // Check if the medicine is out of stock
+        if (medicine.outOfStock) {
+            return res.status(400).json({ message: 'Medicine is out of stock' });
+        }
+
         // Check if the medicine already exists in the patient's cart
         const cartItemIndex = patient.cart.items.findIndex(item => item.medicineId.toString() === medicineId);
         if (cartItemIndex !== -1) {
@@ -161,6 +166,7 @@ const addToCart = async (req, res) => {
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 
 
 // Helper method to addToCart

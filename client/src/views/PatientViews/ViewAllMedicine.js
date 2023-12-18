@@ -16,6 +16,8 @@ const GetAllMedicines = () => {
     const [selectedMedicinalUse, setSelectedMedicinalUse] = useState('');
     const [cart, setCart] = useState([]);
     const [successMessage, setSuccessMessage] = useState('');
+    const [medicineIdForAlternative, setMedicineIdForAlternative] = useState(null);
+    const [showMedicineAlternativeModal, setShowMedicineAlternativeModal] = useState(false);
 
     
 
@@ -76,16 +78,28 @@ const GetAllMedicines = () => {
 
     const handleAddToCart = async (medicineId) => {
         try {
-            await axios.get(`/api/patient/addToCart/${patientId}/${medicineId}`);
-            // Refresh cart after adding an item
-            const response = await axios.get(`/api/patient/viewCart/${patientId}`);
-            setCart(response.data);
-            setSuccessMessage('Added to cart successfully!');
-            setIsModalOpen(true);
-          } catch (error) {
+            const response = await axios.get(`/api/patient/addToCart/${patientId}/${medicineId}`);
+            const { success, message } = response.data;
+
+            if (success) {
+                // Refresh cart after adding an item
+                const cartResponse = await axios.get(`/api/patient/viewCart/${patientId}`);
+                setCart(cartResponse.data);
+                setSuccessMessage('Added to cart successfully!');
+                setShowMedicineAlternativeModal(false);  // Close the alternative modal if open
+                setIsModalOpen(true);
+            } else {
+                // If adding to cart is not successful, show alternative medicine modal
+                setMedicineIdForAlternative(medicineId);
+                setShowMedicineAlternativeModal(true);
+                setIsModalOpen(false);  // Close the success modal if open
+            }
+        } catch (error) {
             console.error('Error adding to cart:', error);
-          }
-      };
+        }
+    };
+    
+
     
     
     const toggleModal = () => {
@@ -143,17 +157,27 @@ const GetAllMedicines = () => {
                     ))}
             </div>
            {/* Modal for success message */}
-           <Modal isOpen={isModalOpen} toggle={toggleModal}>
+           <Modal isOpen={isModalOpen && !showMedicineAlternativeModal} toggle={toggleModal}>
                 <ModalHeader toggle={toggleModal}>Success</ModalHeader>
                 <ModalBody>
                     <p>{successMessage}</p>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="secondary"style={{ backgroundColor: "#009688"}} onClick={toggleModal}>
+                    <Button color="secondary" style={{ backgroundColor: "#009688" }} onClick={toggleModal}>
                         Close
                     </Button>
                 </ModalFooter>
             </Modal>
+
+               {/* MedicineAlternative modal */}
+          
+            {medicineIdForAlternative && (
+                <MedicineAlternative
+                    medicineId={medicineIdForAlternative}
+                    showModal={showMedicineAlternativeModal}
+                    setShowModal={setShowMedicineAlternativeModal}
+                />
+            )}
         </div>
     );
 };
@@ -208,4 +232,60 @@ const MedicineDetails = ({ medicines, handleAddToCart }) => {
       </>
     );
   };
+
+// ... (other imports)
+
+const MedicineAlternative = ({ medicineIdForAlternative, showModal, setShowModal }) => {
+    const [alternativeData, setAlternativeData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchMedicineAlternative = async () => {
+            try {
+                const response = await axios.get(`/api/patient/medAlternatives/${medicineIdForAlternative}`);
+                setAlternativeData(response.data);
+            } catch (error) {
+                setError(error.message || 'An error occurred');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMedicineAlternative();
+    }, [medicineIdForAlternative]);
+
+    const handleCloseModal = () => {
+        setAlternativeData(null);
+        setShowModal(false);
+    };
+
+    return (
+        <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal.Header closeButton>
+                <Modal.Title>Medicine Alternative Information</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                {loading && <p>Loading...</p>}
+                {error && <p>Error: {error}</p>}
+                {alternativeData && (
+                    <>
+                        <h2>{alternativeData.message}</h2>
+                        {/* Add more content based on alternativeData if needed */}
+                    </>
+                )}
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseModal}>
+                    Close
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
+
+
+
+
   
