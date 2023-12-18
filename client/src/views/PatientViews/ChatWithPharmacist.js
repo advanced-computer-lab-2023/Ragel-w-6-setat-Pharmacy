@@ -23,11 +23,17 @@ const ChatWithPharmacist = () => {
 
 
   // Parse user from localStorage and merge with defaultUser
-  const _id = JSON.parse(localStorage.getItem('user'))._id;
-  const username = JSON.parse(localStorage.getItem('user')).username;
-  const user = {_id: _id,username: username };
+  const userDataString = localStorage.getItem('user');
+const user = userDataString ? JSON.parse(userDataString) : null;
+
+if (user) {
+  const { _id, username } = user;
   console.log(JSON.stringify(user) + " check user");
-  const userString = JSON.stringify(user);
+  const userString = JSON.stringify({ _id, username });
+} else {
+  // Handle the case where 'user' is null
+  console.error("User data is null");
+}
   
     const [conversations, setConversations] = useState();
     const [currentChat, setCurrentChat] = useState(null);
@@ -89,7 +95,7 @@ const ChatWithPharmacist = () => {
     };
 
     getMessages();
-  }, [currentChat, forceRerender]);
+  }, [currentChat]);
 
     useEffect(() => {
       arrivalMessage &&
@@ -142,7 +148,8 @@ const ChatWithPharmacist = () => {
           // Fetch all pharmacists
           const pharmacistsResponse = await fetch('/api/admin/getPharmacistsInfo');
           const pharmacistsData = await pharmacistsResponse.json();
-  
+
+          //const uniquePharmacist=new Set(pharmacistsData);
           // Filter out the pharmacists with whom the patient already has a conversation
           const pharmacistsWithoutConversation = pharmacistsData.filter((pharmacist) => {
             return !conversations.some((conversation) =>

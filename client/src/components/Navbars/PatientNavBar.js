@@ -23,7 +23,6 @@ const PatientNavBar = (props) => {
   const toggle = () => setIsOpen(!isOpen);
   const handleLogOut = async (e) => {
     //remove user from storage
-    localStorage.removeItem("user");
 
     //dispatch logout function
     dispatch({type:'LOGOUT'})

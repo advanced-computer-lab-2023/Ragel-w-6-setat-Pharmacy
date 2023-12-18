@@ -23,11 +23,17 @@ const ChatWithPatients = () => {
 
 
   // Parse user from localStorage and merge with defaultUser
-  const userData = JSON.parse(localStorage.getItem('user'));
-const user = userData ? { _id: userData._id, username: userData.username } : null;
+  const userDataString = localStorage.getItem('user');
+const user = userDataString ? JSON.parse(userDataString) : null;
 
+if (user) {
+  const { _id, username } = user;
   console.log(JSON.stringify(user) + " check user");
-  const userString = JSON.stringify(user);
+  const userString = JSON.stringify({ _id, username });
+} else {
+  // Handle the case where 'user' is null
+  console.error("User data is null");
+}
   
     const [conversations, setConversations] = useState();
     const [currentChat, setCurrentChat] = useState(null);
@@ -40,11 +46,11 @@ const user = userData ? { _id: userData._id, username: userData.username } : nul
     const scrollRef = useRef();
     //const [loading, setLoading] = useState(true);
     const patientId = user._id;
+  
    // const pharmacistId = user2._id;
     console.log("Patienttt ID:", patientId);
     //console.log("Pharmacist ID:", pharmacistId);
   const [forceRerender, setForceRerender] = useState(0); // State to force re-render
-
 
 
   useEffect(() => {
@@ -90,10 +96,10 @@ const user = userData ? { _id: userData._id, username: userData.username } : nul
         }
       };
       getMessages();
-    }, [currentChat, forceRerender]);
+    }, [currentChat]);
 
   useEffect(() => {
-    console.log("arrivalMessage:", arrivalMessage);
+    //console.log("arrivalMessage:", arrivalMessage);
 
     arrivalMessage &&
       currentChat?.members.includes(arrivalMessage.sender) &&
@@ -118,26 +124,27 @@ const user = userData ? { _id: userData._id, username: userData.username } : nul
   }, []);
   
 
-
-
-    useEffect(() => {
-        const getConversations = async () => {
-            try {
-                const response = await fetch(`/api/conversation/${patientId}`);
-                console.log("Response:", response);
-                const data = await response.json();
-                console.log("Conversationsss:", data);
-                setConversations(data); 
-
-                
-            } catch (error) {
-                console.error("Error fetching patient orders:", error);
-            }
-        };
-
-        getConversations();
+  const getConversations = async () => {
+    try {
+      const response = await fetch(`/api/conversation/${user._id}`);
+      if (response.ok) {
+        const data = await response.json();
+        setConversations(data);
         forceUpdate();
-    }, [patientId,forceUpdate]);
+      } else {
+        console.log("Error fetching conversations:", response);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    getConversations();
+    forceUpdate();
+  }, [patientId]);
+
+           
 
     console.log(currentChat)
 
@@ -147,8 +154,9 @@ useEffect(() => {
   socket.current.on('newConversation', (newConversation) => {
     // Update state with the new conversation
     setConversations((prevConversations) => [...prevConversations, newConversation]);
+    forceUpdate();
   });
-}, []);
+}, [conversations, forceUpdate,patientId]);
 
 
     useEffect(() => { 
@@ -174,7 +182,7 @@ useEffect(() => {
       const message = {
         sender: patientId,
         text: newMessage,
-        conversationId: currentChat._id,
+        conversationId: currentChat?._id,
       };
 
       const receiverId = currentChat.members.find(member=>member !== patientId);
