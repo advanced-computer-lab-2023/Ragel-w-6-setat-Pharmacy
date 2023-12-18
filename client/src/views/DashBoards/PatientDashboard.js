@@ -31,7 +31,7 @@ import {
 } from "reactstrap";
 // core components
 import React, { useState, useEffect, useContext } from 'react';
-import UserHeader from "components/Headers/UserHeader.js";
+import PatientHeader from "components/Headers/PatientHeader.js";
 import axios from 'axios'; // Import Axios for making API calls
 import { UserContext } from "../../contexts/UserContext";
 
@@ -60,7 +60,7 @@ const PatientDashBoard = () => {
 
   return (
     <>
-      <UserHeader />
+      <PatientHeader />
       {/* Page content */}
       <Container className="mt--7" fluid>
         <Row>

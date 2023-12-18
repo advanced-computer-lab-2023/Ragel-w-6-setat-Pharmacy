@@ -82,6 +82,6 @@ router.put('/unarchiveMedicine/:id', unarchiveMedicine);
 //Get all out of stock medicines
 router.get('/getAllMedicinesOutOfStock', getAllMedicinesOutOfStock);
 
-router.get('/walletBalance/:id',getWalletBalance);
+router.get('/getWalletBalance/:pharmacistId',getWalletBalance);
 
 module.exports = router

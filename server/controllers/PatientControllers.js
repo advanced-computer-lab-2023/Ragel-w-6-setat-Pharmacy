@@ -713,7 +713,7 @@ const medAlternative = async (req, res) => {
     }
 }
 
-//helper view alternatives (it checks if quanitity )
+
 
 module.exports = {
     createPatient,

@@ -168,17 +168,6 @@ var routes = [
 
   // pharmacist
 
-
-  {
-    path: "/chatwithpharmacist",
-    name: "Chat With Pharmacist",
-    icon: "ni ni-tv-2 text-primary",
-    component: <ChatWithPharmacist />,
-    layout: "/patient",
-  },
-
-
-
   {
     path: "/",
     name: "Home",
