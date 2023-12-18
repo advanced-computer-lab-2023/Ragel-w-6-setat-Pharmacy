@@ -251,7 +251,7 @@
                                                     Total Quantity: {cartData.totalQty}
                                                 </CardTitle>
                                                 <CardTitle tag="h5">
-                                                    Total Cost: {cartData.totalCost.toFixed(1)}
+                                                    Total Cost: {cartData.totalCost}
                                                 </CardTitle>
                                                 <CardText>
                                                     <strong>Items:</strong>
@@ -276,44 +276,40 @@
                             </div>
         
                             {/* Delivery Address */}
+                         
                             <div className="col-md-4">
                                 <Card className="shadow">
-                                    {/* <CardHeader className="border-0">
-                                        <h3 className="mb-0">Delivery Address</h3>
-                                    </CardHeader> */}
                                     <CardBody>
                                         <h6>Please select a delivery address:</h6>
-                                        {addresses && addresses.length > 0 && (
-                                            <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} >
-                                                <DropdownToggle style={{ backgroundColor: "#009688" }}>
-                                                    {selectedAddress
-                                                        ? `Deliver to: ${selectedAddress.street}, ${selectedAddress.city}`
-                                                        : "Select Delivery Address"}
-                                                </DropdownToggle>
-                                                <DropdownMenu>
-                                                    {addresses && addresses.length > 0 && (
-                                                        <>
-                                                            {addresses.map((address, index) => (
-                                                                <DropdownItem
-                                                                    key={index}
-                                                                    onClick={() => handleAddressSelect(address)}
-                                                                    
-                                                                >
-                                                                    {`${address.street}, ${address.city}`}
-                                                                </DropdownItem>
-                                                            ))}
-                                                            <DropdownItem divider />
-                                                        </>
-                                                    )}
-                                                    <DropdownItem onClick={toggleModal}>
-                                                        Add New Address
-                                                    </DropdownItem>
-                                                </DropdownMenu>
-                                            </Dropdown>
-                                        )}
+                                        <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+                                            <DropdownToggle style={{ backgroundColor: "#009688" }}>
+                                                {selectedAddress
+                                                    ? `Deliver to: ${selectedAddress.street}, ${selectedAddress.city}`
+                                                    : "Select Delivery Address"}
+                                            </DropdownToggle>
+                                            <DropdownMenu>
+                                                {addresses && addresses.length > 0 && (
+                                                    <>
+                                                        {addresses.map((address, index) => (
+                                                            <DropdownItem
+                                                                key={index}
+                                                                onClick={() => handleAddressSelect(address)}
+                                                            >
+                                                                {`${address.street}, ${address.city}`}
+                                                            </DropdownItem>
+                                                        ))}
+                                                        <DropdownItem divider />
+                                                    </>
+                                                )}
+                                                <DropdownItem onClick={toggleModal}>
+                                                    Add New Address
+                                                </DropdownItem>
+                                            </DropdownMenu>
+                                        </Dropdown>
                                     </CardBody>
                                 </Card>
                             </div>
+
         
                             {/* Payment Method */}
                             <div className="col-md-4">

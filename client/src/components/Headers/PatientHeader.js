@@ -106,11 +106,11 @@ const ChangePassword = ({closeModal} ) => {
     const handleSubmit = async (e) => {
       e.preventDefault();
   
-      const admin = { username, newPassword };
+      const patient = { username, newPassword };
   
       const response = await fetch('/api/patient/changePatientPassword', {
         method: 'POST',
-        body: JSON.stringify(admin),
+        body: JSON.stringify(patient),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -127,7 +127,7 @@ const ChangePassword = ({closeModal} ) => {
         setError(null);
         setSuccess(true);
       }
-      closeModal();
+     
     };
     return (
       <form onSubmit={handleSubmit}>
@@ -151,12 +151,14 @@ const ChangePassword = ({closeModal} ) => {
         </FormGroup>
         <Button type="submit" 
         style={{ background: "#009688" }}
+        
         color="success">
           Change Password
         </Button>
         {error && <div className="text-danger mt-3">{error}</div>}
         {success && (
           <div className="text-success mt-3">Password changed successfully!</div>
+          
         )}
       </form>
     );

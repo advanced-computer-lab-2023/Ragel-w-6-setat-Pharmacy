@@ -273,8 +273,8 @@ const changePharmacistPassword = async (req, res) => {
             { $set: { password: newPassword } },
             { new: true, runValidators: false } // Use runValidators: false to bypass schema validation
         );
-        const user = await User.findOne({ username });
-        user.password = await bcrypt.hash(newPassword, 10);
+        // const user = await User.findOne({ username });
+        // user.password = await bcrypt.hash(newPassword, 10);
 
 
         if (!updatedPharmacist) {

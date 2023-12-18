@@ -79,7 +79,7 @@ var routes = [
   },
   { //Handle Pharm Req in the layout Admin (will make a layout for every role)
     path: "/HandlePharmReq",
-    name: "Handle Pharmacist Requests",
+    name: " Pharmacist Requests",
     icon: "ni ni-paper-diploma text-white",
     component: <HandlePharmReq />,
     layout: "/admin",
@@ -94,13 +94,13 @@ var routes = [
     component: <SalesReport />,
     layout: "/admin",
   },
-  {
-    path: "/ChangePassword",
-    name: "Change Password",
-    icon: "ni ni-settings-gear-65  text-white",
-    component: <ChangePassword />,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/ChangePassword",
+  //   name: "Change Password",
+  //   icon: "ni ni-settings-gear-65  text-white",
+  //   component: <ChangePassword />,
+  //   layout: "/admin",
+  // },
 
 
 
@@ -175,6 +175,13 @@ var routes = [
     component: <PharmacistDashboard />,
     layout: "/pharmacist",
   },
+  { //Handle Pharm Req in the layout Admin (will make a layout for every role)
+    path: "/UploadDocuments",
+    name: "Upload documents",
+    icon: "ni ni-cloud-upload-96 text-white",
+    component: <UploadDocuments />,
+    layout: "/pharmacist",
+  },
   {
     path: "/viewallmedicine",
     name: "Medicine",
@@ -218,31 +225,24 @@ var routes = [
     layout: "/pharmacist",
   },
 
-  {
-    path: "/ChangePassword",
-    name: "Change Password",
-    icon: "ni ni-settings-gear-65  text-white",
-    component: <ChangePassword />,
-    layout: "/pharmacist",
-  },
-
+  // {
+  //   path: "/ChangePassword",
+  //   name: "Change Password",
+  //   icon: "ni ni-settings-gear-65  text-white",
+  //   component: <ChangePassword />,
+  //   layout: "/pharmacist",
+  // },
 
   {
     path: "/chatwithpatient",
     name: "Chat With Patient",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-chat-round text-white",
     component: <ChatWithPatients />,
     layout: "/pharmacist",
   },
 
 
-  { //Handle Pharm Req in the layout Admin (will make a layout for every role)
-    path: "/UploadDocuments",
-    name: "Upload documents",
-    icon: "ni ni-cloud-upload-96 text-white",
-    component: <UploadDocuments />,
-    layout: "/pharmacist",
-  },
+  
 
 
 

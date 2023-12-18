@@ -256,26 +256,23 @@ const changeAdminPassword = async (req, res) => {
     const { username, newPassword } = req.body;
 
     try {
-        // Find the admin by username
-        const admin = await Admin.findOne({ username });
-
-        if (!admin) {
-            return res.status(404).json({ error: "Admin not found" });
-        }
-
         const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
         if (!passwordPattern.test(newPassword)) {
-            return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' + newPassword });
+            return res.status(400).json({ error: 'Password must be at least 8 characters long and contain an uppercase letter and a digit.' });
         }
+        // Find the patient by username and update only the password
+        const updatedAdmin = await Admin.findOneAndUpdate(
+            { username },
+            { $set: { password: newPassword } },
+            { new: true, runValidators: false } // Use runValidators: false to bypass schema validation
+        );
+        // const user = await User.findOne({ username });
+        // user.password = await bcrypt.hash(newPassword, 10);
 
-        // Change the password
-        admin.password = newPassword;
 
-        const user = await User.findOne({ username });
-        user.password = await bcrypt.hash(newPassword, 10);
-
-        // Save the updated password
-        await admin.save();
+        if (!updatedAdmin) {
+            return res.status(404).json({ error: "Admin not found" });
+        }
 
         return res.status(200).json({ message: "Password changed successfully" });
     } catch (error) {

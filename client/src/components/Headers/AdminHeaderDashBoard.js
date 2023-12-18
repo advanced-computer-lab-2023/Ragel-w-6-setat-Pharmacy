@@ -32,7 +32,7 @@ import {
   import { useState } from "react";
   import AdminHeader from "components/Headers/AdminHeader.js";
   
-  const PharmacistHeader = () => {
+  const AdminHeaderDashBoard = () => {
     const [modal, setModal] = useState(false);
   
     const toggle = () => setModal(!modal);
@@ -56,9 +56,8 @@ import {
               <Col lg="7" md="10">
                 <h2 className="display-2 text-white">Welcome Back!</h2>
                 <p className="text-white mt-0 mb-5">
-                This is your home page. You can access all your account details.
-                Feel free to assist patients with their prescriptions and provide guidance.
-                If you have any questions, contact an admin!
+                Here, you have access to all the crucial information and controls.
+  Manage users, monitor system analytics, and oversee various aspects of the application.
                 </p>
                 <Button className="btn btn-success"
                         style={{ background: "#009688" }}
@@ -81,23 +80,10 @@ import {
     );
   };
   
-  export default PharmacistHeader;
+  export default AdminHeaderDashBoard;
   
   const ChangePassword = ({closeModal} ) => {
-    /* const [admins, setAdmins] = useState(null);
-  
-    useEffect(() => {
-      const fetchAdmins = async () => {
-        const response = await fetch('/api/admin/getAdmins');
-        const json = await response.json(); // array of objects where each represents an admin
-        console.log(json);
-        if (response.ok) {
-          setAdmins(json);
-        }
-      };
-  
-      fetchAdmins();
-    }, []); // empty array means it will only run once */
+   
       const [username, setUsername] = useState('');
       const [newPassword, setPassword] = useState('');
       const [error, setError] = useState(null);
@@ -106,11 +92,11 @@ import {
       const handleSubmit = async (e) => {
         e.preventDefault();
     
-        const pharmacist = { username, newPassword };
+        const admin = { username, newPassword };
     
-        const response = await fetch('/api/pharmacist/changePharmacistPassword', {
+        const response = await fetch('/api/admin/changeAdminPassword', {
           method: 'POST',
-          body: JSON.stringify(pharmacist),
+          body: JSON.stringify(admin),
           headers: {
             'Content-Type': 'application/json',
           },

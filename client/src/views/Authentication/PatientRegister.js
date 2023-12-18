@@ -100,8 +100,12 @@ const PatientRegister = () => {
       dispatch({ type: "LOGIN", payload: json })
 
       setSuccess(true)
+      
+
       setError('Thank you for registering ')
-      navigate('/patient')
+      setTimeout(() => {
+        navigate('/Login');
+      }, 3000); 
       //FIXME check this is the correct syntax to navigate
       //FIXME let it navigate to the patient page since he registered
 
@@ -207,11 +211,11 @@ const PatientRegister = () => {
                   <Dropdown isOpen={genderDropdownOpen} toggle={toggleGenderDropdown} >
                     <DropdownToggle style={{ backgroundColor: "#009688" }} caret>{gender || 'Select Gender'}</DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem value="Male" active={gender === 'Male'} onClick={() => setGender('Male')}>
+                      <DropdownItem value="Male" active={gender === 'male'} onClick={() => setGender('male')}>
                         <i className="ni ni-single-02" />
                         <span>Male</span>
                       </DropdownItem>
-                      <DropdownItem value="Female" active={gender === 'Female'} onClick={() => setGender('Female')}>
+                      <DropdownItem value="Female" active={gender === 'female'} onClick={() => setGender('female')}>
                         <i className="ni ni-single-02" />
                         <span>Female</span>
                       </DropdownItem>
@@ -301,7 +305,9 @@ const PatientRegister = () => {
               </Row>
               {!success ? (
                 <div className="text-center">
+                
                   <Button className="my-4" style={{ backgroundColor: "#009688" }} type="submit">Register</Button>
+                 
                 </div>
               ) : <Link to="/Login">
                 <div className="text-center">
