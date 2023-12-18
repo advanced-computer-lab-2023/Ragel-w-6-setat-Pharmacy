@@ -76,7 +76,7 @@ router.post("/processPayment/:id", processPayment);
 router.post('/changePatientPassword', changePatientPassword);
 
 // Get medicine alternatives
-router.post('/medAlternatives/:medicineId', medAlternative)
+router.post('/medAlternatives', medAlternative)
 
 
 

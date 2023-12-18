@@ -158,16 +158,16 @@ const GetAllMedicines = () => {
             </div>
            {/* Modal for success message */}
            <Modal isOpen={isModalOpen && !showMedicineAlternativeModal} toggle={toggleModal}>
-                <ModalHeader toggle={toggleModal}>Success</ModalHeader>
-                <ModalBody>
-                    <p>{successMessage}</p>
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="secondary" style={{ backgroundColor: "#009688" }} onClick={toggleModal}>
-                        Close
-                    </Button>
-                </ModalFooter>
-            </Modal>
+    <ModalHeader toggle={toggleModal}>Success</ModalHeader>
+    <ModalBody>
+        <p>{successMessage}</p>
+    </ModalBody>
+    <ModalFooter>
+        <Button color="secondary" style={{ backgroundColor: "#009688" }} onClick={toggleModal}>
+            Close
+        </Button>
+    </ModalFooter>
+</Modal>
 
                {/* MedicineAlternative modal */}
           
@@ -235,7 +235,7 @@ const MedicineDetails = ({ medicines, handleAddToCart }) => {
 
 // ... (other imports)
 
-const MedicineAlternative = ({ medicineIdForAlternative, showModal, setShowModal }) => {
+const MedicineAlternative = ({ medicineId, showModal, setShowModal }) => {
     const [alternativeData, setAlternativeData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -243,7 +243,7 @@ const MedicineAlternative = ({ medicineIdForAlternative, showModal, setShowModal
     useEffect(() => {
         const fetchMedicineAlternative = async () => {
             try {
-                const response = await axios.get(`/api/patient/medAlternatives/${medicineIdForAlternative}`);
+                const response = await axios.get(`/api/patient/medAlternatives/${medicineId}`);
                 setAlternativeData(response.data);
             } catch (error) {
                 setError(error.message || 'An error occurred');
@@ -253,7 +253,7 @@ const MedicineAlternative = ({ medicineIdForAlternative, showModal, setShowModal
         };
 
         fetchMedicineAlternative();
-    }, [medicineIdForAlternative]);
+    }, [medicineId]);
 
     const handleCloseModal = () => {
         setAlternativeData(null);
@@ -261,11 +261,9 @@ const MedicineAlternative = ({ medicineIdForAlternative, showModal, setShowModal
     };
 
     return (
-        <Modal show={showModal} onHide={handleCloseModal}>
-            <Modal.Header closeButton>
-                <Modal.Title>Medicine Alternative Information</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
+        <Modal isOpen={showModal} toggle={handleCloseModal}>
+            <ModalHeader toggle={handleCloseModal}>Medicine Alternative Information</ModalHeader>
+            <ModalBody>
                 {loading && <p>Loading...</p>}
                 {error && <p>Error: {error}</p>}
                 {alternativeData && (
@@ -274,12 +272,12 @@ const MedicineAlternative = ({ medicineIdForAlternative, showModal, setShowModal
                         {/* Add more content based on alternativeData if needed */}
                     </>
                 )}
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseModal}>
+            </ModalBody>
+            <ModalFooter>
+                <Button color="secondary" style={{ backgroundColor: "#009688" }} onClick={handleCloseModal}>
                     Close
                 </Button>
-            </Modal.Footer>
+            </ModalFooter>
         </Modal>
     );
 };

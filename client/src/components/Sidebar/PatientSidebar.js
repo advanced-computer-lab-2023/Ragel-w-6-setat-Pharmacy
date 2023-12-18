@@ -161,20 +161,9 @@ const createLinks = (routes) => {
         >
           <span className="navbar-toggler-icon" />
         </button>
-        {/* Brand */}
-        {logo ? (
-          <NavbarBrand className="pt-0" {...navbarBrandProps}>
-            <img
-              alt={logo.imgAlt}
-              className="navbar-brand-img"
-              src={require("../../assets/img/brand/acl_pharma.png")}
-              style={{
-                height: 400,
-                width: 350,
-              }}
-            />
-          </NavbarBrand>
-        ) : null}
+       <div >
+        <h1 style={{color:"white"}}>Pharma-Space</h1>
+       </div>
         {/* User */}
         <Nav className="align-items-center d-md-none">
           {/* <UncontrolledDropdown nav>
