@@ -72,7 +72,7 @@ const patientSchema = new Schema({
     },
     gender: {
         type: String,
-        enum: ['Male', 'Female'],
+        enum: ['male', 'female'],
         required: true
     },
     mobileNumber: {
@@ -168,4 +168,4 @@ const patientSchema = new Schema({
     ],
 }, { timestamps: true });
 
-module.exports = mongoose.model('Patient', patientSchema);
+module.exports = mongoose.model('PatientPharmacy', patientSchema);

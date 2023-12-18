@@ -165,7 +165,19 @@ var routes = [
     layout: "/patient",
   },
 
-//pharmacist
+
+  // pharmacist
+
+
+  {
+    path: "/chatwithpharmacist",
+    name: "Chat With Pharmacist",
+    icon: "ni ni-tv-2 text-primary",
+    component: <ChatWithPharmacist />,
+    layout: "/patient",
+  },
+
+
 
   {
     path: "/",
@@ -233,7 +245,7 @@ var routes = [
     component: <ChatWithPatients />,
     layout: "/pharmacist",
   },
- 
+
 
   { //Handle Pharm Req in the layout Admin (will make a layout for every role)
     path: "/UploadDocuments",

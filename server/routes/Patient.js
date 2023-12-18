@@ -21,7 +21,6 @@ const {
 
     getPatientInfo
 
-
 } = require('../controllers/PatientControllers')
 
 const router = express.Router();
@@ -30,7 +29,7 @@ const router = express.Router();
 router.post('/', createPatient)
 
 // Get a Patient's info
-router.get("/getPatientInfo/:id",getPatientInfo)
+router.get("/getPatientInfo/:id", getPatientInfo)
 
 // View a list of all medicines
 router.get("/getAllMedicines", getAllMedicines)
@@ -77,7 +76,7 @@ router.post("/processPayment/:id", processPayment);
 router.post('/changePatientPassword', changePatientPassword);
 
 // Get medicine alternatives
-router.post('/medAlternatives/:medicineId',medAlternative)
+router.post('/medAlternatives/:medicineId', medAlternative)
 
 
 
