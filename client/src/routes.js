@@ -79,7 +79,7 @@ var routes = [
   },
   { //Handle Pharm Req in the layout Admin (will make a layout for every role)
     path: "/HandlePharmReq",
-    name: "Handle Pharmacist Requests",
+    name: " Pharmacist Requests",
     icon: "ni ni-paper-diploma text-white",
     component: <HandlePharmReq />,
     layout: "/admin",
@@ -94,13 +94,13 @@ var routes = [
     component: <SalesReport />,
     layout: "/admin",
   },
-  {
-    path: "/ChangePassword",
-    name: "Change Password",
-    icon: "ni ni-settings-gear-65  text-white",
-    component: <ChangePassword />,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/ChangePassword",
+  //   name: "Change Password",
+  //   icon: "ni ni-settings-gear-65  text-white",
+  //   component: <ChangePassword />,
+  //   layout: "/admin",
+  // },
 
 
 
@@ -142,35 +142,44 @@ var routes = [
     layout: "/patient",
   },
 
-  {
-    path: "/ChangePassword",
-    name: "Change Password",
-    icon: "ni ni-settings-gear-65  text-white",
-    component: <ChangePassword />,
-    layout: "/patient",
-  },
-  {
-    path: "/forgotPassword",
-    name: "Forgot Password",
-    icon: "ni ni-settings-gear-65  text-white",
-    component: <ForgotPassword />,
-    layout: "/patient",
-  },
+  // {
+  //   path: "/ChangePassword",
+  //   name: "Change Password",
+  //   icon: "ni ni-settings-gear-65  text-white",
+  //   component: <ChangePassword />,
+  //   layout: "/patient",
+  // },
+  // {
+  //   path: "/forgotPassword",
+  //   name: "Forgot Password",
+  //   icon: "ni ni-settings-gear-65  text-white",
+  //   component: <ForgotPassword />,
+  //   layout: "/patient",
+  // },
 
   {
     path: "/chatwithpharmacist",
     name: "Chat With Pharmacist",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-chat-round text-white",
     component: <ChatWithPharmacist />,
     layout: "/patient",
   },
 
+
+  // pharmacist
 
   {
     path: "/",
     name: "Home",
     icon: "ni ni-single-02 text-white",
     component: <PharmacistDashboard />,
+    layout: "/pharmacist",
+  },
+  { //Handle Pharm Req in the layout Admin (will make a layout for every role)
+    path: "/UploadDocuments",
+    name: "Upload documents",
+    icon: "ni ni-cloud-upload-96 text-white",
+    component: <UploadDocuments />,
     layout: "/pharmacist",
   },
   {
@@ -190,7 +199,7 @@ var routes = [
   {
     path: "/editMedicine",
     name: "Edit Medicine",
-    icon: "ni ni-curved-next  text-white",
+    icon: "ni ni-ruler-pencil  text-white",
     component: <EditMedicine />,
     layout: "/pharmacist",
   },
@@ -216,31 +225,24 @@ var routes = [
     layout: "/pharmacist",
   },
 
-  {
-    path: "/ChangePassword",
-    name: "Change Password",
-    icon: "ni ni-settings-gear-65  text-white",
-    component: <ChangePassword />,
-    layout: "/pharmacist",
-  },
-
+  // {
+  //   path: "/ChangePassword",
+  //   name: "Change Password",
+  //   icon: "ni ni-settings-gear-65  text-white",
+  //   component: <ChangePassword />,
+  //   layout: "/pharmacist",
+  // },
 
   {
     path: "/chatwithpatient",
     name: "Chat With Patient",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-chat-round text-white",
     component: <ChatWithPatients />,
     layout: "/pharmacist",
   },
- 
 
-  { //Handle Pharm Req in the layout Admin (will make a layout for every role)
-    path: "/UploadDocuments",
-    name: "Upload documents",
-    icon: "ni ni-cloud-upload-96 text-white",
-    component: <UploadDocuments />,
-    layout: "/pharmacist",
-  },
+
+  
 
 
 
@@ -267,6 +269,18 @@ var routes = [
     component: <PharmacistRegister />,
     layout: "/auth",
   },
+
+  {
+    path: "/forgotPassword",
+    name: "Forgot Password",
+    icon: "ni ni-settings-gear-65  text-white",
+    component: <ForgotPassword />,
+    layout: "/auth",
+  },
+  
+ 
+ 
+
 
 
 ];

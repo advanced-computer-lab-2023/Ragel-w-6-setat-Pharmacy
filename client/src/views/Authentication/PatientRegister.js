@@ -36,18 +36,18 @@ import {
   Col,
 } from "reactstrap";
 import ReactDatetime from "react-datetime";
-  import { useState } from "react";
-  import { Link } from "react-router-dom";
-  import { useNavigate } from "react-router-dom";
-  import { useContext } from "react";
-  import { AuthContext } from "../../contexts/AuthContext";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const PatientRegister = () => {
   const navigate = useNavigate();
   const [genderDropdownOpen, setGenderDropdownOpen] = useState(false);
   const [selectedGender, setSelectedGender] = useState('');
 
-  const toggleGenderDropdown = () => setGenderDropdownOpen(!genderDropdownOpen);  
+  const toggleGenderDropdown = () => setGenderDropdownOpen(!genderDropdownOpen);
   const handleGenderSelect = (gender) => {
     setSelectedGender(gender);
     setGenderDropdownOpen(false);
@@ -70,50 +70,57 @@ const PatientRegister = () => {
   //const [emergencyContactMobile, setEmergencyContactMobile] = useState('')
   //const [emergencyContactRelation, setEmergencyContactRelation] = useState('')
   const [error, setError] = useState(null)
-  const {dispatch}=useContext(AuthContext)
+  const { dispatch } = useContext(AuthContext)
 
-  const handleSubmit=async (e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault()
-      console.log(e.gender + e.name)
-    const patient ={name,username,email,password,dateOfBirth,gender,mobileNumber,
-    emergencyContact}
-
-    const response= await fetch('/api/user/registerPatient',{
-        method:'POST',
-        body: JSON.stringify(patient),
-        headers:{
-            'Content-Type':'application/json'
-        }
-    })
-    const json= await response.json()
-
-    if (!response.ok){
-        setError(json.error)
-        setSuccess(false)
+    console.log(e.gender + e.name)
+    const patient = {
+      name, username, email, password, dateOfBirth, gender, mobileNumber,
+      emergencyContact
     }
-    else{ 
+
+    const response = await fetch('/api/user/registerPatient', {
+      method: 'POST',
+      body: JSON.stringify(patient),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const json = await response.json()
+
+    if (!response.ok) {
+      setError(json.error)
+      setSuccess(false)
+    }
+    else {
       // save user to local storage
       localStorage.setItem('user', JSON.stringify(json));
       //update context
-      dispatch({type:"LOGIN",payload:json})
+      dispatch({ type: "LOGIN", payload: json })
 
-        setSuccess(true)
-       setError('Thank you for registering ')
-        navigate('/patient')
-        //FIXME check this is the correct syntax to navigate
-        //FIXME let it navigate to the patient page since he registered
-        
-    } }
+      setSuccess(true)
+      
 
-//FIXME add the relation to as a drop down
-//FIXME why are the colour dark???
+      setError('Thank you for registering ')
+      setTimeout(() => {
+        navigate('/Login');
+      }, 3000); 
+      //FIXME check this is the correct syntax to navigate
+      //FIXME let it navigate to the patient page since he registered
+
+    }
+  }
+
+  //FIXME add the relation to as a drop down
+  //FIXME why are the colour dark???
 
 
   return (
     <>
       <Col lg="6" md="8">
         <Card className="">
-          
+
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
               <h2>Sign Up as Patient</h2>
@@ -126,10 +133,10 @@ const PatientRegister = () => {
                       <i className="ni ni-hat-3" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input placeholder="Name" type="text" 
-                   onChange={(e)=>setName(e.target.value)}
-                   value={name}
-                   required/>
+                  <Input placeholder="Name" type="text"
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                    required />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
@@ -140,13 +147,13 @@ const PatientRegister = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input placeholder="Username" type="text"
-                   onChange={(e)=>setUsername(e.target.value)}
-                   value={username}
-                   required
-                   />
+                    onChange={(e) => setUsername(e.target.value)}
+                    value={username}
+                    required
+                  />
                 </InputGroup>
               </FormGroup>
-              
+
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
                   <InputGroupAddon addonType="prepend">
@@ -157,9 +164,9 @@ const PatientRegister = () => {
                   <Input
                     placeholder="Email"
                     type="email"
-                    onChange={(e)=>setEmail(e.target.value)}
-                      value={email}
-                      required
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                    required
 
                   />
                 </InputGroup>
@@ -175,49 +182,48 @@ const PatientRegister = () => {
                     placeholder="Password"
                     type="password"
                     value={password}
-                  onChange={(e)=>setPassword(e.target.value)}
-                  required
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
 
                   />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
-<InputGroup className="input-group-alternative">
-  <InputGroupAddon addonType="prepend">
-    <InputGroupText>
-      <i className="ni ni-calendar-grid-58" />
-    </InputGroupText>
-  </InputGroupAddon>
-  <ReactDatetime
-    inputProps={{
-      placeholder: 'Date of Birth',
-      required: true,
-    }}
-    value={dateOfBirth}
-    onChange={(value) => setDateOfBirth(value)}
-    timeFormat={true}
-  />
-</InputGroup>
-</FormGroup>
-
-<FormGroup>
-      <InputGroup>
-        <Dropdown isOpen={genderDropdownOpen} toggle={toggleGenderDropdown} >
-          <DropdownToggle caret>{gender || 'Select Gender'}</DropdownToggle>
-          <DropdownMenu right>
-            <DropdownItem value="Male" active={gender === 'Male'} onClick={() => setGender('Male')}>
-              <i className="ni ni-single-02" />
-              <span>Male</span>
-            </DropdownItem>
-            <DropdownItem value="Female" active={gender === 'Female'} onClick={() => setGender('Female')}>
-              <i className="ni ni-single-02" />
-              <span>Female</span>
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </InputGroup>
-    </FormGroup>
-            <FormGroup>
+                <InputGroup className="input-group-alternative">
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="ni ni-calendar-grid-58" />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <ReactDatetime
+                    inputProps={{
+                      placeholder: 'Date of Birth',
+                      required: true,
+                    }}
+                    value={dateOfBirth}
+                    onChange={(value) => setDateOfBirth(value)}
+                    timeFormat={true}
+                  />
+                </InputGroup>
+              </FormGroup>
+              <FormGroup>
+                <InputGroup>
+                  <Dropdown isOpen={genderDropdownOpen} toggle={toggleGenderDropdown} >
+                    <DropdownToggle style={{ backgroundColor: "#009688" }} caret>{gender || 'Select Gender'}</DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem value="Male" active={gender === 'male'} onClick={() => setGender('male')}>
+                        <i className="ni ni-single-02" />
+                        <span>Male</span>
+                      </DropdownItem>
+                      <DropdownItem value="Female" active={gender === 'female'} onClick={() => setGender('female')}>
+                        <i className="ni ni-single-02" />
+                        <span>Female</span>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </InputGroup>
+              </FormGroup>
+              <FormGroup>
                 <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
@@ -227,18 +233,18 @@ const PatientRegister = () => {
                   <Input
                     placeholder="Mobile Number"
                     type="number"
-                      value={mobileNumber}
-              onChange={(e)=>setMobileNumber(e.target.value)}
-              required
+                    value={mobileNumber}
+                    onChange={(e) => setMobileNumber(e.target.value)}
+                    required
 
                   />
                 </InputGroup>
               </FormGroup>
 
               <div className="text-center text-muted mb-4">
-              <small>Emergency Contact Info </small>
-            </div>
-            <FormGroup>
+                <small>Emergency Contact Info </small>
+              </div>
+              <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
@@ -246,13 +252,13 @@ const PatientRegister = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input placeholder="Emergency Contact Name" type="text"
-                  value={emergencyContact.name}
-                  onChange={(e) => setEmergencyContact(prevState => ({
+                    value={emergencyContact.name}
+                    onChange={(e) => setEmergencyContact(prevState => ({
                       ...prevState,
                       name: e.target.value
                     }))}
-                  required
-                   />
+                    required
+                  />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
@@ -266,16 +272,16 @@ const PatientRegister = () => {
                     placeholder="Emergency contact Mobile Number"
                     type="number"
                     value={emergencyContact.mobileNumber}
-          onChange={(e) => setEmergencyContact(prevState => ({
-              ...prevState,
-              mobileNumber: e.target.value
-            }))}
-          required
+                    onChange={(e) => setEmergencyContact(prevState => ({
+                      ...prevState,
+                      mobileNumber: e.target.value
+                    }))}
+                    required
 
                   />
                 </InputGroup>
               </FormGroup>
-                  <FormGroup>
+              <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
@@ -283,27 +289,34 @@ const PatientRegister = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input placeholder="Emergency Contact Relation" type="text"
-                  value={emergencyContact.relationTo}
-                  onChange={(e) => setEmergencyContact(prevState => ({
+                    value={emergencyContact.relationTo}
+                    onChange={(e) => setEmergencyContact(prevState => ({
                       ...prevState,
                       relationTo: e.target.value
                     }))}
-                  required
-       />
+                    required
+                  />
                 </InputGroup>
-              </FormGroup> 
+              </FormGroup>
               <Row className="my-4">
                 <Col xs="12">
-                  
+
                 </Col>
               </Row>
-              {!success?(
-       <Button className="my-4" color="primary" type="submit">Register</Button>
-     ):<Link to ="/Login">
-     <Button type="submit">Login now</Button></Link>}
-     
-       {error && <div className="error">
-      {error}    </div>}
+              {!success ? (
+                <div className="text-center">
+                
+                  <Button className="my-4" style={{ backgroundColor: "#009688" }} type="submit">Register</Button>
+                 
+                </div>
+              ) : <Link to="/Login">
+                <div className="text-center">
+                  <Button style={{ backgroundColor: "#009688", }} type="submit">Login now</Button>
+                </div>
+              </Link>}
+
+              {error && <div className="error">
+                {error}    </div>}
 
             </Form>
           </CardBody>

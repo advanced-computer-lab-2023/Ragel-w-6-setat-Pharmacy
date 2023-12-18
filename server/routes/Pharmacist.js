@@ -33,9 +33,10 @@ const {
   changePharmacistPassword,
   getTotalSalesReport,
   getFilteredSalesReport,
-    archiveMedicine,
-    unarchiveMedicine,
-    getAllMedicinesOutOfStock,
+  archiveMedicine,
+  unarchiveMedicine,
+  getAllMedicinesOutOfStock,
+  getWalletBalance
     
 } = require('../controllers/PharmacistController')
 
@@ -81,6 +82,6 @@ router.put('/unarchiveMedicine/:id', unarchiveMedicine);
 //Get all out of stock medicines
 router.get('/getAllMedicinesOutOfStock', getAllMedicinesOutOfStock);
 
-
+router.get('/getWalletBalance/:pharmacistId',getWalletBalance);
 
 module.exports = router

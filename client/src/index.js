@@ -8,7 +8,7 @@ import "assets/scss/argon-dashboard-react.scss";
 
 import AdminLayout from "layouts/Admin.js";
 // import PatientAuthLayout from "layouts/PatientAuth.js";
-import Auth from "layouts/Auth.js";
+import Auth from "./layouts/Auth.js";
 // import PharmacistAuthLayout from "layouts/PharmacistAuth.js";
 import PatientLayout from "layouts/Patient.js";
 import PharmacistLayout from "layouts/Pharmacist.js";

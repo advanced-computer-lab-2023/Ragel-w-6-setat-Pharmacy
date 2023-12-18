@@ -140,14 +140,14 @@ const ForgotPassword = () => {
               </FormGroup>
               
               <div className="text-center">
-                <Button className="btn btn-success"  type="submit">
+                <Button className="btn btn-success" 
+                style={{ backgroundColor: "#009688"}} type="submit">
                   Send OTP to email
                 </Button>
               </div>
             </Form>
           </CardBody>
         </Card>
-       
       </Col>
       </Row>
     </Container>

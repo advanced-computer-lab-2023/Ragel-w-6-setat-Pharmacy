@@ -7,6 +7,11 @@ import {
     Container,
     Row,
     Button,
+    Col,
+    Modal, 
+    ModalHeader, 
+    ModalBody,
+    Table
 } from "reactstrap";
 
 import AdminHeader from "components/Headers/AdminHeader.js";
@@ -14,9 +19,10 @@ import { UserContext } from "../../contexts/UserContext";
 
 const Orders = () => {
     const { user } = useContext(UserContext);
-
     const [patientOrders, setPatientOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
     const patientId = user._id;
 
     const cancelOrder = async (orderId) => {
@@ -33,16 +39,23 @@ const Orders = () => {
                 fetchPatientOrders();
             } else {
                 console.error('Failed to cancel order');
+                
             }
         } catch (error) {
             console.error('Error cancelling order:', error);
         }
     };
+    // useEffect(() => { 
+    //     fetchPatientOrders();
+    // }, []);
+
+    const toggleModal = () => {
+        setModalOpen(!modalOpen);
+      };
 
     const fetchPatientOrders = async () => {
         try {
-            const response = await fetch(
-                "/api/patient/viewPatientOrders/${patientId}"
+            const response = await fetch(`/api/patient/viewPatientOrders/${patientId}`
             );
             const data = await response.json();
             setPatientOrders(data);
@@ -51,6 +64,13 @@ const Orders = () => {
             console.error("Error fetching patient orders:", error);
         }
     };
+
+    const showOrderDetails = (order) => {
+        setSelectedOrder(order);
+        toggleModal();
+      };
+
+   
 
     useEffect(() => {
         const fetchData = async () => {
@@ -73,68 +93,88 @@ const Orders = () => {
         fetchData();
     }, [patientId]);
 
-    return (
-        <>
-             <div className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
-           
+   return (
+    <>
+      <AdminHeader />
+      <div className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
+        <Container>
+         <div className="container mt-5">
+         <h2 className="mb-4"> My Orders</h2>
 
-            <Container>
-                <Row>
-                    <div className="col">
-                        {loading ? (
-                            <p>Loading patient orders...</p>
-                        ) : !Array.isArray(patientOrders) || patientOrders.length === 0 ? (
-                            <p>No orders found for this patient.</p>
-                        ) : (
-                            patientOrders.map((order) => (
-                                <Container key={order.orderId} className="mb-4">
-                                    <Card className="shadow">
-                                        <CardHeader className="border-0">
-                                            <h3 className="mb-0">Order ID: {order.orderId}</h3>
-                                        </CardHeader>
-                                        <CardBody>
-                                            <CardText>
-                                                <strong>Total Quantity:</strong> {order.totalQty}
-                                            </CardText>
-                                            <CardText>
-                                                <strong>Total Cost:</strong> {order.totalCost}
-                                            </CardText>
-                                            <CardText>
-                                                <strong>Status:</strong> {order.status}
-                                            </CardText>
-                                            <CardText>
-                                                <strong>Created At:</strong>{" "}
-                                                {new Date(order.createdAt).toLocaleString()}
-                                            </CardText>
-                                            {order.items && Array.isArray(order.items) && (
-                                                <CardText>
-                                                    <strong>Items:</strong>
-                                                    <ul>
-                                                        {order.items.map((item, index) => (
-                                                            <li key={index}>
-                                                                {item.quantity} x{" "}
-                                                                {item.name ? item.name : "Unknown Medicine"} - ${item.total}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </CardText>
-                                            )}
-                                            {order.status === 'pending' && (
-                                                <Button color="danger" onClick={() => cancelOrder(order.orderId)}>
-                                                    Cancel Order
-                                                </Button>
-                                            )}
-                                        </CardBody>
-                                    </Card>
-                                </Container>
-                            ))
-                        )}
-                    </div>
-                </Row>
-            </Container>
-            </div>
-        </>
-    );
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Total Cost</th>
+                <th>Status</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan="4">Loading patient orders...</td>
+                </tr>
+              ) : !Array.isArray(patientOrders) || patientOrders.length === 0 ? (
+                <tr>
+                  <td colSpan="4">No orders found for this patient.</td>
+                </tr>
+              ) : (
+                patientOrders.map((order) => (
+                  <tr key={order.orderId}>
+                    <td>{order.orderId}</td>
+                    <td>${order.totalCost}</td>
+                    <td>{order.status}</td>
+                    <td>
+                      <Button style={{ backgroundColor: "#009688"}} onClick={() => showOrderDetails(order)}>
+                        Show Details
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </Table>
+
+          <Modal isOpen={modalOpen} toggle={toggleModal}>
+            <ModalHeader toggle={toggleModal}>Order Details</ModalHeader>
+            <ModalBody>
+              {selectedOrder && (
+                <>
+                  <CardText>
+                    <strong>Total Quantity:</strong> {selectedOrder.totalQty}
+                  </CardText>
+                  <CardText>
+                    <strong>Created At:</strong> {new Date(selectedOrder.createdAt).toLocaleString()}
+                  </CardText>
+                  <CardText>
+                    <strong>Items:</strong>
+                    <ul>
+                      {selectedOrder.items &&
+                        selectedOrder.items.map((item, index) => (
+                          <li key={index}>
+                            {item.quantity} x {item.name || "Unknown Medicine"} - ${item.total}
+                          </li>
+                        ))}
+                    </ul>
+                  </CardText>
+                  {selectedOrder.status === "pending" && (
+                    <Button color="danger"
+                    style={{background:"#C41E3A"}}
+                    onClick={() => cancelOrder(selectedOrder.orderId)
+                    .then(()=>{toggleModal();})}>   
+                      Cancel Order
+                    </Button>
+                  )}
+                </>
+              )}
+            </ModalBody>
+          </Modal>
+          </div>
+        </Container>
+      </div>
+    </>
+  );
 };
 
 export default Orders;
